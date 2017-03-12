@@ -1,0 +1,115 @@
+﻿<Page
+    x:Class="F_X.Controls"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:F_X"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <SplitView x:Name="NavigationPane" DisplayMode="CompactInline">
+        <SplitView.Pane>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="17*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" />
+
+                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2">
+                    <RadioButton x:Name="Home_Btn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+         
+           Tag="&#xE80F;"
+           Checked="Home_Checked"
+           Content="Home"
+           />
+
+                    <RadioButton x:Name="Assistant_Btn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+         
+           Tag="&#xE99A;"
+           Checked="Assistant_Checked"
+           Content="Assistant"
+           />
+                    <RadioButton x:Name="ControlsBtn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xED4C;"
+           Checked="Controls_Checked"
+           Content="Controls"
+           />
+                </StackPanel>
+
+            </Grid>
+
+        </SplitView.Pane>
+        <SplitView.Content>
+
+            <Frame x:Name="Content" Background="#FF71CAE0" >
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition>
+                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                <EntranceNavigationTransitionInfo/>
+                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        </NavigationThemeTransition>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+                <Grid>
+                <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollMode="Enabled" >
+                    <StackPanel x:Name="TogglePanel" Orientation="Vertical">
+                        <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click"/>
+                            <ToggleButton x:Name="OutputTwoToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputTwoToggle_Checked"/>
+                            <ToggleButton x:Name="OutputThreeToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputThreeToggle_Checked"/>
+                            <ToggleButton x:Name="OutputFourToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputFourToggle_Checked"/>
+                            <ToggleButton x:Name="OutputFiveToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputFiveToggle_Checked"/>
+                            <ToggleButton x:Name="OutputSixToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputSixToggle_Checked"/>
+                            <ToggleButton x:Name="OutputSevenToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputSevenToggle_Checked"/>
+                            <ToggleButton x:Name="OutputEightToggle" Content="Off" MinWidth="80"  HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputEightToggle_Checked"/>
+                    </StackPanel>
+                </Frame>
+
+                    <Frame x:Name="NameOfOutputsFrame" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Width="200" Height="450">
+                        <StackPanel x:Name="NameOfOutputsPanel" Orientation="Vertical">
+                            <TextBox x:Name="OutputOneName" MaxWidth="170" MinWidth="170" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 1"/>
+                            <TextBox x:Name="OutputTwoName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 2"/>
+                            <TextBox x:Name="OutputThreeName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 3"/>
+                            <TextBox x:Name="OutputFourName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 4"/>
+                            <TextBox x:Name="OutputFiveName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 5"/>
+                            <TextBox x:Name="OutputSixName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 6"/>
+                            <TextBox x:Name="OutputSevenName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 7"/>
+                            <TextBox x:Name="OutputEightName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 8"/>  
+
+                        </StackPanel>
+                        
+                    </Frame>
+                    
+                    <Frame x:Name="DetailsFrameBottomLayer" HorizontalAlignment="Right" VerticalAlignment="Top" Width="400" Height="300" Background="DimGray" Opacity="0.3"/>
+                    <Frame x:Name="DetailsFrameTopLayer" HorizontalAlignment="Right" VerticalAlignment="Top" Width="400" Height="300">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="Temp_Txt" FontSize="20" Margin="20,10,70,0">Room Temperature is</TextBlock>
+                            <TextBlock x:Name="Humidity_Text" FontSize="20" Margin="20,0,70,0">Room Humidity is</TextBlock>
+                            <TextBlock FontSize="20" Margin="20,0,70,0">Outside Temperature is</TextBlock>
+
+                        </StackPanel>
+                    </Frame>
+
+
+                </Grid>
+            </Frame>
+
+        </SplitView.Content>
+    </SplitView>
+   
+   
+</Page>

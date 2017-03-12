@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Outputs>
+  <Output>
+    <id>1</id>
+    <name>Name Of Output 1</name> 
+  </Output>  
+  <Output>
+    <id>2</id>
+    <name>Name Of Output 2</name>
+  </Output>
+  <Output>
+    <id>3</id>
+    <name>Name Of Output 3</name>
+  </Output>
+  <Output>
+    <id>4</id>
+    <name>Name Of Output 4</name>
+  </Output>
+  <Output>
+    <id>5</id>
+    <name>Name Of Output 5</name>
+  </Output>
+  <Output>
+    <id>6</id>
+    <name>Name Of Output 6</name>
+  </Output>
+  <Output>
+    <id>7</id>
+    <name>Name Of Output 7</name>
+  </Output>
+  <Output>
+    <id>8</id>
+    <name>Name Of Output 8</name>
+  </Output>
+
+</Outputs>
