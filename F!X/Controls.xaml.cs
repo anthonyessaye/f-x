@@ -38,7 +38,7 @@ namespace F_X
 
         XDocument NamesXML = XDocument.Load(@"Database/OutputNames.xml");
         
-
+        
         public Controls()
         {
             this.InitializeComponent();
@@ -117,6 +117,8 @@ namespace F_X
 
             theArduino.ChangeState();
         }
+
+        //need to update all the buttons wuth new code from output one
         private void OutputTwoToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputTwoToggle.IsChecked == true)
