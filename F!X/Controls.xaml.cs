@@ -86,17 +86,18 @@ namespace F_X
         {
             this.Frame.Navigate(typeof(MainPage));
         }
-
         private void Assistant_Checked(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(PersonalAssistant.AssistantPage));
         }
-
         private void Controls_Checked(object sender, RoutedEventArgs e)
         {
              this.Frame.Navigate(typeof(Controls));
         }
-
+        private void Settings_Checked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Settings));
+        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;
@@ -114,70 +115,65 @@ namespace F_X
             { 
                 OutputOneToggle.Content = "Off";
             }
-
             theArduino.ChangeState();
         }
 
         //need to update all the buttons wuth new code from output one
+        // UPDATE - THIS IS FIXED
         private void OutputTwoToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputTwoToggle.IsChecked == true)
-            {
                 OutputTwoToggle.Content = "On";
-            }
 
             else
-            {
                 OutputTwoToggle.Content = "Off";
-            }
+    
+            theArduino.SetPinNumber(2);
+            theArduino.ChangeState();
         }
         private void OutputThreeToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputThreeToggle.IsChecked == true)
-            {
                 OutputThreeToggle.Content = "On";
-            }
 
             else
-            {
                 OutputThreeToggle.Content = "Off";
-            }
+         
+            theArduino.SetPinNumber(3);
+            theArduino.ChangeState();
         }
         private void OutputFourToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputFourToggle.IsChecked == true)
-            {
                 OutputFourToggle.Content = "On";
-            }
-
+         
             else
-            {
                 OutputFourToggle.Content = "Off";
-            }
+          
+            theArduino.SetPinNumber(4);
+            theArduino.ChangeState();
         }
         private void OutputFiveToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputFiveToggle.IsChecked == true)
-            {
                 OutputFiveToggle.Content = "On";
-            }
 
             else
-            {
                 OutputFiveToggle.Content = "Off";
-            }
+          
+            theArduino.SetPinNumber(5);
+            theArduino.ChangeState();
         }
         private void OutputSixToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputSixToggle.IsChecked == true)
-            {
                 OutputSixToggle.Content = "On";
-            }
 
             else
-            {
                 OutputSixToggle.Content = "Off";
-            }
+            
+            theArduino.SetPinNumber(6);
+            theArduino.ChangeState();
         }
         private void OutputSevenToggle_Checked(object sender, RoutedEventArgs e)
         {
@@ -193,14 +189,13 @@ namespace F_X
         private void OutputEightToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputEightToggle.IsChecked == true)
-            {
                 OutputEightToggle.Content = "On";
-            }
-
+           
             else
-            {
                 OutputEightToggle.Content = "Off";
-            }
+
+            theArduino.SetPinNumber(8);
+            theArduino.ChangeState();
         }
 
 

@@ -39,18 +39,19 @@ namespace F_X
         {
             this.Frame.Navigate(typeof(MainPage));
         }
-
         private void Assistant_Checked(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(AssistantPage));
         }
-
         private void Controls_Checked(object sender, RoutedEventArgs e)
         {
           //  Controls newControlsPage = new F_X.Controls();
             this.Frame.Navigate(typeof(Controls));
         }
-
+        private void Settings_Checked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(Settings));
+        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;

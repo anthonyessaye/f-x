@@ -52,7 +52,7 @@
                     <RadioButton x:Name="SettingsBtn"
            GroupName="Group2"
            Style="{StaticResource NavigationButtonStyle}"
-           Tag="&#xED4C;"
+           Tag="&#xE713;"
            Checked="Settings_Checked"
            Content="Settings"
            
