@@ -107,7 +107,7 @@
                         <StackPanel Orientation="Vertical">
                             <TextBlock x:Name="Temp_Txt" FontSize="20" Margin="20,10,70,0">Room Temperature is</TextBlock>
                             <TextBlock x:Name="Humidity_Text" FontSize="20" Margin="20,0,70,0">Room Humidity is</TextBlock>
-                            <TextBlock FontSize="20" Margin="20,0,70,0">Outside Temperature is</TextBlock>
+                            <TextBlock x:Name="Weather_Text" FontSize="20" Margin="20,0,70,0">Outside Temperature is</TextBlock>
 
                         </StackPanel>
                     </Frame>

@@ -20,6 +20,7 @@ using Microsoft.Maker.Firmata;
 using F_X.Arduino_Related_Classes;
 using System.Xml;
 using System.Xml.Linq;
+using Windows.Storage;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -35,33 +36,53 @@ namespace F_X
         PinControl theArduino = new PinControl("VID_2341", "PID_0243",57600);
         // PinControl is a class i created to minimize code in this section, but basically
         // it configures connection to arduino and has some basic functions.
+        // This settings must be moved to each page if we need the assistant to control the settings.
+        // or optionally we can pass the values from a page to another
 
-        XDocument NamesXML = XDocument.Load(@"Database/OutputNames.xml");
-        
-        
+        XDocument NamesXML;
+
+        public async void onBoot()
+        {
+            TextBox[] AllOutputs = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
+                                                   OutputFourName,OutputFiveName,OutputSixName,
+                                                   OutputSevenName,OutputEightName}; // Array for the 8 output names
+
+            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+
+             var NamesQuery = from r in NamesXML.Descendants("Output")
+                             select r;
+
+
+            for (int i = 0; i < AllOutputs.Length; i++)
+            {
+                XElement Names = NamesQuery.ElementAt(i);
+                AllOutputs[i].Text = Names.Element("name").Value;
+            }
+
+            // This "for" loop reads values from XML Database for the names of OUTPUTS
+
+            //TO-DO ------- Write and save to XML and clean code 
+            //All work today has been dedicated to moving xml files from project folder to application folder
+
+        }
+
         public Controls()
         {
             this.InitializeComponent();
 
-            TextBox[] AllOutputs = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
-                                                   OutputFourName,OutputFiveName,OutputSixName,
-                                                   OutputSevenName,OutputEightName}; // Array for the 8 output names
-       
+            onBoot();
+
+           
+
             // connection = new BluetoothSerial( "MLT-BT05");
             //connection.begin(115200, SerialConfig.SERIAL_8N1);
             // I left these here for bluetooth connection later on.
 
 
-            var NamesQuery = from r in NamesXML.Descendants("Output")
-                              select r;
 
-            for (int i = 0; i < 8; i++)
-            {
-                XElement Names = NamesQuery.ElementAt(i);
-                AllOutputs[i].Text = Names.Element("name").Value;
-            } // This "for" loop reads values from XML Database for the names of OUTPUTS
 
-            //TO-DO ------- Write and save to XML and clean code
+           
+
 
 
             int HumidityReading = theArduino.arduino.analogRead("A1") / 100;
@@ -78,6 +99,7 @@ namespace F_X
             var action = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, new Windows.UI.Core.DispatchedHandler(() =>
             {
             }));
+            
 
         }
 

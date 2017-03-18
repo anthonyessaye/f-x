@@ -25,7 +25,9 @@
   <Capabilities>
     <Capability Name="internetClient" />
     <Capability Name="internetClientServer" />
+    <Capability Name="codeGeneration" />
     <uap3:Capability Name="backgroundMediaPlayback" />
+    <uap:Capability Name="removableStorage" />
     <DeviceCapability Name="microphone" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="bluetooth" />

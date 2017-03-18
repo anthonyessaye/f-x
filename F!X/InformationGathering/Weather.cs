@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using Windows.Storage;
 
 namespace F_X.InformationGathering
 {
@@ -20,14 +25,61 @@ namespace F_X.InformationGathering
                                                                            // for free
         public string Location { get; set; }
         private string CurrentUrl;
+        private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
+        private StorageFile WeatherXML;
+        XDocument WeatherXMLdownload;
 
         public Weather(string WeatherLoc)
         {
             Location = WeatherLoc;
-            CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + Location + "&mode=xml&units=imperial&APPID=" + API_KEY;
+            CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + Location + "&mode=xml&units=metric&APPID=" + API_KEY;
+
+            CreateWeatherXML();
+            
         }
 
-        
+        private async void CreateWeatherXML()
+        {
+            if (await FileExistAsync("WeatherXML.xml") == false)
+            {
+                await MainFolder.CreateFileAsync("WeatherXML.xml");
+            }
+
+            WeatherXML = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("WeatherXML.xml");
+            
+
+
+            //await MainFolder.CreateFileAsync("WeatherXML.xml");
+
+            FileStream fileStream = new FileStream(WeatherXML.Path, FileMode.Truncate);
+
+            using (var httpclient = new HttpClient()) // client to copy url to file.
+            {
+                var response = await httpclient.GetAsync(CurrentUrl);
+                WeatherXMLdownload = XDocument.Load(await response.Content.ReadAsStreamAsync());
+                WeatherXMLdownload.Save(fileStream);
+                fileStream.Dispose();
+            }
+            
+            
+        }
+
+        private async Task<bool> FileExistAsync(string filename)
+        {
+            IStorageFolder destination = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            try
+            {
+                await destination.GetFileAsync(filename);
+                return true;
+            }
+            catch (Exception NotExist)
+            {
+                return false;
+            }
+        }
+
+
 
     }
 }

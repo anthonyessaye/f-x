@@ -101,9 +101,11 @@
       <DependentUpon>Controls.xaml</DependentUpon>
     </Compile>
     <Compile Include="InformationGathering\Weather.cs" />
+    <Compile Include="InformationQueries\Queries.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OnStartUp\CheckAndCreateDirectory.cs" />
     <Compile Include="PersonalAssistant\Assistant.cs" />
     <Compile Include="PersonalAssistant\AssistantPage.xaml.cs">
       <DependentUpon>AssistantPage.xaml</DependentUpon>
@@ -120,11 +122,13 @@
     <None Include="F!X_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Database\OutputNames.xml">
+    <Content Include="SettingsData.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="OutputNames.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Database\SettingsData.xml" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -158,6 +162,10 @@
     <Page Include="PersonalAssistant\Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
