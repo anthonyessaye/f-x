@@ -21,6 +21,8 @@ using F_X.Arduino_Related_Classes;
 using System.Xml;
 using System.Xml.Linq;
 using Windows.Storage;
+using Windows.System.Threading;
+using Windows.UI.Core;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -40,48 +42,39 @@ namespace F_X
         // or optionally we can pass the values from a page to another
 
         XDocument NamesXML;
+        TextBox[] theNameBoxes;
+        ToggleButton[] theToggles;
+        bool isFocused = true;
 
-        public async void onBoot()
+        private void onBoot()
         {
-            TextBox[] AllOutputs = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
-                                                   OutputFourName,OutputFiveName,OutputSixName,
-                                                   OutputSevenName,OutputEightName}; // Array for the 8 output names
+            theNameBoxes = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
+                                           OutputFourName, OutputFiveName, OutputSixName,
+                                           OutputSevenName, OutputEightName};
 
-            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+            theToggles = new ToggleButton[] { OutputOneToggle, OutputTwoToggle, OutputThreeToggle,
+                                              OutputFourToggle, OutputFiveToggle, OutputSixToggle,
+                                              OutputSevenToggle, OutputEightToggle};
 
-             var NamesQuery = from r in NamesXML.Descendants("Output")
-                             select r;
 
+            theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText,10);
 
-            for (int i = 0; i < AllOutputs.Length; i++)
-            {
-                XElement Names = NamesQuery.ElementAt(i);
-                AllOutputs[i].Text = Names.Element("name").Value;
-            }
-
-            // This "for" loop reads values from XML Database for the names of OUTPUTS
-
-            //TO-DO ------- Write and save to XML and clean code 
-            //All work today has been dedicated to moving xml files from project folder to application folder
+            // This function contains two arrays for UI Elements and the function that updates them every given amount of time
 
         }
+       
 
-        public Controls()
+                public Controls()
         {
             this.InitializeComponent();
-
             onBoot();
+            
 
-           
 
             // connection = new BluetoothSerial( "MLT-BT05");
             //connection.begin(115200, SerialConfig.SERIAL_8N1);
             // I left these here for bluetooth connection later on.
 
-
-
-
-           
 
 
 
@@ -125,7 +118,7 @@ namespace F_X
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;
         }
 
-        private void OutputOneToggle_Click(object sender, RoutedEventArgs e)
+        public void OutputOneToggle_Click(object sender, RoutedEventArgs e)
         {
             theArduino.SetPinNumber(1);
             if (OutputOneToggle.IsChecked == true)
@@ -142,7 +135,7 @@ namespace F_X
 
         //need to update all the buttons wuth new code from output one
         // UPDATE - THIS IS FIXED
-        private void OutputTwoToggle_Checked(object sender, RoutedEventArgs e)
+        public void OutputTwoToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputTwoToggle.IsChecked == true)
                 OutputTwoToggle.Content = "On";
@@ -153,7 +146,7 @@ namespace F_X
             theArduino.SetPinNumber(2);
             theArduino.ChangeState();
         }
-        private void OutputThreeToggle_Checked(object sender, RoutedEventArgs e)
+        public void OutputThreeToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputThreeToggle.IsChecked == true)
                 OutputThreeToggle.Content = "On";
@@ -164,7 +157,7 @@ namespace F_X
             theArduino.SetPinNumber(3);
             theArduino.ChangeState();
         }
-        private void OutputFourToggle_Checked(object sender, RoutedEventArgs e)
+        public void OutputFourToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputFourToggle.IsChecked == true)
                 OutputFourToggle.Content = "On";
@@ -175,7 +168,7 @@ namespace F_X
             theArduino.SetPinNumber(4);
             theArduino.ChangeState();
         }
-        private void OutputFiveToggle_Checked(object sender, RoutedEventArgs e)
+        public void OutputFiveToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputFiveToggle.IsChecked == true)
                 OutputFiveToggle.Content = "On";
@@ -186,7 +179,7 @@ namespace F_X
             theArduino.SetPinNumber(5);
             theArduino.ChangeState();
         }
-        private void OutputSixToggle_Checked(object sender, RoutedEventArgs e)
+        public void OutputSixToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputSixToggle.IsChecked == true)
                 OutputSixToggle.Content = "On";
@@ -197,7 +190,7 @@ namespace F_X
             theArduino.SetPinNumber(6);
             theArduino.ChangeState();
         }
-        private void OutputSevenToggle_Checked(object sender, RoutedEventArgs e)
+        public void OutputSevenToggle_Checked(object sender, RoutedEventArgs e)
         {
             theArduino.SetPinNumber(7);
             theArduino.ChangeState();
@@ -208,7 +201,7 @@ namespace F_X
                 OutputSevenToggle.Content = "Off"; 
             
         }
-        private void OutputEightToggle_Checked(object sender, RoutedEventArgs e)
+        public void OutputEightToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputEightToggle.IsChecked == true)
                 OutputEightToggle.Content = "On";

@@ -88,13 +88,16 @@
 
                     <Frame x:Name="SettingsFrameTextBoxes" Width="350" Height="400" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" HorizontalContentAlignment="Right">
                         <StackPanel>
-                            <TextBox x:Name="LocationInfo" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Width="200" Margin="0,15,0,0" Text="" VerticalAlignment="Top" ></TextBox>
+                            <TextBox x:Name="LocationInfo" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,15,0,0" Text="" VerticalAlignment="Top" ></TextBox>
+                            <Button x:Name="SaveBtn" Width="100" HorizontalAlignment="Left" Margin="0,100,0,0" Click="OnSave_Click">Save</Button>
+
                         </StackPanel>
                     </Frame>
-
-                    <Frame x:Name="SaveButton" Width="350"  HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="0,10,0,0">
+                    
+                    <Frame x:Name="DebugInfoFrame" Width="350" Height="200" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,10,0,0">
                         <StackPanel>
-                            <Button x:Name="SaveBtn" Width="100" Click="OnSave_Click">Save</Button>
+                            <TextBlock x:Name="ConnectionStatus" Height="200"  Text="Saving will save your settings both locally and on the server. Make sure you have an active internet connection" TextWrapping="Wrap" Margin="0,30,0,0"></TextBlock>
+
                         </StackPanel>
                     </Frame>
 

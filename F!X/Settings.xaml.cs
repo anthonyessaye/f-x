@@ -1,13 +1,18 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
@@ -28,11 +33,31 @@ namespace F_X
     public sealed partial class Settings : Page
     {
         XDocument SettingsXML;
-        
+        Chilkat.Ftp2 ftp = new Chilkat.Ftp2();
+
+        bool isFileAvailable;
+        bool success;
+
+        string InfoText;
 
         public async void onBoot()
         {
+            InfoText = ConnectionStatus.Text;
+            ftp.UnlockComponent("test");
 
+            ftp.Hostname = "ftp.bodirectors.com";
+            ftp.Username = "anthonyessaye@bodirectors.com";
+            ftp.Password = "wlk33dgs.";
+
+            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+
+            ConnectionStatus.Text = "Getting latest file from server.";
+            await ftp.ConnectAsync();
+            isFileAvailable = await ftp.GetFileAsync("SettingsData.xml", file.Path );
+            await ftp.DisconnectAsync();
+
+            ConnectionStatus.Text = "File Downlaoded\n\n" + InfoText;
+            isFileAvailable = false;
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
 
             var CityQuery = from r in SettingsXML.Descendants("city")
@@ -40,6 +65,10 @@ namespace F_X
             XElement city = CityQuery.ElementAt(0);
             LocationInfo.Text = city.Element("name").Value;
             
+
+
+            
+
         }
 
         
@@ -48,6 +77,7 @@ namespace F_X
         public Settings()
         {
             this.InitializeComponent();
+           
             onBoot();
 
         }
@@ -87,13 +117,39 @@ namespace F_X
             city.Element("name").Value = LocationInfo.Text ;
 
             SettingsXML.Save(fileStream);
-            fileStream.Dispose();
+
 
             // What this does basically is save the settings.
             // "file" is just the location of the xml data, while fileStream is a stream of that data.
             // A query is dont just to know what tags to update. then the stream is saved and filestream is disposed.
             // (closing the file after stream to be able to read after it).
-           
+
+
+
+            //  Connect and login to the FTP server.
+
+            ConnectionStatus.Text = "Connecting to server";
+            success = await  ftp.ConnectAsync();
+
+            //  Upload a file.
+            string localFilename = file.Path;
+            string remoteFilename = file.Name;
+
+            //    success = await ftp.PutFileAsync(localFilename, remoteFilename);
+            ConnectionStatus.Text = "Uploading File";
+            await ftp.PutFileAsync(localFilename, remoteFilename);
+
+            if (success != true)
+            {
+                Console.WriteLine(ftp.LastErrorText);
+                return;
+            }
+
+            success = await ftp.DisconnectAsync();
+            ConnectionStatus.Text = "File Successfully Uploaded";
+          
+
+            fileStream.Dispose();
         }
     }
 }

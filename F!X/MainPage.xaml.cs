@@ -55,8 +55,12 @@ namespace F_X
                                                         // Metric or imperial measurement.
 
                                                         // The xml has a lot of data we can use
+
+            
+
         }
 
+        
 
         public MainPage()
         {

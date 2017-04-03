@@ -74,9 +74,9 @@
                     </TransitionCollection>
                 </Frame.ContentTransitions>
                 <Grid>
-                <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollMode="Enabled" >
+                <Frame x:Name="ToggleButtonFrame" Width="350" Height="650" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top"  ScrollViewer.VerticalScrollMode="Enabled" >
                     <StackPanel x:Name="TogglePanel" Orientation="Vertical">
-                        <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click"/>
+                        <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click"/>
                             <ToggleButton x:Name="OutputTwoToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputTwoToggle_Checked"/>
                             <ToggleButton x:Name="OutputThreeToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputThreeToggle_Checked"/>
                             <ToggleButton x:Name="OutputFourToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputFourToggle_Checked"/>
@@ -84,10 +84,19 @@
                             <ToggleButton x:Name="OutputSixToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputSixToggle_Checked"/>
                             <ToggleButton x:Name="OutputSevenToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputSevenToggle_Checked"/>
                             <ToggleButton x:Name="OutputEightToggle" Content="Off" MinWidth="80"  HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputEightToggle_Checked"/>
+                            
                     </StackPanel>
+                    
                 </Frame>
 
-                    <Frame x:Name="NameOfOutputsFrame" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Width="200" Height="450">
+<!-->     You need to copy this frame starting here </!-->
+                    <Frame Height="650" Width="350" HorizontalAlignment="Left">
+                        <TextBlock x:Name="statusText" FontSize="20" VerticalAlignment="Bottom">Test</TextBlock>
+                    </Frame>
+                    
+<!-->  And Ending here you might have to make some UI modifications i dont
+                    remember if i changed anything of them </!-->
+                    <Frame x:Name="NameOfOutputsFrame" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" Width="200" Height="650">
                         <StackPanel x:Name="NameOfOutputsPanel" Orientation="Vertical">
                             <TextBox x:Name="OutputOneName" MaxWidth="170" MinWidth="170" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 1"/>
                             <TextBox x:Name="OutputTwoName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 2"/>
