@@ -38,7 +38,7 @@ namespace F_X
             var CityQuery = from r in SettingsXML.Descendants("city")
                             select r;
             XElement city = CityQuery.ElementAt(0);
-            LocationInfo.Text = city.Element("name").Value;
+                TextBoxHomeCity.Text = city.Element("name").Value;
             
         }
 
@@ -84,7 +84,7 @@ namespace F_X
                             select r;
             XElement city = CityQuery.ElementAt(0);
 
-            city.Element("name").Value = LocationInfo.Text ;
+            city.Element("name").Value = TextBoxHomeCity.Text ;
 
             SettingsXML.Save(fileStream);
             fileStream.Dispose();
@@ -95,5 +95,7 @@ namespace F_X
             // (closing the file after stream to be able to read after it).
            
         }
+
+       
     }
 }

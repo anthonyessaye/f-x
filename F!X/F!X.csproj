@@ -122,6 +122,10 @@
     <None Include="F!X_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square44x44Logo.scale-100.png" />
+    <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="PersonalAssistant\Themes\AssistantKnowledge.xml" />
     <Content Include="SettingsData.xml">
       <SubType>Designer</SubType>
     </Content>

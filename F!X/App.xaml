@@ -5,6 +5,8 @@
     xmlns:local="using:F_X"
     RequestedTheme="Light">
 
+    
+    
    
     <Application.Resources>
         <ResourceDictionary>

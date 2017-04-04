@@ -7,6 +7,9 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -71,7 +74,10 @@ namespace F_X
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+
         }
+
+    
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails

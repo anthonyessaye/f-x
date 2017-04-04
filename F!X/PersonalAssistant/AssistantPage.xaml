@@ -10,7 +10,7 @@
     <SplitView x:Name="NavigationPane" DisplayMode="CompactInline">
         <SplitView.Pane>
 
-            <Grid>
+            <Grid Background="#FF0580B3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="47*"/>
                     <ColumnDefinition Width="17*"/>
@@ -23,7 +23,7 @@
 
                 <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" />
 
-                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2">
+                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF0580B3">
                     <RadioButton x:Name="Home_Btn"
            GroupName="Group1"
            Style="{StaticResource NavigationButtonStyle}"
@@ -63,7 +63,7 @@
         </SplitView.Pane>
         <SplitView.Content>
 
-            <Frame x:Name="Content" Background="#FF71CAE0" >
+            <Frame x:Name="Content" Background="White" >
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition>
@@ -76,7 +76,7 @@
                 <Grid>
 
                     <MediaElement x:Name="media" AutoPlay="False" MediaEnded="media_MediaEnded"/>
-                    <TextBlock x:Name="SpeechText" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="White" Margin="0,10,0,0">How Can I Help You?</TextBlock>
+                    <TextBlock x:Name="SpeechText" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF0580B3" Margin="0,10,0,0">How Can I Help You?</TextBlock>
                   
 
                 </Grid>
