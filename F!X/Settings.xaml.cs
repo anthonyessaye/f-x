@@ -28,18 +28,36 @@ namespace F_X
     public sealed partial class Settings : Page
     {
         XDocument SettingsXML;
-        
+        Chilkat.Ftp2 ftp = new Chilkat.Ftp2();
 
+        bool isFileAvailable;
+        bool success;
+
+        string InfoText;
         public async void onBoot()
         {
+            InfoText = ConnectionStatus.Text;
+            ftp.UnlockComponent("test");
 
+            ftp.Hostname = "ftp.bodirectors.com";
+            ftp.Username = "anthonyessaye@bodirectors.com";
+            ftp.Password = "wlk33dgs.";
+
+            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+
+            ConnectionStatus.Text = "Getting latest file from server.";
+            await ftp.ConnectAsync();
+            isFileAvailable = await ftp.GetFileAsync("SettingsData.xml", file.Path);
+            await ftp.DisconnectAsync();
+
+            ConnectionStatus.Text = "File Downlaoded\n\n" + InfoText;
+            isFileAvailable = false;
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
 
             var CityQuery = from r in SettingsXML.Descendants("city")
                             select r;
             XElement city = CityQuery.ElementAt(0);
-                TextBoxHomeCity.Text = city.Element("name").Value;
-            
+            TextBoxHomeCity.Text = city.Element("name").Value;
         }
 
         

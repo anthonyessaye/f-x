@@ -74,30 +74,23 @@
                     </TransitionCollection>
                 </Frame.ContentTransitions>
                 <Grid>
-                <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Center" ScrollViewer.VerticalScrollMode="Enabled" >
+                <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollMode="Enabled" >
                     <StackPanel x:Name="TogglePanel" Orientation="Vertical">
-                        <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click"/>
+                        <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click"/>
                             <ToggleButton x:Name="OutputTwoToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputTwoToggle_Checked"/>
                             <ToggleButton x:Name="OutputThreeToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputThreeToggle_Checked"/>
                             <ToggleButton x:Name="OutputFourToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputFourToggle_Checked"/>
-                            <ToggleButton x:Name="OutputFiveToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputFiveToggle_Checked"/>
-                            <ToggleButton x:Name="OutputSixToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputSixToggle_Checked"/>
-                            <ToggleButton x:Name="OutputSevenToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputSevenToggle_Checked"/>
-                            <ToggleButton x:Name="OutputEightToggle" Content="Off" MinWidth="80"  HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputEightToggle_Checked"/>
+                           
                     </StackPanel>
                 </Frame>
-
+                    <TextBlock x:Name="statusText" VerticalAlignment="Bottom" Margin="20,0,0,100" FontSize="20">Ready to Update</TextBlock>
                     <Frame x:Name="NameOfOutputsFrame" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Width="200" Height="450">
                         <StackPanel x:Name="NameOfOutputsPanel" Orientation="Vertical">
                             <TextBox x:Name="OutputOneName" MaxWidth="170" MinWidth="170" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 1"/>
                             <TextBox x:Name="OutputTwoName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 2"/>
                             <TextBox x:Name="OutputThreeName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 3"/>
                             <TextBox x:Name="OutputFourName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 4"/>
-                            <TextBox x:Name="OutputFiveName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 5"/>
-                            <TextBox x:Name="OutputSixName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 6"/>
-                            <TextBox x:Name="OutputSevenName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 7"/>
-                            <TextBox x:Name="OutputEightName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 8"/>  
-
+                            
                         </StackPanel>
                         
                     </Frame>
@@ -108,6 +101,7 @@
                             <TextBlock x:Name="Temp_Txt" FontSize="20" Margin="20,10,70,0">Room Temperature is</TextBlock>
                             <TextBlock x:Name="Humidity_Text" FontSize="20" Margin="20,0,70,0">Room Humidity is</TextBlock>
                             <TextBlock x:Name="Weather_Text" FontSize="20" Margin="20,0,70,0">Outside Temperature is</TextBlock>
+                           
 
                         </StackPanel>
                     </Frame>

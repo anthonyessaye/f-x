@@ -33,36 +33,32 @@ namespace F_X
     public sealed partial class Controls : Page
     {
 
-        PinControl theArduino = new PinControl("VID_2341", "PID_0243",57600);
+
+        PinControl theArduino = new PinControl("VID_2341", "PID_0243", 57600);
         // PinControl is a class i created to minimize code in this section, but basically
         // it configures connection to arduino and has some basic functions.
         // This settings must be moved to each page if we need the assistant to control the settings.
         // or optionally we can pass the values from a page to another
 
         XDocument NamesXML;
+        TextBox[] theNameBoxes;
+        ToggleButton[] theToggles;
+        bool isFocused = true;
 
         public async void onBoot()
         {
-            TextBox[] AllOutputs = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
-                                                   OutputFourName,OutputFiveName,OutputSixName,
-                                                   OutputSevenName,OutputEightName}; // Array for the 8 output names
+            theNameBoxes = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
+                                           OutputFourName};
 
-            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
-
-             var NamesQuery = from r in NamesXML.Descendants("Output")
-                             select r;
+            theToggles = new ToggleButton[] { OutputOneToggle, OutputTwoToggle, OutputThreeToggle,
+                                              OutputFourToggle};
 
 
-            for (int i = 0; i < AllOutputs.Length; i++)
-            {
-                XElement Names = NamesQuery.ElementAt(i);
-                AllOutputs[i].Text = Names.Element("name").Value;
-            }
 
-            // This "for" loop reads values from XML Database for the names of OUTPUTS
+            theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 10);
 
-            //TO-DO ------- Write and save to XML and clean code 
-            //All work today has been dedicated to moving xml files from project folder to application folder
+            // This function contains two arrays for UI Elements and the function that updates them every given amount of time
+
 
         }
 
@@ -175,53 +171,7 @@ namespace F_X
             theArduino.SetPinNumber(4);
             theArduino.ChangeState();
         }
-        private void OutputFiveToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            if (OutputFiveToggle.IsChecked == true)
-                OutputFiveToggle.Content = "On";
-
-            else
-                OutputFiveToggle.Content = "Off";
-          
-            theArduino.SetPinNumber(5);
-            theArduino.ChangeState();
-        }
-        private void OutputSixToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            if (OutputSixToggle.IsChecked == true)
-                OutputSixToggle.Content = "On";
-
-            else
-                OutputSixToggle.Content = "Off";
-            
-            theArduino.SetPinNumber(6);
-            theArduino.ChangeState();
-        }
-        private void OutputSevenToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            theArduino.SetPinNumber(7);
-            theArduino.ChangeState();
-
-            if (OutputSevenToggle.IsChecked == true)
-                OutputSevenToggle.Content = "On";
-            else
-                OutputSevenToggle.Content = "Off"; 
-            
-        }
-        private void OutputEightToggle_Checked(object sender, RoutedEventArgs e)
-        {
-            if (OutputEightToggle.IsChecked == true)
-                OutputEightToggle.Content = "On";
-           
-            else
-                OutputEightToggle.Content = "Off";
-
-            theArduino.SetPinNumber(8);
-            theArduino.ChangeState();
-        }
-
-
-
+       
 
 
     }

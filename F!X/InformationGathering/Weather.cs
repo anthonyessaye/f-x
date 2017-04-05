@@ -35,7 +35,7 @@ namespace F_X.InformationGathering
             CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + Location + "&mode=xml&units=metric&APPID=" + API_KEY;
 
             CreateWeatherXML();
-            
+
         }
 
         private async void CreateWeatherXML()
@@ -46,7 +46,7 @@ namespace F_X.InformationGathering
             }
 
             WeatherXML = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("WeatherXML.xml");
-            
+
 
 
             //await MainFolder.CreateFileAsync("WeatherXML.xml");
@@ -60,8 +60,8 @@ namespace F_X.InformationGathering
                 WeatherXMLdownload.Save(fileStream);
                 fileStream.Dispose();
             }
-            
-            
+
+
         }
 
         private async Task<bool> FileExistAsync(string filename)

@@ -35,7 +35,7 @@ namespace F_X
         public async void onBoot()
         {
 
-            StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
+                        StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
 
             //this onBoot function just copies files from here to the app installation folder
             StorageFile OutputNamesfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"OutputNames.xml"); // Path is file path
@@ -55,6 +55,7 @@ namespace F_X
                                                         // Metric or imperial measurement.
 
                                                         // The xml has a lot of data we can use
+
         }
 
 

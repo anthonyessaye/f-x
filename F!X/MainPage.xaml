@@ -69,7 +69,7 @@
                         </NavigationThemeTransition>
                     </TransitionCollection>
                 </Frame.ContentTransitions>
-                <TextBlock x:Name="F_X_txt" Margin="88,141,84,147" TextWrapping="Wrap" Text="F!X" RenderTransformOrigin="-0.22,0.617" TextAlignment="Center" FontSize="55" Foreground="White"/>
+                <Image x:Name="F_X_Logo" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" Source="Assets/SplashScreen.png"  />
             </Frame>
         </SplitView.Content>
     </SplitView>
