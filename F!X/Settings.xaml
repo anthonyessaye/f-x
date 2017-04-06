@@ -17,8 +17,8 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="44" />
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" />
@@ -68,23 +68,23 @@
         <SplitView.Content>
             <ScrollViewer>
                 <Frame x:Name="Content" Background="White" Margin="0,0,0,-72" >
-                <Frame.ContentTransitions>
-                    <TransitionCollection>
-                        <NavigationThemeTransition>
-                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                                <EntranceNavigationTransitionInfo/>
-                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
-                        </NavigationThemeTransition>
-                    </TransitionCollection>
-                </Frame.ContentTransitions>
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition>
+                                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                    <EntranceNavigationTransitionInfo/>
+                                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                            </NavigationThemeTransition>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
 
 
-                
+
                     <Grid>
                         <TextBlock x:Name="ConnectionStatus" Margin="20,0,0,0" Text="Status"></TextBlock>
                         <Frame x:Name="SettingsFrameTextBoxes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" HorizontalContentAlignment="Left">
                             <StackPanel>
-                              
+
                                 <TextBlock x:Name="TextBlockMainTitle" HorizontalAlignment="Left" Margin="0,45,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="72" FontFamily="Times New Roman"/>
                                 <TextBlock x:Name="TextBlockAccountTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Account:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
                                 <TextBox x:Name="TextBoxAccountName" Header="Account Name" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,10,0,0" Text="" VerticalAlignment="Top" FontSize="15" ></TextBox>
@@ -101,8 +101,8 @@
                             </StackPanel>
                         </Frame>
                     </Grid>
-                
-            </Frame>
+
+                </Frame>
             </ScrollViewer>
         </SplitView.Content>
     </SplitView>

@@ -145,7 +145,7 @@ namespace F_X.Arduino_Related_Classes
                 isFileAvailable = await ftp.GetFileAsync("OutputNames.xml", file.Path);
                 await ftp.DisconnectAsync();
 
-                NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+                   NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
 
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
                     () =>
