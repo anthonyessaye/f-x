@@ -114,7 +114,7 @@ namespace F_X.Arduino_Related_Classes
                 var DataQuery = from r in NamesXML.Descendants("Output")
                                 select r;
 
-                for (int i = 0; i < 8; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     XElement Data = DataQuery.ElementAt(i);
                     SetPinNumber(Convert.ToByte(i + 1));
@@ -129,10 +129,12 @@ namespace F_X.Arduino_Related_Classes
         public async void UpdatingPinsThreadAndGui(TextBox[] NamesToUpdate, ToggleButton[] TogglesToUpdate, TextBlock Status, int TimerInSeconds)
         {
 
-            Status.Text = "Connecting to FTP...";
-            ConnectingToFtp();
 
             StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
+        
+
+            Status.Text = "Connecting to FTP...";
+            ConnectingToFtp();
 
 
             period = TimeSpan.FromSeconds(TimerInSeconds);
@@ -152,7 +154,7 @@ namespace F_X.Arduino_Related_Classes
                     {
 
                         Status.Text = "Reading New Settings";
-                        var DataQuery = from r in NamesXML.Descendants("Output")
+                       var DataQuery = from r in NamesXML.Descendants("Output")
                                         select r;
 
                         Status.Text = "Flipping some buttons now :)";

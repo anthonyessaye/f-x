@@ -30,23 +30,10 @@ namespace F_X
     public sealed partial class MainPage : Page
     {
 
-        CheckAndCreateDirectory ProjectFolders = new CheckAndCreateDirectory();
+        
 
         public async void onBoot()
         {
-
-                        StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
-
-            //this onBoot function just copies files from here to the app installation folder
-            StorageFile OutputNamesfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"OutputNames.xml"); // Path is file path
-            StorageFile Settingsfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"SettingsData.xml"); // Path is file path
-
-
-            if (await FileExistAsync(OutputNamesfile.Name) == false)
-            {
-                await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);
-                await Settingsfile.CopyAsync(MainFolder, Settingsfile.Name, NameCollisionOption.GenerateUniqueName);
-            }
 
             Weather theWeather = new Weather("Beirut"); //This should get location from SettingsData.xml but was waiting to finish the
                                                         // queries class. Now its hard coded to beirut.
@@ -62,7 +49,6 @@ namespace F_X
         public MainPage()
         {
             this.InitializeComponent();
-            ProjectFolders.iMustCreate();
 
             onBoot();
            
@@ -93,22 +79,8 @@ namespace F_X
         }
 
 
-        // Function created just to return true or false in case of FileExist status instead of 
-        // an IStorage status which cannot be converted to bool
-        private async Task<bool> FileExistAsync(string filename)
-        {
-            IStorageFolder destination = Windows.Storage.ApplicationData.Current.LocalFolder;
-
-            try
-            {
-                await destination.GetFileAsync(filename);
-                return true;
-            }
-            catch (Exception NotExist)
-            {
-                return false;
-            }
-        }
+        
+        
 
     }
 }

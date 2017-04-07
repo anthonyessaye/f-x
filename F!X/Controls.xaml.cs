@@ -55,10 +55,10 @@ namespace F_X
 
 
 
-            theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 10);
+
+            theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 2a);
 
             // This function contains two arrays for UI Elements and the function that updates them every given amount of time
-
 
         }
 

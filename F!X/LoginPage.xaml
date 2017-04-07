@@ -17,7 +17,7 @@
                 <TextBox x:Name="TextBoxUsername" Header="Username" TextWrapping="Wrap" Text="" Background="White"/>
                 <PasswordBox x:Name="PassBoxLoginPass" Header="Password" Background="White" />
                 <CheckBox x:Name="CheckBoxRememberMe" Content="Remember Me" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                <AppBarButton HorizontalAlignment="Stretch" Icon="Next" Label="Login" VerticalAlignment="Stretch" Margin="0,10,0,0" Width="Auto" FontSize="20" Background="Gray" Click="AppBarButton_Click"/>
+                <AppBarButton x:Name="LogInButton" HorizontalAlignment="Stretch" Icon="Next" Label="Login" VerticalAlignment="Stretch" Margin="0,10,0,0" Width="Auto" FontSize="20" Background="Gray" Click="AppBarButton_Click"/>
 
             </StackPanel>
         </Frame>

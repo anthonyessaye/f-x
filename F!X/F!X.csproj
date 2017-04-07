@@ -109,6 +109,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="OnStartUp\CheckAndCreateDirectory.cs" />
+    <Compile Include="OnStartUp\LoggingIn.cs" />
     <Compile Include="PersonalAssistant\Assistant.cs" />
     <Compile Include="PersonalAssistant\AssistantPage.xaml.cs">
       <DependentUpon>AssistantPage.xaml</DependentUpon>
@@ -144,6 +145,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="profile.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
