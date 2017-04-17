@@ -21,9 +21,9 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" />
+                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" RequestedTheme="Dark" />
 
-                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF0580B3">
+                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF0580B3" RequestedTheme="Dark">
                     <RadioButton x:Name="Home_Btn"
            GroupName="Group1"
            Style="{StaticResource NavigationButtonStyle}"
@@ -55,6 +55,14 @@
            Tag="&#xE713;"
            Checked="Settings_Checked"
            Content="Settings"                        
+           />
+
+                    <RadioButton x:Name="LogoutBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE0A6;"
+           Checked="Logout_Checked"
+           Content="Logout"                        
            />
                 </StackPanel>
 

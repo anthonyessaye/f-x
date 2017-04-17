@@ -64,6 +64,11 @@ namespace F_X.PersonalAssistant
         {
             this.Frame.Navigate(typeof(Settings));
         }
+        private void Logout_Checked(object sender, RoutedEventArgs e)
+        {
+
+            this.Frame.Navigate(typeof(LoginPage));
+        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;

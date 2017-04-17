@@ -1,9 +1,11 @@
-﻿using System;
+﻿using F_X.InformationQueries;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using Windows.Foundation;
@@ -30,34 +32,32 @@ namespace F_X
         XDocument SettingsXML;
         Chilkat.Ftp2 ftp = new Chilkat.Ftp2();
 
+        SettingsQueries theSettings = new SettingsQueries();
+
         bool isFileAvailable;
         bool success;
-
         string InfoText;
+
+      
+
         public async void onBoot()
         {
-            InfoText = ConnectionStatus.Text;
-            ftp.UnlockComponent("test");
 
-            ftp.Hostname = "ftp.bodirectors.com";
-            ftp.Username = "anthonyessaye@bodirectors.com";
-            ftp.Password = "wlk33dgs.";
+            await DownloadFile();
 
-            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+            TextBoxHomeCity.Text = theSettings.getCityQuery();
+            TextBoxAccountName.Text = theSettings.getUserQuery();
+            TextBoxDisplayedName.Text = theSettings.getNameQuery();
+            TextBoxAssistantName.Text = theSettings.getAssistantQuery();
 
-            ConnectionStatus.Text = "Getting latest file from server.";
-            await ftp.ConnectAsync();
-            isFileAvailable = await ftp.GetFileAsync("SettingsData.xml", file.Path);
-            await ftp.DisconnectAsync();
 
-            ConnectionStatus.Text = "File Downlaoded\n\n" + InfoText;
-            isFileAvailable = false;
+            TSAssistantAlwaysON.IsOn = theSettings.isAssistantAlwaysOn();
+            TSAssistantGender.IsOn = theSettings.isAssistantMale();
+
+            //theSettings.Dispose();
+
+
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
-
-            var CityQuery = from r in SettingsXML.Descendants("city")
-                            select r;
-            XElement city = CityQuery.ElementAt(0);
-            TextBoxHomeCity.Text = city.Element("name").Value;
         }
 
         
@@ -69,11 +69,10 @@ namespace F_X
             onBoot();
 
         }
-
-
-
         private void Home_Checked(object sender, RoutedEventArgs e)
         {
+
+
             this.Frame.Navigate(typeof(MainPage));
         }
         private void Assistant_Checked(object sender, RoutedEventArgs e)
@@ -88,6 +87,11 @@ namespace F_X
         {
             this.Frame.Navigate(typeof(Settings));
         }
+        private void Logout_Checked(object sender, RoutedEventArgs e)
+        {
+
+            this.Frame.Navigate(typeof(LoginPage));
+        }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;
@@ -95,25 +99,66 @@ namespace F_X
 
         private async void OnSave_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
-            FileStream fileStream = new FileStream(file.Path, FileMode.Truncate);
+           
 
-            var CityQuery = from r in SettingsXML.Descendants("city")
-                            select r;
-            XElement city = CityQuery.ElementAt(0);
+            theSettings.saveSettings(TextBoxHomeCity.Text,TextBoxDisplayedName.Text,TextBoxAccountName.Text,
+                                         TextBoxAssistantName.Text, TSAssistantAlwaysON.IsOn,TSAssistantGender.IsOn);
 
-            city.Element("name").Value = TextBoxHomeCity.Text ;
-
-            SettingsXML.Save(fileStream);
-            fileStream.Dispose();
-
-            // What this does basically is save the settings.
-            // "file" is just the location of the xml data, while fileStream is a stream of that data.
-            // A query is dont just to know what tags to update. then the stream is saved and filestream is disposed.
-            // (closing the file after stream to be able to read after it).
+            await UploadFile();
+     
            
         }
 
-       
+
+
+        private async  Task DownloadFile()
+        {
+            await Task.Delay(200);
+
+            InfoText = ConnectionStatus.Text;
+            ftp.UnlockComponent("test");
+
+            ftp.Hostname = "ftp.bodirectors.com";
+            ftp.Username = (App.Current as App).Email + "@bodirectors.com";
+            ftp.Password = (App.Current as App).Password;
+
+            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+
+            ConnectionStatus.Text = "Getting latest file from server.";
+            await ftp.ConnectAsync();
+            isFileAvailable = await ftp.GetFileAsync("SettingsData.xml", file.Path);
+            await ftp.DisconnectAsync();
+
+            ConnectionStatus.Text = "File Downlaoded\n\n" + InfoText;
+            isFileAvailable = false;
+
+        }
+        private async Task UploadFile()
+        {
+            InfoText = ConnectionStatus.Text;
+            ftp.UnlockComponent("test");
+
+            ftp.Hostname = "ftp.bodirectors.com";
+            ftp.Username = (App.Current as App).Email + "@bodirectors.com";
+            ftp.Password = (App.Current as App).Password;
+
+            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+
+            ConnectionStatus.Text = "Uploading Latest File To Server";
+            await ftp.ConnectAsync();
+            isFileAvailable = await ftp.PutFileAsync(file.Path, "SettingsData.xml");
+           
+            await ftp.DisconnectAsync();
+
+            ConnectionStatus.Text = "File Uploaded\n\n" + InfoText;
+            isFileAvailable = false;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+          
+        }
+
     }
 }

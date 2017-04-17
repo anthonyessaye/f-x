@@ -1,4 +1,5 @@
 ﻿using F_X.Arduino_Related_Classes;
+using F_X.InformationGathering;
 using F_X.OnStartUp;
 using System;
 using System.Collections.Generic;
@@ -28,8 +29,10 @@ namespace F_X
     {
 
         private LoggingIn theLogin;
-      //  CheckAndCreateDirectory ProjectFolders = new CheckAndCreateDirectory();
-      public async void onBoot()
+
+
+        //  CheckAndCreateDirectory ProjectFolders = new CheckAndCreateDirectory();
+        public async void onBoot()
         {
             StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
             StorageFile OutputNamesfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"OutputNames.xml"); // Path is file path
@@ -41,10 +44,13 @@ namespace F_X
                 await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);
                 await Settingsfile.CopyAsync(MainFolder, Settingsfile.Name, NameCollisionOption.GenerateUniqueName);
                 await profileFile.CopyAsync(MainFolder, profileFile.Name, NameCollisionOption.GenerateUniqueName);
+                Weather theWeather = new Weather("Beirut");
             }
+
+            
+            StatusText.TextAlignment = TextAlignment.Center;
         }
-
-
+        
 
         public LoginPage()
         {
@@ -52,18 +58,29 @@ namespace F_X
             onBoot();
         }
 
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
 
                 theLogin = new LoggingIn(TextBoxUsername.Text, PassBoxLoginPass.Password);
-                theLogin.ConnectAndGetLatest();
-          
-                    this.Frame.Navigate(typeof(MainPage));
-               
+            theLogin.ConnectAndGetLatest();
+
             
 
+            await Task.Delay(5000);
+            if (theLogin.isConnected)
+            {
+                (App.Current as App).Email = TextBoxUsername.Text;
+                (App.Current as App).Password = PassBoxLoginPass.Password;
+
+                this.Frame.Navigate(typeof(MainPage));
+
+            }
+            else
+                StatusText.Text = "Something Went Wrong and We Couldn't\n Log You In";
 
         }
+        
+
 
         // Function created just to return true or false in case of FileExist status instead of 
         // an IStorage status which cannot be converted to bool

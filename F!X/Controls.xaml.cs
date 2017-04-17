@@ -56,7 +56,7 @@ namespace F_X
 
 
 
-            theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 2a);
+            theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 2);
 
             // This function contains two arrays for UI Elements and the function that updates them every given amount of time
 
@@ -116,6 +116,12 @@ namespace F_X
         {
             this.Frame.Navigate(typeof(Settings));
         }
+        private void Logout_Checked(object sender, RoutedEventArgs e)
+        {
+            
+            this.Frame.Navigate(typeof(LoginPage));
+        }
+
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;

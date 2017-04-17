@@ -87,8 +87,8 @@ namespace F_X.Arduino_Related_Classes
             ftp.UnlockComponent("test");
 
             ftp.Hostname = "ftp.bodirectors.com";
-            ftp.Username = "anthonyessaye@bodirectors.com";
-            ftp.Password = "wlk33dgs.";
+            ftp.Username = (App.Current as App).Email + "@bodirectors.com";
+            ftp.Password = (App.Current as App).Password;
 
         }
 
@@ -147,14 +147,14 @@ namespace F_X.Arduino_Related_Classes
                 isFileAvailable = await ftp.GetFileAsync("OutputNames.xml", file.Path);
                 await ftp.DisconnectAsync();
 
-                   NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+                  
 
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
-                    () =>
+                    async () =>
                     {
-
+                        NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
                         Status.Text = "Reading New Settings";
-                       var DataQuery = from r in NamesXML.Descendants("Output")
+                        var DataQuery = from r in NamesXML.Descendants("Output")
                                         select r;
 
                         Status.Text = "Flipping some buttons now :)";
@@ -173,11 +173,11 @@ namespace F_X.Arduino_Related_Classes
 
                     }
                     );
+               
 
 
             }, period);
-
-
+            
         }
 
     }

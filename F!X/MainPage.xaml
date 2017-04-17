@@ -17,9 +17,9 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" />
+                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" RequestedTheme="Dark" />
 
-                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Background="#FF0580B3">
+                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Background="#FF0580B3" RequestedTheme="Dark">
                     <RadioButton x:Name="Home_Btn"
            GroupName="Group1"
            Style="{StaticResource NavigationButtonStyle}"
@@ -52,6 +52,13 @@
            Checked="Settings_Checked"
            Content="Settings"                        
            />
+                    <RadioButton x:Name="LogoutBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE0A6;"
+           Checked="Logout_Checked"
+           Content="Logout"                        
+           />
                 </StackPanel>
 
             </Grid>
@@ -69,7 +76,23 @@
                         </NavigationThemeTransition>
                     </TransitionCollection>
                 </Frame.ContentTransitions>
-                <Image x:Name="F_X_Logo" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" Source="Assets/SplashScreen.png"  />
+                <Grid>
+                    <Frame HorizontalAlignment="Center" VerticalAlignment="Top" Height="200">
+                        <StackPanel HorizontalAlignment="Center" Margin="0,20,0,0">
+
+                            <Image x:Name="profilePicture" Width="100" Height="100" VerticalAlignment="Top"/>
+                            <TextBlock x:Name="DisplayNameText"/>
+                            <TextBlock x:Name="UsernameText"/>
+                        </StackPanel>
+                    </Frame>
+                    
+                    <Frame HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                             <Image x:Name="F_X_Logo" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="600" Source="Assets/SplashScreen.png"  />
+                        <TextBlock x:Name="MainPageInformation" FontSize="20dp" Text=""/>
+                    </StackPanel>
+                    </Frame>
+                </Grid>
             </Frame>
         </SplitView.Content>
     </SplitView>

@@ -3,6 +3,19 @@
   <city>
     <name>No City Selected Yet</name>
   </city>
+  <user>
+    <firstname>John</firstname>
+    <lastname>Doe</lastname>
+  </user>
+  <username>
+    <user>johndoe</user>
+  </username>
+
+  <assistant>
+    <name>Not JARVIS</name>
+    <alwayson>Off</alwayson>
+    <gender>Male</gender>
+  </assistant>
   
   
 </settings>
