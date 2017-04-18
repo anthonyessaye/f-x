@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Credentials;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,6 +32,8 @@ namespace F_X
         private LoggingIn theLogin;
 
 
+        private const string RESOURCE_NAME = "FIX";
+
         //  CheckAndCreateDirectory ProjectFolders = new CheckAndCreateDirectory();
         public async void onBoot()
         {
@@ -46,23 +49,33 @@ namespace F_X
                 await profileFile.CopyAsync(MainFolder, profileFile.Name, NameCollisionOption.GenerateUniqueName);
                 Weather theWeather = new Weather("Beirut");
             }
-
             
-            StatusText.TextAlignment = TextAlignment.Center;
+
+        StatusText.TextAlignment = TextAlignment.Center;
         }
         
 
         public LoginPage()
         {
+            
             this.InitializeComponent();
             onBoot();
+            GetCredential();
         }
 
         private async void AppBarButton_Click(object sender, RoutedEventArgs e)
         {
+            var vault = new Windows.Security.Credentials.PasswordVault();
 
-                theLogin = new LoggingIn(TextBoxUsername.Text, PassBoxLoginPass.Password);
+
+
+            theLogin = new LoggingIn(TextBoxUsername.Text, PassBoxLoginPass.Password);
             theLogin.ConnectAndGetLatest();
+
+            if (CheckBoxRememberMe.IsChecked == true)
+                SaveCredential(TextBoxUsername.Text, PassBoxLoginPass.Password);
+            else if (CheckBoxRememberMe.IsChecked == false)
+                RemoveCredential(TextBoxUsername.Text);
 
             
 
@@ -79,7 +92,58 @@ namespace F_X
                 StatusText.Text = "Something Went Wrong and We Couldn't\n Log You In";
 
         }
-        
+
+
+
+        private void SaveCredential(string userName, string password)
+        {
+            var vault = new PasswordVault();
+            var credential = new PasswordCredential(RESOURCE_NAME, userName, password);
+
+            // Permanently stores credential in the password vault.
+            vault.Add(credential);
+        }
+
+        private void GetCredential()
+        {
+            string userName, password;
+
+            var vault = new PasswordVault();
+            try
+            {
+                var credential = vault.FindAllByResource(RESOURCE_NAME).FirstOrDefault();
+                if (credential != null)
+                {
+                    // Retrieves the actual userName and password.
+                    userName = credential.UserName;
+                    password = vault.Retrieve(RESOURCE_NAME, userName).Password;
+
+                    TextBoxUsername.Text = userName;
+                    PassBoxLoginPass.Password = password;
+                }
+            }
+            catch (Exception)
+            {
+                // If no credentials have been stored with the given RESOURCE_NAME, an exception
+                // is thrown.
+            }
+        }
+
+        private void RemoveCredential(string userName)
+        {
+            var vault = new PasswordVault();
+            try
+            {
+                // Removes the credential from the password vault.
+                vault.Remove(vault.Retrieve(RESOURCE_NAME, userName));
+            }
+            catch (Exception)
+            {
+                // If no credentials have been stored with the given RESOURCE_NAME, an exception
+                // is thrown.
+            }
+        }
+
 
 
         // Function created just to return true or false in case of FileExist status instead of 
