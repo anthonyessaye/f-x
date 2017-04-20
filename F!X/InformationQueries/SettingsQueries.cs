@@ -30,8 +30,15 @@ namespace F_X.InformationQueries
 
         private async void SetXML()
         {
-            SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
-            settingsFile = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+            try
+            {
+                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+                settingsFile = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+            }
+            catch(Exception e)
+            {
+
+            }
         }
 
         public string getCityQuery()

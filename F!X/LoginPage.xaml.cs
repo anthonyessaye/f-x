@@ -120,6 +120,7 @@ namespace F_X
 
                     TextBoxUsername.Text = userName;
                     PassBoxLoginPass.Password = password;
+                    CheckBoxRememberMe.IsChecked = true;
                 }
             }
             catch (Exception)

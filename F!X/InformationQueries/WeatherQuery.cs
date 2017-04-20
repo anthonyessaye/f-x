@@ -15,6 +15,7 @@ namespace F_X.InformationQueries
         private XDocument WeatherXML;
         private string MaxTemperature;
         private string MinTemperature;
+        private string Humidity;
 
 
         public WeatherQuery() {
@@ -50,6 +51,20 @@ namespace F_X.InformationQueries
             MinTemperature = temperature.Attribute("min").Value;
 
             return MinTemperature;
+
+
+        }
+
+        public string getHumidity()
+        {
+
+
+            var HumQuery = from r in WeatherXML.Descendants("humidity")
+                            select r;
+            XElement HumidityElement = HumQuery.ElementAt(0);
+            Humidity = HumidityElement.Attribute("value").Value;
+
+            return Humidity;
 
 
         }

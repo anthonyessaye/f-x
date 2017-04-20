@@ -48,10 +48,7 @@ namespace F_X
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
             StorageFile ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
 
-          
-
-
-
+            
             CityYouSelected = theSettings.getCityQuery();
             Weather theWeather = new Weather(CityYouSelected);
 
@@ -59,15 +56,17 @@ namespace F_X
             UsernameText.TextAlignment = TextAlignment.Center;
             DisplayNameText.TextAlignment = TextAlignment.Center;
 
-
+            await Task.Delay(100);
             profilePicture.Source = new BitmapImage(new Uri(ProfilePictureFile.Path, UriKind.Absolute));
+         
             MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
-                                            "ºC\tMax: " + theWeatherQuery.getMaxTemp() + "ºC";
+                                            "ºC\tMax: " + theWeatherQuery.getMaxTemp() + "ºC\nHumidity:\t" + 
+                                              theWeatherQuery.getHumidity() + "%";
             UsernameText.Text = "@" + theSettings.getUserQuery();
             DisplayNameText.Text = theSettings.getNameQuery();
             //This should get location from SettingsData.xml but was waiting to finish the
             // queries class. Now its hard coded to beirut.
-            // ------------ NVM not it gets location from queries. --------------------------//
+            // ------------ NVM now it gets location from queries. --------------------------//
                                                         //Options for weather we need to add= Celsius or Fahrenhiet.
                                                         // Metric or imperial measurement.
 

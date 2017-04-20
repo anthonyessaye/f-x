@@ -115,7 +115,7 @@ namespace F_X
         {
             await Task.Delay(200);
 
-            InfoText = ConnectionStatus.Text;
+            InfoText = DownloadConnectionStatus.Text;
             ftp.UnlockComponent("test");
 
             ftp.Hostname = "ftp.bodirectors.com";
@@ -124,33 +124,34 @@ namespace F_X
 
             StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
 
-            ConnectionStatus.Text = "Getting latest file from server.";
+            DownloadConnectionStatus.Text = "Getting latest file from server.";
             await ftp.ConnectAsync();
             isFileAvailable = await ftp.GetFileAsync("SettingsData.xml", file.Path);
             await ftp.DisconnectAsync();
 
-            ConnectionStatus.Text = "File Downlaoded\n\n" + InfoText;
+            DownloadConnectionStatus.Text = "File Downlaoded\n\n";
             isFileAvailable = false;
 
         }
         private async Task UploadFile()
         {
-            InfoText = ConnectionStatus.Text;
             ftp.UnlockComponent("test");
 
             ftp.Hostname = "ftp.bodirectors.com";
             ftp.Username = (App.Current as App).Email + "@bodirectors.com";
             ftp.Password = (App.Current as App).Password;
 
+            DownloadConnectionStatus.Visibility = Visibility.Collapsed;
+
             StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
 
-            ConnectionStatus.Text = "Uploading Latest File To Server";
+            UploadConnectionStatus.Text = "Uploading Latest File To Server";
             await ftp.ConnectAsync();
             isFileAvailable = await ftp.PutFileAsync(file.Path, "SettingsData.xml");
            
             await ftp.DisconnectAsync();
 
-            ConnectionStatus.Text = "File Uploaded\n\n" + InfoText;
+            UploadConnectionStatus.Text = "File Uploaded\n\n";
             isFileAvailable = false;
         }
 

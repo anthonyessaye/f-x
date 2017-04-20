@@ -35,6 +35,8 @@ namespace F_X.Arduino_Related_Classes
         private AutoResetEvent _refreshWaiter = new AutoResetEvent(true);
         private string Email;
         private string Password;
+
+        private string[] OriginalStates;
         private const string Server = "ftp.bodirectors.com";
 
         public PinControl(string VID, string PID, uint BaudRate)
@@ -92,33 +94,64 @@ namespace F_X.Arduino_Related_Classes
 
         }
 
-        public async void UpdatingPinsThread()
+        public async void getOriginalStates()
+        {
+            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
+            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+
+            var DataQuery = from r in NamesXML.Descendants("Output")
+                            select r;
+
+            for (int i = 0; i < 4; i++)
+            {
+                XElement Data = DataQuery.ElementAt(i);
+                OriginalStates[i] = Data.Element("status").Value;
+                
+            }
+
+
+        }
+
+        public async void UpdatingPinsThread(int TimerInSeconds)
         {
             ConnectingToFtp();
+
+            getOriginalStates();
 
             StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
 
             if (period == null)
-                period = TimeSpan.FromSeconds(2);
+                period = TimeSpan.FromSeconds(TimerInSeconds);
 
 
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
             {
-
-                await ftp.ConnectAsync();
-                isFileAvailable = await ftp.GetFileAsync("OutputNames.xml", file.Path);
-                await ftp.DisconnectAsync();
-
-                NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
-
-                var DataQuery = from r in NamesXML.Descendants("Output")
-                                select r;
-
-                for (int i = 0; i < 4; i++)
+                try
                 {
-                    XElement Data = DataQuery.ElementAt(i);
-                    SetPinNumber(Convert.ToByte(i + 1));
-                    ChangeState();
+
+                    await ftp.ConnectAsync();
+                    isFileAvailable = await ftp.GetFileAsync("OutputNames.xml", file.Path);
+                    await ftp.DisconnectAsync();
+
+                    NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+
+                    var DataQuery = from r in NamesXML.Descendants("Output")
+                                    select r;
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        XElement Data = DataQuery.ElementAt(i);
+                        if (OriginalStates[i] != Data.Value)
+                        {
+                            SetPinNumber(Convert.ToByte(i + 1));
+                            ChangeState();
+                        }
+
+                    }
+                }
+
+                catch
+                {
 
                 }
             }, period);
@@ -152,24 +185,30 @@ namespace F_X.Arduino_Related_Classes
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
                     async () =>
                     {
-                        NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
-                        Status.Text = "Reading New Settings";
-                        var DataQuery = from r in NamesXML.Descendants("Output")
-                                        select r;
-
-                        Status.Text = "Flipping some buttons now :)";
-                        TimeSpan.FromSeconds(1);
-                        for (int i = 0; i < NamesToUpdate.Length; i++)
+                        try
                         {
-                            XElement Data = DataQuery.ElementAt(i);
-                            NamesToUpdate[i].Text = Data.Element("name").Value;
+                            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+                            Status.Text = "Reading New Settings";
+                            var DataQuery = from r in NamesXML.Descendants("Output")
+                                            select r;
 
-                            SetPinNumber(Convert.ToByte(i + 1));
-                            ChangeState();
+                            Status.Text = "Flipping some buttons now :)";
+                            TimeSpan.FromSeconds(1);
+                            for (int i = 0; i < NamesToUpdate.Length; i++)
+                            {
+                                XElement Data = DataQuery.ElementAt(i);
+                                NamesToUpdate[i].Text = Data.Element("name").Value;
 
+                                SetPinNumber(Convert.ToByte(i + 1));
+                                ChangeState();
+
+                            }
+                            Status.Text = "Controls are Up-to-date";
                         }
-                        Status.Text = "Controls are Up-to-date";
-
+                        catch (Exception e)
+                        {
+                           
+                        }
 
                     }
                     );

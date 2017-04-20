@@ -76,16 +76,8 @@ namespace F_X
 
 
 
-
-           
-
-
-
-            int HumidityReading = theArduino.arduino.analogRead("A1") / 100;
-            
-
-            Temp_Txt.Text = "The room temperature is: " + theArduino.CalculateTemperature() + " °C";
-            Humidity_Text.Text = "The room humidity is: " + HumidityReading + "%";
+           // Temp_Txt.Text = "The room temperature is: " + theArduino.CalculateTemperature() + " °C";
+           // Humidity_Text.Text = "The room humidity is: " + HumidityReading + "%";
 
         }
 
