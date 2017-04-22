@@ -1,0 +1,99 @@
+﻿<Page
+    x:Class="F_X.AutomatedSession.SettingsMinimal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:F_X.AutomatedSession"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <SplitView x:Name="NavigationPane" DisplayMode="CompactInline">
+        <SplitView.Pane>
+
+            <Grid Background="#FF0580B3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="17*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" RequestedTheme="Dark" />
+
+                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF0580B3" RequestedTheme="Dark">
+                    <RadioButton x:Name="Home_Btn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+         
+           Tag="&#xE80F;"
+           Checked="Home_Checked"
+           Content="Home"
+           />
+
+
+                    <RadioButton x:Name="SettingsBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE713;"
+           Checked="Settings_Checked"
+           Content="Settings"                   
+           />
+
+                    <RadioButton x:Name="LogoutBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE0A6;"
+           Checked="Logout_Checked"
+           Content="Logout"                        
+           />
+                </StackPanel>
+                <ScrollBar Grid.Column="1" HorizontalAlignment="Left" Margin="532,225,-459,0" Grid.Row="1" VerticalAlignment="Top"/>
+
+
+            </Grid>
+
+        </SplitView.Pane>
+        <SplitView.Content>
+            <ScrollViewer>
+                <Frame x:Name="Content" Background="White" Margin="0,0,0,-72" >
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition>
+                                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                    <EntranceNavigationTransitionInfo/>
+                                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                            </NavigationThemeTransition>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
+
+
+
+                    <Grid>
+
+                        <Frame x:Name="SettingsFrameTextBoxes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" HorizontalContentAlignment="Left">
+                            <StackPanel>
+                                <TextBlock x:Name="DownloadConnectionStatus" Margin="0,0,0,0" Text="Status"></TextBlock>
+                                <TextBlock x:Name="TextBlockMainTitle" HorizontalAlignment="Left" Margin="0,20,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="72" FontFamily="Times New Roman"/>
+                                <TextBlock x:Name="TextBlockAccountTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Account:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
+                                <TextBox x:Name="TextBoxAccountName" Header="Account Name" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,10,0,0" Text="" VerticalAlignment="Top" FontSize="15" IsReadOnly="True" />
+                                <TextBox x:Name="TextBoxDisplayedName" Header="Displayed Name" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,10,0,0" Text="" VerticalAlignment="Top" FontSize="15" ></TextBox>
+                                <TextBlock x:Name="TextBlockLocationTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Location:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
+                                <TextBox x:Name="TextBoxHomeCity" Header="Home City" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,10,0,0" Text="" VerticalAlignment="Top" FontSize="15" ></TextBox>
+                                <ToggleSwitch x:Name="TSEnableLocation" Header="Enable Location" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="15"/>
+                                <TextBlock x:Name="TextBlockAssistantTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Assistant:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
+                                <TextBox x:Name="TextBoxAssistantName" Header="Assistant Name" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,50,0,0" Text="" VerticalAlignment="Top" FontSize="15" ></TextBox>
+                                <ToggleSwitch x:Name="TSAssistantAlwaysON" Header="Assistant Always ON" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0"/>
+                                <ToggleSwitch x:Name="TSAssistantGender" Header="Assistant Gender" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" OffContent="Male" OnContent="Female"/>
+                                <Button x:Name="SaveBtn" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Click="OnSave_Click">Save</Button>
+                                <TextBlock x:Name="UploadConnectionStatus" Margin="10,10,0,100"></TextBlock>
+                            </StackPanel>
+                        </Frame>
+                    </Grid>
+
+                </Frame>
+            </ScrollViewer>
+        </SplitView.Content>
+    </SplitView>
+</Page>

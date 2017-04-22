@@ -1,0 +1,98 @@
+﻿<Page
+    x:Class="F_X.AutomatedSession.AutomatedPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:F_X.AutomatedSession"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+
+    <SplitView x:Name="NavigationPane" DisplayMode="CompactInline">
+        <SplitView.Pane>
+
+            <Grid Background="#FF0580B3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="17*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" RequestedTheme="Dark" />
+
+                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF0580B3" RequestedTheme="Dark">
+                    <RadioButton x:Name="Home_Btn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+         
+           Tag="&#xE80F;"
+           Checked="Home_Checked"
+           Content="Home"
+           />
+
+                    <RadioButton x:Name="SettingsBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE713;"
+           Checked="Settings_Checked"
+           Content="Settings"                   
+           />
+
+                    <RadioButton x:Name="LogoutBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE0A6;"
+           Checked="Logout_Checked"
+           Content="Logout"                        
+           />
+                </StackPanel>
+                <ScrollBar Grid.Column="1" HorizontalAlignment="Left" Margin="532,225,-459,0" Grid.Row="1" VerticalAlignment="Top"/>
+
+
+            </Grid>
+
+        </SplitView.Pane>
+        <SplitView.Content>
+            <ScrollViewer>
+                <Frame x:Name="Content" Background="White" Margin="0,0,0,-72" >
+                    <Frame.ContentTransitions>
+                        <TransitionCollection>
+                            <NavigationThemeTransition>
+                                <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                    <EntranceNavigationTransitionInfo/>
+                                </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                            </NavigationThemeTransition>
+                        </TransitionCollection>
+                    </Frame.ContentTransitions>
+
+
+                    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Frame HorizontalAlignment="Center" VerticalAlignment="Top" Height="200">
+                            <StackPanel HorizontalAlignment="Center" Margin="0,20,0,0">
+
+                                <Image x:Name="profilePicture" Width="100" Height="100" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="DisplayNameText"/>
+                                <TextBlock x:Name="UsernameText"/>
+                            </StackPanel>
+                        </Frame>
+
+                        <Frame HorizontalAlignment="Center" >
+                            <StackPanel HorizontalAlignment="Center" >
+                                <Image x:Name="F_X_Logo" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,220,0,0" MaxWidth="600" Source="../Assets/newLogo.png" />
+                                <TextBlock x:Name="MainPageInformation" FontSize="20dp" Text=""/>
+                            </StackPanel>
+                        </Frame>
+
+                    </Grid>
+
+                </Frame>
+            </ScrollViewer>
+        </SplitView.Content>
+    </SplitView>
+
+    
+</Page>

@@ -15,15 +15,22 @@
         </Frame>
         
 
-        <Frame HorizontalAlignment="Center" Margin="0,0,0,0" Width="300" VerticalAlignment="Center">
+        <Frame HorizontalAlignment="Center" Margin="0,0,0,0" Width="320" VerticalAlignment="Center">
             <StackPanel>
                 <TextBox x:Name="TextBoxUsername" Header="Username" TextWrapping="Wrap" Text="" Background="Black" RequestedTheme="Dark"/>
                 <PasswordBox x:Name="PassBoxLoginPass" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"  Header="Password" Background="Black" RequestedTheme="Dark" />
                 <CheckBox x:Name="CheckBoxRememberMe" Content="Remember Me" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RequestedTheme="Dark"/>
                 <AppBarButton x:Name="LogInButton"  HorizontalAlignment="Center" Icon="Next" Label="Login" VerticalAlignment="Center" Margin="0,10,0,0" Width="Auto" FontSize="20" Click="AppBarButton_Click" RequestedTheme="Dark"/>
 
-                <TextBlock x:Name="StatusText" Margin="0,10,0,0" RequestedTheme="Dark"></TextBlock>
+                <TextBlock x:Name="StatusText" Margin="0,10,0,10" RequestedTheme="Dark"></TextBlock>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="QuestionText" RequestedTheme="Dark" HorizontalAlignment="Left" VerticalAlignment="Center">Is this the Main Hub?</TextBlock>
+                    <ToggleSwitch x:Name="TSMainHub" RequestedTheme="Dark"   HorizontalAlignment="Right" VerticalAlignment="Center" HorizontalContentAlignment="Right" Margin="90,0,0,0" OffContent="No" OnContent="Yes"/>
+
+                </StackPanel>
             </StackPanel>
+          
         </Frame>
         <CalendarDatePicker HorizontalAlignment="Left" Margin="-301,303,0,0" VerticalAlignment="Top"/>
 

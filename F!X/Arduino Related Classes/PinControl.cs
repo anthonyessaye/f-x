@@ -116,7 +116,7 @@ namespace F_X.Arduino_Related_Classes
         {
             ConnectingToFtp();
 
-            getOriginalStates();
+            //getOriginalStates();
 
             StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
 

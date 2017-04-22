@@ -48,8 +48,7 @@ namespace F_X.InformationGathering
             WeatherXML = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("WeatherXML.xml");
 
 
-
-            //await MainFolder.CreateFileAsync("WeatherXML.xml");
+            
 
             FileStream fileStream = new FileStream(WeatherXML.Path, FileMode.Truncate);
 

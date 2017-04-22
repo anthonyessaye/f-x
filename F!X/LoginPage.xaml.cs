@@ -1,4 +1,5 @@
 ﻿using F_X.Arduino_Related_Classes;
+using F_X.AutomatedSession;
 using F_X.InformationGathering;
 using F_X.OnStartUp;
 using System;
@@ -52,6 +53,8 @@ namespace F_X
             
 
         StatusText.TextAlignment = TextAlignment.Center;
+            TSMainHub.IsOn = true;
+          
         }
         
 
@@ -85,7 +88,11 @@ namespace F_X
                 (App.Current as App).Email = TextBoxUsername.Text;
                 (App.Current as App).Password = PassBoxLoginPass.Password;
 
-                this.Frame.Navigate(typeof(MainPage));
+                if(TSMainHub.IsOn)
+                    this.Frame.Navigate(typeof(AutomatedPage));
+
+                else if(!TSMainHub.IsOn)
+                    this.Frame.Navigate(typeof(MainPage));
 
             }
             else
