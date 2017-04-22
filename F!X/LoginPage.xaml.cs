@@ -90,7 +90,7 @@ namespace F_X
 
             
 
-            await Task.Delay(15000);
+            await Task.Delay(5000);
             if (theLogin.isConnected)
             {
                 (App.Current as App).Email = TextBoxUsername.Text;
