@@ -21,6 +21,8 @@ using F_X.Arduino_Related_Classes;
 using System.Xml;
 using System.Xml.Linq;
 using Windows.Storage;
+using F_X.InformationGathering;
+using System.Threading.Tasks;
 
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -33,8 +35,14 @@ namespace F_X
     public sealed partial class Controls : Page
     {
 
+        //VID: 2341
+        // PID: 0001
 
-        PinControl theArduino = new PinControl("VID_2341", "PID_0243", 57600);
+
+        //  PinControl theArduino = new PinControl("VID_2341", "PID_0243", 57600); Changed PID for new arduino
+
+        
+
         // PinControl is a class i created to minimize code in this section, but basically
         // it configures connection to arduino and has some basic functions.
         // This settings must be moved to each page if we need the assistant to control the settings.
@@ -44,8 +52,11 @@ namespace F_X
         TextBox[] theNameBoxes;
         ToggleButton[] theToggles;
         bool isFocused = true;
+        FTPDownloads pleaseDownload = new FTPDownloads();
+        PinControl theArduino = new PinControl("VID_2341", "PID_0001", 57600);
 
         public async void onBoot()
+
         {
             theNameBoxes = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
                                            OutputFourName};
@@ -53,10 +64,11 @@ namespace F_X
             theToggles = new ToggleButton[] { OutputOneToggle, OutputTwoToggle, OutputThreeToggle,
                                               OutputFourToggle};
 
+            updateOnBoot();
 
 
 
-            theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 2);
+            // theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 2);
 
             // This function contains two arrays for UI Elements and the function that updates them every given amount of time
 
@@ -113,12 +125,15 @@ namespace F_X
             
             this.Frame.Navigate(typeof(LoginPage));
         }
-
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;
         }
 
+
+
+        //need to update all the buttons wuth new code from output one
+        // UPDATE - THIS IS FIXED
         private void OutputOneToggle_Click(object sender, RoutedEventArgs e)
         {
             theArduino.SetPinNumber(1);
@@ -128,14 +143,11 @@ namespace F_X
             }
 
             else
-            { 
+            {
                 OutputOneToggle.Content = "Off";
             }
             theArduino.ChangeState();
         }
-
-        //need to update all the buttons wuth new code from output one
-        // UPDATE - THIS IS FIXED
         private void OutputTwoToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputTwoToggle.IsChecked == true)
@@ -169,8 +181,75 @@ namespace F_X
             theArduino.SetPinNumber(4);
             theArduino.ChangeState();
         }
-       
 
 
+        private async  void updateOnBoot()
+        {
+            pleaseDownload.getLatestOutputs();
+            
+
+            try
+            {
+                await Task.Delay(1000);
+                NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+                statusText.Text = "Reading New Settings";
+                var DataQuery = from r in NamesXML.Descendants("Output")
+                                select r;
+
+                statusText.Text = "Flipping some buttons now :)";
+
+                await Task.Delay(2000);
+                for (int i = 0; i < theNameBoxes.Length; i++)
+                {
+                    XElement Data = DataQuery.ElementAt(i);
+                    theNameBoxes[i].Text = Data.Element("name").Value;
+
+                    
+                    if (theToggles[i].Content.ToString() != Data.Element("status").Value)
+                    {
+                        if (i == 0)
+                        {
+                            OutputOneToggle.IsChecked = true;
+                            OutputOneToggle.Content = "On";
+                            OutputOneToggle_Click(OutputOneToggle, new RoutedEventArgs());
+                        }
+
+                        if (i == 1)
+                        {
+                            OutputTwoToggle.IsChecked = true;
+                            OutputTwoToggle.Content = "On";
+                            OutputTwoToggle_Checked(OutputTwoToggle, new RoutedEventArgs());
+                        }
+
+                        if (i == 2)
+                        {
+                            OutputThreeToggle.IsChecked = true;
+                            OutputThreeToggle.Content = "On";
+                            OutputThreeToggle_Checked(OutputThreeToggle, new RoutedEventArgs());
+                        }
+
+                        if (i == 3)
+                        {
+                            OutputFourToggle.IsChecked = true;
+                            OutputFourToggle.Content = "On";
+                            OutputFourToggle_Checked(OutputFourToggle, new RoutedEventArgs());
+                        }
+
+                    }
+
+
+                }
+                statusText.Text = "Controls are Up-to-date";
+            }
+            catch (Exception e)
+            {
+
+            }
+
+        }
+
+      
+
+        
     }
 }

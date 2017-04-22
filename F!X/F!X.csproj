@@ -106,6 +106,7 @@
     <Compile Include="Controls.xaml.cs">
       <DependentUpon>Controls.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InformationGathering\FTPDownloads.cs" />
     <Compile Include="InformationGathering\Weather.cs" />
     <Compile Include="InformationQueries\SettingsQueries.cs" />
     <Compile Include="InformationQueries\WeatherQuery.cs" />

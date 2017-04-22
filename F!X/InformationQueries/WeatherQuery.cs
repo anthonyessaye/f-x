@@ -1,4 +1,5 @@
-﻿using System;
+﻿using F_X.InformationGathering;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace F_X.InformationQueries
 
         private async void SetXML()
         {
-            WeatherXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("WeatherXML.xml"));
+                WeatherXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("WeatherXML.xml"));
+            
         }
 
         public string getMaxTemp()

@@ -1,4 +1,6 @@
-﻿using F_X.InformationQueries;
+﻿using F_X.Arduino_Related_Classes;
+using F_X.InformationGathering;
+using F_X.InformationQueries;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,6 +43,7 @@ namespace F_X.AutomatedSession
         string InfoText;
 
 
+       
 
         public async void onBoot()
         {
@@ -60,6 +63,7 @@ namespace F_X.AutomatedSession
 
 
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+
         }
 
 
@@ -149,6 +153,9 @@ namespace F_X.AutomatedSession
             UploadConnectionStatus.Text = "File Uploaded\n\n";
             isFileAvailable = false;
         }
+
+
+
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

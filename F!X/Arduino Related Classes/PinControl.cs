@@ -38,7 +38,7 @@ namespace F_X.Arduino_Related_Classes
 
         private string[] OriginalStates;
         private const string Server = "ftp.bodirectors.com";
-
+        
         public PinControl(string VID, string PID, uint BaudRate)
         {
             connection = new UsbSerial(VID, PID);
@@ -48,9 +48,17 @@ namespace F_X.Arduino_Related_Classes
             connection.begin(baudRate, SerialConfig.SERIAL_8N1);
 
             ftp = new Chilkat.Ftp2();
+            OriginalStates = new string[] { "Off", "Off", "Off", "Off" };
+            setXML();
 
 
+        }
 
+        public async void setXML()
+        {
+
+
+            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
         }
 
         public void ChangeState()
@@ -94,68 +102,64 @@ namespace F_X.Arduino_Related_Classes
 
         }
 
-        public async void getOriginalStates()
-        {
-            StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
-            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
-
-            var DataQuery = from r in NamesXML.Descendants("Output")
-                            select r;
-
-            for (int i = 0; i < 4; i++)
-            {
-                XElement Data = DataQuery.ElementAt(i);
-                OriginalStates[i] = Data.Element("status").Value;
-                
-            }
-
-
-        }
+       
 
         public async void UpdatingPinsThread(int TimerInSeconds)
         {
-            ConnectingToFtp();
 
-            //getOriginalStates();
 
             StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
+            ConnectingToFtp();
 
-            if (period == null)
-                period = TimeSpan.FromSeconds(TimerInSeconds);
+
+            period = TimeSpan.FromSeconds(TimerInSeconds);
 
 
             ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
             {
-                try
-                {
 
-                    await ftp.ConnectAsync();
-                    isFileAvailable = await ftp.GetFileAsync("OutputNames.xml", file.Path);
-                    await ftp.DisconnectAsync();
+                await ftp.ConnectAsync();
+                isFileAvailable = await ftp.GetFileAsync("OutputNames.xml", file.Path);
+                await ftp.DisconnectAsync();
 
-                    NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
 
-                    var DataQuery = from r in NamesXML.Descendants("Output")
-                                    select r;
 
-                    for (int i = 0; i < 4; i++)
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                    async () =>
                     {
-                        XElement Data = DataQuery.ElementAt(i);
-                        if (OriginalStates[i] != Data.Value)
+                        try
                         {
-                            SetPinNumber(Convert.ToByte(i + 1));
-                            ChangeState();
+                            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+                           
+                            var DataQuery = from r in NamesXML.Descendants("Output")
+                                            select r;
+                            
+                            TimeSpan.FromSeconds(1);
+                            for (int i = 0; i < 4; i++)
+                            {
+                                XElement Data = DataQuery.ElementAt(i);
+                                
+
+                                if (OriginalStates[i] != Data.Element("status").Value)
+                                {
+                                    OriginalStates[i] = Data.Element("status").Value;
+                                    SetPinNumber(Convert.ToByte(i + 1));
+                                    ChangeState();
+                                }
+
+                            }
+                        }
+                        catch (Exception e)
+                        {
+
                         }
 
                     }
-                }
+                    );
 
-                catch
-                {
 
-                }
+
             }, period);
-
 
         }
 

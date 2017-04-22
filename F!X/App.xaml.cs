@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -33,9 +34,16 @@ namespace F_X
         public string Email { get; set; }
         public string Password { get; set; }
 
+        public bool isControlSet{ get; set; }
+        private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
+
+
+
+
         public App()
         {
             this.InitializeComponent();
+            isControlSet = false;
             this.Suspending += OnSuspending;
         }
 
@@ -81,7 +89,7 @@ namespace F_X
 
         }
 
-    
+
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
@@ -91,6 +99,11 @@ namespace F_X
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        private void OnClosedByUser(object sender, WindowClosedEventHandler e)
+        {
+
         }
 
         /// <summary>
@@ -103,8 +116,14 @@ namespace F_X
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+         
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+
+
+      
     }
 }
+

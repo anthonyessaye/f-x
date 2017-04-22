@@ -71,6 +71,14 @@ namespace F_X
             var vault = new Windows.Security.Credentials.PasswordVault();
 
 
+            LogInButton.IsEnabled = false;
+            TextBoxUsername.IsEnabled = false;
+            PassBoxLoginPass.IsEnabled = false;
+            CheckBoxRememberMe.IsEnabled = false;
+            TSMainHub.IsEnabled = false;
+            
+
+            StatusText.Text = "";
 
             theLogin = new LoggingIn(TextBoxUsername.Text, PassBoxLoginPass.Password);
             theLogin.ConnectAndGetLatest();
@@ -82,21 +90,28 @@ namespace F_X
 
             
 
-            await Task.Delay(5000);
+            await Task.Delay(15000);
             if (theLogin.isConnected)
             {
                 (App.Current as App).Email = TextBoxUsername.Text;
                 (App.Current as App).Password = PassBoxLoginPass.Password;
 
-                if(TSMainHub.IsOn)
+                if (TSMainHub.IsOn)
                     this.Frame.Navigate(typeof(AutomatedPage));
 
-                else if(!TSMainHub.IsOn)
+                else if (!TSMainHub.IsOn)
                     this.Frame.Navigate(typeof(MainPage));
 
             }
             else
+            {
+                LogInButton.IsEnabled = true;
+                TextBoxUsername.IsEnabled = true;
+                PassBoxLoginPass.IsEnabled = true;
+                CheckBoxRememberMe.IsEnabled = true;
+                TSMainHub.IsEnabled = true;
                 StatusText.Text = "Something Went Wrong and We Couldn't\n Log You In";
+            }
 
         }
 

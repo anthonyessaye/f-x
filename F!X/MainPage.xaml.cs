@@ -47,26 +47,34 @@ namespace F_X
 
         public async void onBoot()
         {
-            await Task.Delay(200);
-            SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
-            StorageFile ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
+            //await Task.Delay(1000);
+            try
+            {
+                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+                StorageFile ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
 
-            
-            CityYouSelected = theSettings.getCityQuery();
-            Weather theWeather = new Weather(CityYouSelected);
 
-            MainPageInformation.TextAlignment = TextAlignment.Center;
-            UsernameText.TextAlignment = TextAlignment.Center;
-            DisplayNameText.TextAlignment = TextAlignment.Center;
+                CityYouSelected = theSettings.getCityQuery();
+                Weather theWeather = new Weather(CityYouSelected);
 
-            await Task.Delay(100);
-            profilePicture.Source = new BitmapImage(new Uri(ProfilePictureFile.Path, UriKind.Absolute));
-         
-            MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
-                                            "ºC\tMax: " + theWeatherQuery.getMaxTemp() + "ºC\nHumidity:\t" + 
-                                              theWeatherQuery.getHumidity() + "%";
-            UsernameText.Text = "@" + theSettings.getUserQuery();
-            DisplayNameText.Text = theSettings.getNameQuery();
+                MainPageInformation.TextAlignment = TextAlignment.Center;
+                UsernameText.TextAlignment = TextAlignment.Center;
+                DisplayNameText.TextAlignment = TextAlignment.Center;
+
+                await Task.Delay(100);
+                profilePicture.Source = new BitmapImage(new Uri(ProfilePictureFile.Path, UriKind.Absolute));
+
+                MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
+                                                "ºC\tMax: " + theWeatherQuery.getMaxTemp() + "ºC\nHumidity:\t" +
+                                                  theWeatherQuery.getHumidity() + "%";
+                UsernameText.Text = "@" + theSettings.getUserQuery();
+                DisplayNameText.Text = theSettings.getNameQuery();
+            }
+
+            catch(Exception e)
+            {
+                onBoot();
+            }
             //This should get location from SettingsData.xml but was waiting to finish the
             // queries class. Now its hard coded to beirut.
             // ------------ NVM now it gets location from queries. --------------------------//

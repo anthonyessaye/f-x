@@ -36,7 +36,11 @@ namespace F_X.AutomatedSession
         XDocument SettingsXML;
         string CityYouSelected;
 
-        PinControl theArduino = new PinControl("VID_2341", "PID_0243", 57600);
+        FTPDownloads pleaseDownload = new FTPDownloads();
+        private XDocument NamesXML;
+
+        PinControl theArduino = new PinControl("VID_2341", "PID_0001", 57600);
+        string[] OriginalPinData;
 
 
 
@@ -63,8 +67,25 @@ namespace F_X.AutomatedSession
                                               theWeatherQuery.getHumidity() + "%";
             UsernameText.Text = "@" + theSettings.getUserQuery();
             DisplayNameText.Text = theSettings.getNameQuery();
-         
-            //theArduino.UpdatingPinsThread(1);
+
+
+
+            //NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+
+            //var DataQuery = from r in NamesXML.Descendants("Output")
+            //                select r;
+
+            //for (int i = 0; i < 4; i++)
+            //{
+            //    XElement Data = DataQuery.ElementAt(i);
+            //    OriginalPinData[i] = Data.Element("name").Value;
+            //}
+
+          //  theArduino.getOriginalStates();
+            await Task.Delay(2000);
+
+            theArduino.UpdatingPinsThread(5);
+
 
         }
 
@@ -93,6 +114,48 @@ namespace F_X.AutomatedSession
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
         {
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;
+        }
+
+
+
+        private async void updateOnBoot()
+        {
+            pleaseDownload.getLatestOutputs();
+
+
+            try
+            {
+                await Task.Delay(1000);
+                NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+
+                var DataQuery = from r in NamesXML.Descendants("Output")
+                                select r;
+
+
+
+                await Task.Delay(2000);
+                for (int i = 0; i < 4; i++)
+                {
+                    XElement Data = DataQuery.ElementAt(i);
+
+
+
+                    if (OriginalPinData[i] != Data.Element("status").Value)
+                    {
+                        theArduino.SetPinNumber(Convert.ToByte(i + 1));
+                        theArduino.ChangeState();
+
+                    }
+
+
+                }
+
+            }
+            catch (Exception e)
+            {
+
+            }
+
         }
 
 
