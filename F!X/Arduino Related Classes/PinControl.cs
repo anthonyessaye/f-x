@@ -28,6 +28,10 @@ namespace F_X.Arduino_Related_Classes
         private Chilkat.Ftp2 ftp;
         private bool isFileAvailable;
 
+        private BluetoothSerial btSerial;
+        private IStream btConnection;
+        public bool isBluetoothAvailable { get; }
+
 
         public TimeSpan period { get; set; }
         private XDocument NamesXML;
@@ -54,11 +58,30 @@ namespace F_X.Arduino_Related_Classes
 
         }
 
-        public async void setXML()
+        public PinControl(string BluetoothName, uint BaudRate)
         {
 
+            isBluetoothAvailable = false;
+            btSerial = new BluetoothSerial(BluetoothName);
+            baudRate = BaudRate;
 
-            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+            arduino = new RemoteDevice(btSerial);
+            btSerial.begin(baudRate, SerialConfig.SERIAL_8N1);
+            isBluetoothAvailable = btSerial.connectionReady();
+
+        }
+
+        public async void setXML()
+        {
+            try
+            {
+                NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+            }
+
+            catch (Exception e)
+            {
+                setXML();
+            }
         }
 
         public void ChangeState()

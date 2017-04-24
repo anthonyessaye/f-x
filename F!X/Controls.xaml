@@ -81,8 +81,9 @@
                         </NavigationThemeTransition>
                     </TransitionCollection>
                 </Frame.ContentTransitions>
-                <Grid>
-                <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollMode="Enabled" >
+                <Grid HorizontalAlignment="Center">
+                    <TextBlock x:Name="MainDeviceSection" FontFamily="Times New Roman" Margin="0,100,0,0" FontSize="32" HorizontalAlignment="Center">Main Device</TextBlock>
+                    <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollMode="Enabled" >
                     <StackPanel x:Name="TogglePanel" Orientation="Vertical">
                         <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click" />
                             <ToggleButton x:Name="OutputTwoToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputTwoToggle_Checked"/>
@@ -91,6 +92,8 @@
                            
                     </StackPanel>
                 </Frame>
+
+
                     <TextBlock x:Name="statusText" VerticalAlignment="Bottom" Margin="20,0,0,100" FontSize="20">Ready to Update</TextBlock>
                     <Frame x:Name="NameOfOutputsFrame" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Width="200" Height="450">
                         <StackPanel x:Name="NameOfOutputsPanel" Orientation="Vertical">
@@ -102,9 +105,10 @@
                         </StackPanel>
                         
                     </Frame>
-                    
 
 
+                    <TextBlock x:Name="BluetoothSection" FontFamily="Times New Roman" Margin="0,300,0,0" FontSize="32" HorizontalAlignment="Center">Component</TextBlock>
+                  
                 </Grid>
             </Frame>
 

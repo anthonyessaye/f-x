@@ -89,10 +89,18 @@ namespace F_X
                 RemoveCredential(TextBoxUsername.Text);
 
             
+            for(int i = 0; i < 15 ; i++)
+            {
+                await Task.Delay(1000);
 
-            await Task.Delay(5000);
+                if (theLogin.isConnected)
+                    break;
+            }
+
+
             if (theLogin.isConnected)
             {
+                await Task.Delay(2000);
                 (App.Current as App).Email = TextBoxUsername.Text;
                 (App.Current as App).Password = PassBoxLoginPass.Password;
 
@@ -143,6 +151,12 @@ namespace F_X
                     TextBoxUsername.Text = userName;
                     PassBoxLoginPass.Password = password;
                     CheckBoxRememberMe.IsChecked = true;
+
+                    if(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
+                    {
+                       AppBarButton_Click(LogInButton, new RoutedEventArgs());
+
+                    }
                 }
             }
             catch (Exception)
