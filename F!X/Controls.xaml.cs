@@ -64,6 +64,8 @@ namespace F_X
             theToggles = new ToggleButton[] { OutputOneToggle, OutputTwoToggle, OutputThreeToggle,
                                               OutputFourToggle};
 
+            statusText.TextAlignment = TextAlignment.Center;
+
             updateOnBoot();
 
 

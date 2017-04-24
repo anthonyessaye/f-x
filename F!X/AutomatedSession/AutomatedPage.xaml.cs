@@ -81,8 +81,8 @@ namespace F_X.AutomatedSession
             //    OriginalPinData[i] = Data.Element("name").Value;
             //}
 
-          //  theArduino.getOriginalStates();
-            await Task.Delay(2000);
+          
+            await Task.Delay(1000);
 
             theArduino.UpdatingPinsThread(5);
 
