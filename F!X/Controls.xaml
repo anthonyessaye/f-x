@@ -81,7 +81,7 @@
                         </NavigationThemeTransition>
                     </TransitionCollection>
                 </Frame.ContentTransitions>
-                <Grid>
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollMode="Enabled" >
                     <StackPanel x:Name="TogglePanel" Orientation="Vertical">
                         <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click" />

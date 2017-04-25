@@ -47,10 +47,11 @@ namespace F_X.AutomatedSession
 
         public async void onBoot()
         {
-
+            DisableUI();
             await DownloadFile();
 
-            TextBoxHomeCity.Text = theSettings.getCityQuery();
+
+            TextBoxHomeCity.Text = theSettings.getWeatherQuery();
             TextBoxAccountName.Text = theSettings.getUserQuery();
             TextBoxDisplayedName.Text = theSettings.getNameQuery();
             TextBoxAssistantName.Text = theSettings.getAssistantQuery();
@@ -58,12 +59,14 @@ namespace F_X.AutomatedSession
 
             TSAssistantAlwaysON.IsOn = theSettings.isAssistantAlwaysOn();
             TSAssistantGender.IsOn = theSettings.isAssistantMale();
+            TSTemperatureUnit.IsOn = theSettings.isUnitTemperatureC();
 
             //theSettings.Dispose();
 
 
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
 
+            EnableUI();
         }
 
 
@@ -98,13 +101,14 @@ namespace F_X.AutomatedSession
 
         private async void OnSave_Click(object sender, RoutedEventArgs e)
         {
+            DisableUI();
 
-
-            theSettings.saveSettings(TextBoxHomeCity.Text, TextBoxDisplayedName.Text, TextBoxAccountName.Text,
+            theSettings.saveSettings(TextBoxHomeCity.Text,TSTemperatureUnit.IsOn, TextBoxDisplayedName.Text, TextBoxAccountName.Text,
                                          TextBoxAssistantName.Text, TSAssistantAlwaysON.IsOn, TSAssistantGender.IsOn);
 
             await UploadFile();
 
+            EnableUI();
 
         }
 
@@ -161,6 +165,38 @@ namespace F_X.AutomatedSession
         {
             base.OnNavigatedTo(e);
 
+        }
+
+        private void DisableUI()
+        {
+            TextBoxAccountName.IsEnabled = false;
+            TextBoxDisplayedName.IsEnabled = false;
+
+            TextBoxHomeCity.IsEnabled = false;
+            TSEnableLocation.IsEnabled = false;
+            TSTemperatureUnit.IsEnabled = false;
+
+            TextBoxAssistantName.IsEnabled = false;
+            TSAssistantAlwaysON.IsEnabled = false;
+            TSAssistantGender.IsEnabled = false;
+
+            SaveBtn.IsEnabled = false;
+        }
+
+        private void EnableUI()
+        {
+            TextBoxAccountName.IsEnabled = true;
+            TextBoxDisplayedName.IsEnabled = true;
+
+            TextBoxHomeCity.IsEnabled = true;
+            TSEnableLocation.IsEnabled = true;
+            TSTemperatureUnit.IsEnabled = true;
+
+            TextBoxAssistantName.IsEnabled = true;
+            TSAssistantAlwaysON.IsEnabled = true;
+            TSAssistantGender.IsEnabled = true;
+
+            SaveBtn.IsEnabled = true;
         }
 
     }

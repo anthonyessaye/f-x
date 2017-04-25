@@ -39,6 +39,8 @@ namespace F_X
         WeatherQuery theWeatherQuery = new WeatherQuery();
         XDocument SettingsXML;
         string CityYouSelected;
+        bool UnitTemperature;
+        string UnitTemperatureString;
 
         PinControl theArduino = new PinControl("VID_2341", "PID_0243", 57600);
 
@@ -54,8 +56,13 @@ namespace F_X
                 StorageFile ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
 
 
-                CityYouSelected = theSettings.getCityQuery();
-                Weather theWeather = new Weather(CityYouSelected);
+                CityYouSelected = theSettings.getWeatherQuery();
+                UnitTemperature = theSettings.isUnitTemperatureC();
+                Weather theWeather = new Weather(CityYouSelected,UnitTemperature);
+                if (UnitTemperature == true)
+                    UnitTemperatureString = "°C";
+                else
+                    UnitTemperatureString = "°F";
 
                 MainPageInformation.TextAlignment = TextAlignment.Center;
                 UsernameText.TextAlignment = TextAlignment.Center;
@@ -65,7 +72,7 @@ namespace F_X
                 profilePicture.Source = new BitmapImage(new Uri(ProfilePictureFile.Path, UriKind.Absolute));
 
                 MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
-                                                "ºC\tMax: " + theWeatherQuery.getMaxTemp() + "ºC\nHumidity:\t" +
+                                                UnitTemperatureString +"\tMax: " + theWeatherQuery.getMaxTemp() + UnitTemperatureString+ "\nHumidity:\t" +
                                                   theWeatherQuery.getHumidity() + "%";
                 UsernameText.Text = "@" + theSettings.getUserQuery();
                 DisplayNameText.Text = theSettings.getNameQuery();

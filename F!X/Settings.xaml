@@ -91,17 +91,23 @@
                         <Frame x:Name="SettingsFrameTextBoxes" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" HorizontalContentAlignment="Left">
                             <StackPanel>
                                 <TextBlock x:Name="DownloadConnectionStatus" Margin="0,0,0,0" Text="Status"></TextBlock>
+                                
                                 <TextBlock x:Name="TextBlockMainTitle" HorizontalAlignment="Left" Margin="0,20,0,0" TextWrapping="Wrap" Text="Settings" VerticalAlignment="Top" FontSize="72" FontFamily="Times New Roman"/>
+                                
                                 <TextBlock x:Name="TextBlockAccountTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Account:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
                                 <TextBox x:Name="TextBoxAccountName" Header="Account Name" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,10,0,0" Text="" VerticalAlignment="Top" FontSize="15" IsReadOnly="True" />
                                 <TextBox x:Name="TextBoxDisplayedName" Header="Displayed Name" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,10,0,0" Text="" VerticalAlignment="Top" FontSize="15" ></TextBox>
-                                <TextBlock x:Name="TextBlockLocationTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Location:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
+                                
+                                <TextBlock x:Name="TextBlockWeatherTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Weather:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
                                 <TextBox x:Name="TextBoxHomeCity" Header="Home City" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,10,0,0" Text="" VerticalAlignment="Top" FontSize="15" ></TextBox>
                                 <ToggleSwitch x:Name="TSEnableLocation" Header="Enable Location" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="15"/>
+                                <ToggleSwitch x:Name="TSTemperatureUnit" Header="Unit of Temperature" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="15" IsOn="True" OffContent="°F" OnContent="°C"/>
+
                                 <TextBlock x:Name="TextBlockAssistantTitle" HorizontalAlignment="Left" Margin="0,50,0,0" TextWrapping="Wrap" Text="Assistant:" VerticalAlignment="Top" FontSize="30" FontFamily="Times New Roman"/>
                                 <TextBox x:Name="TextBoxAssistantName" Header="Assistant Name" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Width="200" Margin="0,50,0,0" Text="" VerticalAlignment="Top" FontSize="15" ></TextBox>
                                 <ToggleSwitch x:Name="TSAssistantAlwaysON" Header="Assistant Always ON" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0"/>
                                 <ToggleSwitch x:Name="TSAssistantGender" Header="Assistant Gender" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" OffContent="Male" OnContent="Female"/>
+                                
                                 <Button x:Name="SaveBtn" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Click="OnSave_Click">Save</Button>
                                 <TextBlock x:Name="UploadConnectionStatus" Margin="10,10,0,100"></TextBlock>
                             </StackPanel>

@@ -56,9 +56,17 @@ namespace F_X.Arduino_Related_Classes
 
         public async void setXML()
         {
+            try
+            {
 
+                NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+            }
 
-            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+            catch(Exception e)
+
+            {
+                setXML();
+            }
         }
 
         public void ChangeState()

@@ -35,6 +35,7 @@ namespace F_X.AutomatedSession
         WeatherQuery theWeatherQuery = new WeatherQuery();
         XDocument SettingsXML;
         string CityYouSelected;
+        bool UnitTemperature;
 
         FTPDownloads pleaseDownload = new FTPDownloads();
         private XDocument NamesXML;
@@ -48,12 +49,27 @@ namespace F_X.AutomatedSession
         public async void onBoot()
         {
             await Task.Delay(200);
-            SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+
+            try
+            {
+                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+            }
+
+            catch (UnauthorizedAccessException e)
+            {
+                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+            }
+
+            catch (FileNotFoundException e)
+            {
+                this.Frame.Navigate(typeof(LoginPage));
+            }
+
             StorageFile ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
 
-
-            CityYouSelected = theSettings.getCityQuery();
-            Weather theWeather = new Weather(CityYouSelected);
+            CityYouSelected = theSettings.getWeatherQuery();
+            UnitTemperature = theSettings.isUnitTemperatureC();
+            Weather theWeather = new Weather(CityYouSelected, UnitTemperature);
 
             MainPageInformation.TextAlignment = TextAlignment.Center;
             UsernameText.TextAlignment = TextAlignment.Center;
@@ -81,8 +97,8 @@ namespace F_X.AutomatedSession
             //    OriginalPinData[i] = Data.Element("name").Value;
             //}
 
-          //  theArduino.getOriginalStates();
-            await Task.Delay(2000);
+          
+            await Task.Delay(1000);
 
             theArduino.UpdatingPinsThread(5);
 

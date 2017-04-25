@@ -15,6 +15,7 @@ namespace F_X.InformationQueries
         private StorageFile settingsFile;
 
         private string City;
+        private string TemperatureUnit { get; set; }
         private string fName;
         private string lName;
 
@@ -41,12 +42,14 @@ namespace F_X.InformationQueries
             }
         }
 
-        public string getCityQuery()
+        public string getWeatherQuery()
         {
-            var CityQuery = from r in SettingsXML.Descendants("city")
+            var WeatherQuery = from r in SettingsXML.Descendants("weather")
                             select r;
-            XElement city = CityQuery.ElementAt(0);
-            City = city.Element("name").Value;
+            XElement weather = WeatherQuery.ElementAt(0);
+            City = weather.Element("city").Value;
+            TemperatureUnit = weather.Element("unit").Value;
+            
 
             return City;
 
@@ -98,14 +101,25 @@ namespace F_X.InformationQueries
             else
                 return true;
         }
-
-        private void setCityQuery(string city)
+        public bool isUnitTemperatureC()
         {
-            var CityQuery = from r in SettingsXML.Descendants("city")
-                            select r;
-            XElement cityelement = CityQuery.ElementAt(0);
+            if (TemperatureUnit == "C")
+                return true;
+            else
+                return false;
+        }
 
-            cityelement.Element("name").Value = city;
+        private void setWeatherQuery(string city, bool Unit)
+        {
+            var WeatherQuery = from r in SettingsXML.Descendants("weather")
+                            select r;
+            XElement weatherelement = WeatherQuery.ElementAt(0);
+
+            weatherelement.Element("city").Value = city;
+
+            if (Unit == true)
+                weatherelement.Element("unit").Value = "C";
+            else weatherelement.Element("unit").Value = "F";
 
         }
         private void setNameQuery(string name)
@@ -157,14 +171,14 @@ namespace F_X.InformationQueries
         }
         
 
-        public  void saveSettings(string city, string displayname, string user, string AssistantName,
+        public  void saveSettings(string city,bool unit, string displayname, string user, string AssistantName,
                                     bool isAlwaysOn, bool Gender)
         {
             
             FileStream fileStream = new FileStream(settingsFile.Path, FileMode.Truncate);
 
            
-            setCityQuery(city);
+            setWeatherQuery(city, unit);
             setNameQuery(displayname);
             setUserQuery(user);
             setAssistantQuery(AssistantName, isAlwaysOn, Gender);
