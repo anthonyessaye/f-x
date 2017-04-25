@@ -54,9 +54,6 @@ namespace F_X
         bool isFocused = true;
         FTPDownloads pleaseDownload = new FTPDownloads();
         PinControl theArduino = new PinControl("VID_2341", "PID_0001", 57600);
-        PinControl theComponent;
-
-        private bool isConnected = false;
 
         public async void onBoot()
 
@@ -67,14 +64,10 @@ namespace F_X
             theToggles = new ToggleButton[] { OutputOneToggle, OutputTwoToggle, OutputThreeToggle,
                                               OutputFourToggle};
 
-            statusText.TextAlignment = TextAlignment.Center;
-
             updateOnBoot();
 
 
-            await ConnectingTheBluetooth();
-            if (!isConnected)
-                statusText.Text = "No Components Found";
+
             // theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 2);
 
             // This function contains two arrays for UI Elements and the function that updates them every given amount of time
@@ -87,7 +80,7 @@ namespace F_X
 
             onBoot();
 
-
+           
 
             // connection = new BluetoothSerial( "MLT-BT05");
             //connection.begin(115200, SerialConfig.SERIAL_8N1);
@@ -253,14 +246,6 @@ namespace F_X
 
             }
 
-        }
-
-
-        private async Task ConnectingTheBluetooth()
-        {
-            theComponent = new PinControl("FixHelp", 115200);
-            await Task.Delay(15000);
-            isConnected = theComponent.isBluetoothAvailable;
         }
 
       

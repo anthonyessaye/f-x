@@ -48,22 +48,7 @@ namespace F_X.AutomatedSession
         public async void onBoot()
         {
             await Task.Delay(200);
-            try
-            {
-                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
-            }
-
-            catch(UnauthorizedAccessException e)
-            {
-                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
-            }
-
-            catch (FileNotFoundException e)
-            {
-                this.Frame.Navigate(typeof(LoginPage));
-            }
-
-
+            SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
             StorageFile ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
 
 
@@ -96,8 +81,8 @@ namespace F_X.AutomatedSession
             //    OriginalPinData[i] = Data.Element("name").Value;
             //}
 
-          
-            await Task.Delay(1000);
+          //  theArduino.getOriginalStates();
+            await Task.Delay(2000);
 
             theArduino.UpdatingPinsThread(5);
 
