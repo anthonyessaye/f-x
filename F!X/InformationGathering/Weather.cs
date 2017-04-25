@@ -24,15 +24,18 @@ namespace F_X.InformationGathering
         private const string API_KEY = "ca181fbfc708eeab94347370c2b270db"; // this never changes, although we only get 60 calls/min 
                                                                            // for free
         public string Location { get; set; }
+        public string UnitSystem { get; set; }
         private string CurrentUrl;
         private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
         private StorageFile WeatherXML;
         XDocument WeatherXMLdownload;
 
-        public Weather(string WeatherLoc)
+        public Weather(string WeatherLoc, bool Unit)
         {
+            if (Unit == true) UnitSystem = "metric";
+            else UnitSystem = "imperial";
             Location = WeatherLoc;
-            CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + Location + "&mode=xml&units=metric&APPID=" + API_KEY;
+            CurrentUrl = "http://api.openweathermap.org/data/2.5/weather?q=" + Location + "&mode=xml&units=" + UnitSystem + "&APPID=" + API_KEY;
 
             CreateWeatherXML();
 

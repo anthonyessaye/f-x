@@ -36,6 +36,10 @@ namespace F_X
         private const string RESOURCE_NAME = "FIX";
 
         //  CheckAndCreateDirectory ProjectFolders = new CheckAndCreateDirectory();
+
+
+
+
         public async void onBoot()
         {
             StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
@@ -48,7 +52,7 @@ namespace F_X
                 await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);
                 await Settingsfile.CopyAsync(MainFolder, Settingsfile.Name, NameCollisionOption.GenerateUniqueName);
                 await profileFile.CopyAsync(MainFolder, profileFile.Name, NameCollisionOption.GenerateUniqueName);
-                Weather theWeather = new Weather("Beirut");
+                Weather theWeather = new Weather("Beirut", true);
             }
             
 
@@ -88,11 +92,17 @@ namespace F_X
             else if (CheckBoxRememberMe.IsChecked == false)
                 RemoveCredential(TextBoxUsername.Text);
 
-            
+            for (int i = 0; i < 15; i++)
+            {
+                await Task.Delay(1000);
 
-            await Task.Delay(5000);
+                if (theLogin.isConnected)
+                    break;
+            }
+
             if (theLogin.isConnected)
             {
+                await Task.Delay(2000);
                 (App.Current as App).Email = TextBoxUsername.Text;
                 (App.Current as App).Password = PassBoxLoginPass.Password;
 
@@ -143,6 +153,12 @@ namespace F_X
                     TextBoxUsername.Text = userName;
                     PassBoxLoginPass.Password = password;
                     CheckBoxRememberMe.IsChecked = true;
+
+                    if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
+                    {
+                        AppBarButton_Click(LogInButton, new RoutedEventArgs());
+
+                    }
                 }
             }
             catch (Exception)

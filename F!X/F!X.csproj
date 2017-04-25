@@ -199,20 +199,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Desktop\remote-wiring-develop\Microsoft.Maker.win10\Microsoft.Maker.Firmata\Microsoft.Maker.Firmata.vcxproj">
-      <Project>{f0a53bc9-c617-47dd-8b68-f91e3502d633}</Project>
-      <Name>Microsoft.Maker.Firmata</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\remote-wiring-develop\Microsoft.Maker.win10\Microsoft.Maker.RemoteWiring\Microsoft.Maker.RemoteWiring.vcxproj">
-      <Project>{5a8b1bb1-7cd5-47c4-a1f7-d7bcf5facad1}</Project>
-      <Name>Microsoft.Maker.RemoteWiring</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\serial-wiring-develop\Microsoft.Maker.Serial.win10\Microsoft.Maker.Serial.vcxproj">
-      <Project>{8376216c-282a-4927-b9ef-c2d545fe0bca}</Project>
-      <Name>Microsoft.Maker.Serial</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
@@ -234,6 +220,20 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Desktop\remote-wiring-develop\Microsoft.Maker.win10\Microsoft.Maker.Firmata\Microsoft.Maker.Firmata.vcxproj">
+      <Project>{f0a53bc9-c617-47dd-8b68-f91e3502d633}</Project>
+      <Name>Microsoft.Maker.Firmata</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\remote-wiring-develop\Microsoft.Maker.win10\Microsoft.Maker.RemoteWiring\Microsoft.Maker.RemoteWiring.vcxproj">
+      <Project>{5a8b1bb1-7cd5-47c4-a1f7-d7bcf5facad1}</Project>
+      <Name>Microsoft.Maker.RemoteWiring</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\serial-wiring-develop\Microsoft.Maker.Serial.win10\Microsoft.Maker.Serial.vcxproj">
+      <Project>{8376216c-282a-4927-b9ef-c2d545fe0bca}</Project>
+      <Name>Microsoft.Maker.Serial</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

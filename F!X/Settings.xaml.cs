@@ -19,6 +19,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
+
+
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -42,10 +45,10 @@ namespace F_X
 
         public async void onBoot()
         {
-
+            DisableUI();
             await DownloadFile();
 
-            TextBoxHomeCity.Text = theSettings.getCityQuery();
+            TextBoxHomeCity.Text = theSettings.getWeatherQuery();
             TextBoxAccountName.Text = theSettings.getUserQuery();
             TextBoxDisplayedName.Text = theSettings.getNameQuery();
             TextBoxAssistantName.Text = theSettings.getAssistantQuery();
@@ -53,11 +56,14 @@ namespace F_X
 
             TSAssistantAlwaysON.IsOn = theSettings.isAssistantAlwaysOn();
             TSAssistantGender.IsOn = theSettings.isAssistantMale();
+            TSTemperatureUnit.IsOn = theSettings.isUnitTemperatureC();
 
             //theSettings.Dispose();
 
 
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+
+            EnableUI();
         }
 
         
@@ -71,16 +77,17 @@ namespace F_X
         }
         private void Home_Checked(object sender, RoutedEventArgs e)
         {
-
-
+            CheckChanges();
             this.Frame.Navigate(typeof(MainPage));
         }
         private void Assistant_Checked(object sender, RoutedEventArgs e)
         {
+            CheckChanges();
             this.Frame.Navigate(typeof(PersonalAssistant.AssistantPage));
         }
         private void Controls_Checked(object sender, RoutedEventArgs e)
         {
+            CheckChanges();
             this.Frame.Navigate(typeof(Controls));
         }
         private void Settings_Checked(object sender, RoutedEventArgs e)
@@ -89,7 +96,7 @@ namespace F_X
         }
         private void Logout_Checked(object sender, RoutedEventArgs e)
         {
-
+            CheckChanges();
             this.Frame.Navigate(typeof(LoginPage));
         }
         private void HamburgerButton_Click(object sender, RoutedEventArgs e)
@@ -97,16 +104,10 @@ namespace F_X
             NavigationPane.IsPaneOpen = !NavigationPane.IsPaneOpen;
         }
 
-        private async void OnSave_Click(object sender, RoutedEventArgs e)
+        private void OnSave_Click(object sender, RoutedEventArgs e)
         {
-           
-
-            theSettings.saveSettings(TextBoxHomeCity.Text,TextBoxDisplayedName.Text,TextBoxAccountName.Text,
-                                         TextBoxAssistantName.Text, TSAssistantAlwaysON.IsOn,TSAssistantGender.IsOn);
-
-            await UploadFile();
+            SaveSettings();
      
-           
         }
 
 
@@ -159,6 +160,87 @@ namespace F_X
         {
             base.OnNavigatedTo(e);
           
+        }
+
+        private async void SaveSettings()
+        {
+            DisableUI();
+
+            theSettings.saveSettings(TextBoxHomeCity.Text, TSTemperatureUnit.IsOn, TextBoxDisplayedName.Text, TextBoxAccountName.Text,
+                                         TextBoxAssistantName.Text, TSAssistantAlwaysON.IsOn, TSAssistantGender.IsOn);
+
+            await UploadFile();
+
+            EnableUI();
+
+        }
+
+        private void DisableUI()
+        {
+            TextBoxAccountName.IsEnabled = false;
+            TextBoxDisplayedName.IsEnabled = false;
+
+            TextBoxHomeCity.IsEnabled = false;
+            TSEnableLocation.IsEnabled = false;
+            TSTemperatureUnit.IsEnabled = false;
+
+            TextBoxAssistantName.IsEnabled = false;
+            TSAssistantAlwaysON.IsEnabled = false;
+            TSAssistantGender.IsEnabled = false;
+
+            SaveBtn.IsEnabled = false;
+        }
+
+        private void EnableUI()
+        {
+            TextBoxAccountName.IsEnabled = true;
+            TextBoxDisplayedName.IsEnabled = true;
+
+            TextBoxHomeCity.IsEnabled = true;
+            TSEnableLocation.IsEnabled = true;
+            TSTemperatureUnit.IsEnabled = true;
+
+            TextBoxAssistantName.IsEnabled = true;
+            TSAssistantAlwaysON.IsEnabled = true;
+            TSAssistantGender.IsEnabled = true;
+
+            SaveBtn.IsEnabled = true;
+        }
+
+        private bool IsThereChanges()
+        {
+           if( TextBoxHomeCity.Text != theSettings.getWeatherQuery())return true;
+           if(TextBoxAccountName.Text != theSettings.getUserQuery())return true;
+           if( TextBoxDisplayedName.Text != theSettings.getNameQuery()) return true;
+           if( TextBoxAssistantName.Text != theSettings.getAssistantQuery()) return true;
+
+
+           if( TSAssistantAlwaysON.IsOn != theSettings.isAssistantAlwaysOn()) return true;
+           if( TSAssistantGender.IsOn != theSettings.isAssistantMale()) return true;
+            if (TSTemperatureUnit.IsOn != theSettings.isUnitTemperatureC()) return true;
+
+            else return false;
+        }
+
+        private async void CheckChanges()
+        {
+            
+            if (IsThereChanges() == true)
+            {
+                MessageDialog messageDialog = new MessageDialog("Do you want to save the changes?");
+                messageDialog.Commands.Add(new UICommand("Yes") { Id = 0 });
+                messageDialog.Commands.Add(new UICommand("No") { Id = 1 });
+                messageDialog.DefaultCommandIndex = 0;
+                messageDialog.CancelCommandIndex = 1;
+
+                var result = await messageDialog.ShowAsync();
+                if ((int)result.Id == 0)
+                {
+                    SaveSettings();
+                }
+                else return;
+            }
+            else return;
         }
 
     }
