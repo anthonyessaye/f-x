@@ -37,6 +37,8 @@ namespace F_X
         public bool isControlSet{ get; set; }
         private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
 
+        bool _isInBackgroundMode = false;
+
 
 
 
@@ -45,6 +47,10 @@ namespace F_X
             this.InitializeComponent();
             isControlSet = false;
             this.Suspending += OnSuspending;
+
+            this.EnteredBackground += App_EnteredBackground;
+            this.LeavingBackground += App_LeavingBackground;
+
         }
 
         /// <summary>
@@ -52,6 +58,18 @@ namespace F_X
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
+        /// 
+        private void App_EnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            _isInBackgroundMode = true;
+        }
+
+        private void App_LeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            _isInBackgroundMode = false;
+        }
+
+
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;

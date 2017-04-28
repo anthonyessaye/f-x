@@ -24,6 +24,7 @@ using System.Xml.Linq;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using F_X.Arduino_Related_Classes;
+using F_X.Extras;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -116,6 +117,12 @@ namespace F_X
         private void Controls_Checked(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(Controls));
+
+        }
+
+        private void Extras_Checked(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(ExtrasPage));
         }
         private void Settings_Checked(object sender, RoutedEventArgs e)
         {

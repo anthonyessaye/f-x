@@ -28,6 +28,8 @@ namespace F_X.Arduino_Related_Classes
         private Chilkat.Ftp2 ftp;
         private bool isFileAvailable;
 
+        private BluetoothSerial BTConnection;
+        public bool isBtAvailable { get; }
 
         public TimeSpan period { get; set; }
         private XDocument NamesXML;
@@ -53,6 +55,20 @@ namespace F_X.Arduino_Related_Classes
 
 
         }
+        public PinControl(string btName, uint BaudRate)
+        {
+            BTConnection = new BluetoothSerial("FixHelp");
+            baudRate = BaudRate;
+            isBtAvailable = false;
+
+            arduino = new RemoteDevice(BTConnection);
+            BTConnection.begin(baudRate, SerialConfig.SERIAL_8N1);
+
+            isBtAvailable = BTConnection.connectionReady();
+
+
+        }
+
 
         public async void setXML()
         {
@@ -62,7 +78,7 @@ namespace F_X.Arduino_Related_Classes
                 NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
             }
 
-            catch(Exception e)
+            catch (Exception e)
 
             {
                 setXML();
@@ -110,7 +126,7 @@ namespace F_X.Arduino_Related_Classes
 
         }
 
-       
+
 
         public async void UpdatingPinsThread(int TimerInSeconds)
         {
@@ -138,15 +154,15 @@ namespace F_X.Arduino_Related_Classes
                         try
                         {
                             NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
-                           
+
                             var DataQuery = from r in NamesXML.Descendants("Output")
                                             select r;
-                            
+
                             TimeSpan.FromSeconds(1);
                             for (int i = 0; i < 4; i++)
                             {
                                 XElement Data = DataQuery.ElementAt(i);
-                                
+
 
                                 if (OriginalStates[i] != Data.Element("status").Value)
                                 {
@@ -176,7 +192,7 @@ namespace F_X.Arduino_Related_Classes
 
 
             StorageFile file = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
-        
+
 
             Status.Text = "Connecting to FTP...";
             ConnectingToFtp();
@@ -192,7 +208,7 @@ namespace F_X.Arduino_Related_Classes
                 isFileAvailable = await ftp.GetFileAsync("OutputNames.xml", file.Path);
                 await ftp.DisconnectAsync();
 
-                  
+
 
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
                     async () =>
@@ -219,16 +235,16 @@ namespace F_X.Arduino_Related_Classes
                         }
                         catch (Exception e)
                         {
-                           
+
                         }
 
                     }
                     );
-               
+
 
 
             }, period);
-            
+
         }
 
     }

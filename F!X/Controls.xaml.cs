@@ -54,6 +54,9 @@ namespace F_X
         bool isFocused = true;
         FTPDownloads pleaseDownload = new FTPDownloads();
         PinControl theArduino = new PinControl("VID_2341", "PID_0001", 57600);
+        PinControl theComponent = new PinControl("FixHelp", 115200);
+
+      
 
         public async void onBoot()
 
@@ -69,10 +72,20 @@ namespace F_X
             updateOnBoot();
 
 
+           for(int i = 0; i < 15; i++)
+            {
+                await Task.Delay(1000);
+                if(theComponent.isBtAvailable)
+                {
+                    ComponentSection.Visibility = Visibility.Visible;
+                    break;
+                }
 
-            // theArduino.UpdatingPinsThreadAndGui(theNameBoxes, theToggles, statusText, 2);
-
-            // This function contains two arrays for UI Elements and the function that updates them every given amount of time
+                else
+                {
+                    statusText.Text = "No Components Available";
+                }
+            }
 
         }
 

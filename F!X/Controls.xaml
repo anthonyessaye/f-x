@@ -81,8 +81,10 @@
                         </NavigationThemeTransition>
                     </TransitionCollection>
                 </Frame.ContentTransitions>
-                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Frame x:Name="ToggleButtonFrame" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollMode="Enabled" >
+                <Grid HorizontalAlignment="Center">
+
+                    <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" FontSize="40">Main Device</TextBlock>
+                    <Frame x:Name="ToggleButtonFrame" Margin="0,50,0,0" Width="350" Height="450" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" ScrollViewer.VerticalScrollMode="Enabled" >
                     <StackPanel x:Name="TogglePanel" Orientation="Vertical">
                         <ToggleButton x:Name="OutputOneToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputOneToggle_Click" />
                             <ToggleButton x:Name="OutputTwoToggle" Content="Off" MinWidth="80" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Click="OutputTwoToggle_Checked"/>
@@ -92,7 +94,7 @@
                     </StackPanel>
                 </Frame>
                     <TextBlock x:Name="statusText" VerticalAlignment="Bottom" Margin="20,0,0,100" FontSize="20">Ready to Update</TextBlock>
-                    <Frame x:Name="NameOfOutputsFrame" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Width="200" Height="450">
+                    <Frame x:Name="NameOfOutputsFrame" Margin="0,50,0,0" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Top" VerticalContentAlignment="Top" Width="200" Height="450">
                         <StackPanel x:Name="NameOfOutputsPanel" Orientation="Vertical">
                             <TextBox x:Name="OutputOneName" MaxWidth="170" MinWidth="170" HorizontalAlignment="Center"  Margin="0,35,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 1" />
                             <TextBox x:Name="OutputTwoName" MaxWidth="170" MinWidth="170"   HorizontalAlignment="Center"  Margin="0,20,0,0" VerticalAlignment="Center" RenderTransformOrigin="1,0" Text="Name Of Output 2"/>
@@ -102,7 +104,25 @@
                         </StackPanel>
                         
                     </Frame>
-                    
+
+                    <TextBlock HorizontalAlignment="Center" Margin="0,20,0,0" FontSize="40">Main Device</TextBlock>
+
+                    <Grid x:Name="ComponentSection" Visibility="Collapsed">
+                    <Frame Margin="0,350,0,0" Width="350" Height="450" HorizontalAlignment="Center" HorizontalContentAlignment="Center" >
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock x:Name="BTSection"  FontSize="40" HorizontalAlignment="Center">Component</TextBlock>
+                        </StackPanel>
+                    </Frame>
+                    <Frame x:Name="ComponentName" Margin="20,350,0,0" HorizontalAlignment="Center" Width="400" Height="450">
+                        <StackPanel x:Name="ComponentStack"    Width="400" Orientation="Vertical">
+                            <StackPanel HorizontalAlignment="Center" Width="400" Orientation="Horizontal">
+                            <TextBox x:Name="FixHelpName" HorizontalAlignment="Left" MaxWidth="170" MinWidth="170" Margin="15,100,0,0" Text="Component Name"/>
+                                <ToggleButton Content="Off" MinWidth="80" Margin="65,100,0,0" HorizontalAlignment="Right"></ToggleButton>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Frame>
+                    </Grid>
 
 
                 </Grid>

@@ -49,14 +49,24 @@ namespace F_X
 
             if (await FileExistAsync(OutputNamesfile.Name) == false)
             {
-                await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);
-                await Settingsfile.CopyAsync(MainFolder, Settingsfile.Name, NameCollisionOption.GenerateUniqueName);
-                await profileFile.CopyAsync(MainFolder, profileFile.Name, NameCollisionOption.GenerateUniqueName);
+                await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);   
                 Weather theWeather = new Weather("Beirut", true);
             }
+            if (await FileExistAsync(Settingsfile.Name) == false)
+            {
+                await Settingsfile.CopyAsync(MainFolder, Settingsfile.Name, NameCollisionOption.GenerateUniqueName);
+               
+            }
+            if (await FileExistAsync(profileFile.Name) == false)
+            {
+                await profileFile.CopyAsync(MainFolder, profileFile.Name, NameCollisionOption.GenerateUniqueName);
             
+            }
 
-        StatusText.TextAlignment = TextAlignment.Center;
+
+
+
+            StatusText.TextAlignment = TextAlignment.Center;
             TSMainHub.IsOn = true;
           
         }
