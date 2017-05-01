@@ -81,11 +81,24 @@
                         </NavigationThemeTransition>
                     </TransitionCollection>
                 </Frame.ContentTransitions>
-                <Grid>
+                <Grid x:Name="ConvoGrid">
 
                     <MediaElement x:Name="media" AutoPlay="False" MediaEnded="media_MediaEnded"/>
-                    <TextBlock x:Name="SpeechText" FontSize="40" HorizontalAlignment="Center" VerticalAlignment="Top" Foreground="#FF0580B3" Margin="0,10,0,0">How Can I Help You?</TextBlock>
-                  
+
+                    <StackPanel x:Name="StackPanelConvo" HorizontalAlignment="Stretch"  Margin="0,0,0,50" VerticalAlignment="Stretch" >
+                        <Border BorderBrush="Black" Background="LightGray" BorderThickness="1,1,2,1" Height="44" Margin="20,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" CornerRadius="8">
+                            <TextBlock Margin="5,5,5,5" TextWrapping="Wrap" Text="How can I help you?"  />
+                        </Border>
+                    </StackPanel>
+
+
+                    <Frame x:Name="FrameConvInput" Background=" #eaf2f8" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                        <Grid>
+                        <TextBox x:Name="TextBoxConvoInput" HorizontalAlignment="Stretch" Margin="50,5,5,5" TextWrapping="Wrap" Text="" VerticalAlignment="Stretch" PlaceholderText="Type a Text..." KeyUp="TextBoxConvoInput_KeyUp"/>
+                        <AppBarButton x:Name="ButtonMic" HorizontalAlignment="Left" Icon="Microphone" Margin="0,0,0,0" Height="50" Width="50" VerticalAlignment="Top" Background="Transparent" Foreground="Black" Click="ButtonMic_Click"/>
+                        </Grid>
+                    </Frame>
+
 
                 </Grid>
             </Frame>
