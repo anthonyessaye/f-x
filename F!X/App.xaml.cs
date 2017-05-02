@@ -35,6 +35,7 @@ namespace F_X
         public string Password { get; set; }
 
         public bool isControlSet{ get; set; }
+        public bool isFirstLogin { get; set; }
         private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
 
         bool _isInBackgroundMode = false;
@@ -46,6 +47,7 @@ namespace F_X
         {
             this.InitializeComponent();
             isControlSet = false;
+            isFirstLogin = true;
             this.Suspending += OnSuspending;
 
             this.EnteredBackground += App_EnteredBackground;

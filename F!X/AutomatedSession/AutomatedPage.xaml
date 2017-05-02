@@ -58,7 +58,7 @@
         </SplitView.Pane>
         <SplitView.Content>
             <ScrollViewer>
-                <Frame x:Name="Content" Background="White" Margin="0,0,0,-72" >
+                <Frame x:Name="Content" Background="White" Margin="0,0,0,0" >
                     <Frame.ContentTransitions>
                         <TransitionCollection>
                             <NavigationThemeTransition>
@@ -84,6 +84,12 @@
                             <StackPanel HorizontalAlignment="Center" >
                                 <Image x:Name="F_X_Logo" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,220,0,0" MaxWidth="600" Source="../Assets/newLogo.png" />
                                 <TextBlock x:Name="MainPageInformation" FontSize="20dp" Text=""/>
+                            </StackPanel>
+                        </Frame>
+
+                        <Frame HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="9000" Background="LightGray">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock x:Name="NewsTextLine" Margin="0,0,0,10" FontSize="20" TextTrimming="WordEllipsis">No News</TextBlock>
                             </StackPanel>
                         </Frame>
 

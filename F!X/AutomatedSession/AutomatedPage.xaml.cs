@@ -33,6 +33,7 @@ namespace F_X.AutomatedSession
 
         SettingsQueries theSettings = new SettingsQueries();
         WeatherQuery theWeatherQuery = new WeatherQuery();
+        ExtraPageGather theExtras = new ExtraPageGather();
         XDocument SettingsXML;
         string CityYouSelected;
         bool UnitTemperature;
@@ -99,6 +100,7 @@ namespace F_X.AutomatedSession
 
           
             await Task.Delay(1000);
+            theExtras.LoadNews(NewsTextLine, new Uri("http://feeds.bbci.co.uk/news/world/rss.xml"));
 
             theArduino.UpdatingPinsThread(5);
 

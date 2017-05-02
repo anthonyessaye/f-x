@@ -68,7 +68,13 @@ namespace F_X
 
             StatusText.TextAlignment = TextAlignment.Center;
             TSMainHub.IsOn = true;
-          
+
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
+            {
+                TSMainHub.IsOn = false;
+
+            }
+
         }
         
 
@@ -113,6 +119,7 @@ namespace F_X
             if (theLogin.isConnected)
             {
                 await Task.Delay(2000);
+                (App.Current as App).isFirstLogin = false;
                 (App.Current as App).Email = TextBoxUsername.Text;
                 (App.Current as App).Password = PassBoxLoginPass.Password;
 
@@ -166,6 +173,7 @@ namespace F_X
 
                     if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
                     {
+                        if((App.Current as App).isFirstLogin == true)
                         AppBarButton_Click(LogInButton, new RoutedEventArgs());
 
                     }

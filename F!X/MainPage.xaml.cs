@@ -38,6 +38,7 @@ namespace F_X
 
         SettingsQueries theSettings = new SettingsQueries();
         WeatherQuery theWeatherQuery = new WeatherQuery();
+        ExtraPageGather theExtras = new ExtraPageGather();
         XDocument SettingsXML;
         string CityYouSelected;
         bool UnitTemperature;
@@ -77,6 +78,8 @@ namespace F_X
                                                   theWeatherQuery.getHumidity() + "%";
                 UsernameText.Text = "@" + theSettings.getUserQuery();
                 DisplayNameText.Text = theSettings.getNameQuery();
+
+                theExtras.LoadNews(NewsTextLine,new Uri("http://feeds.bbci.co.uk/news/world/rss.xml"));
             }
 
             catch(Exception e)

@@ -62,7 +62,7 @@ namespace F_X.PersonalAssistant
         private void ButtonMic_Click(object sender, RoutedEventArgs e)
         {
               theVoice.SetUpTTS(media, "How can I help you?");
-              theVoice.CallAssitant(SpeechText);
+          //    theVoice.CallAssitant(SpeechText);
         }
 
         private void CreateUserConvoBox(string text)

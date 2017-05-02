@@ -99,6 +99,13 @@
                         <TextBlock x:Name="MainPageInformation" FontSize="20dp" Text=""/>
                     </StackPanel>
                     </Frame>
+
+                    <Frame HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="9000" Background="LightGray">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock x:Name="NewsTextLine" Margin="0,0,0,10" FontSize="20" TextTrimming="WordEllipsis">No News</TextBlock>
+                        </StackPanel>
+                    </Frame>
+
                 </Grid>
             </Frame>
         </SplitView.Content>

@@ -109,6 +109,7 @@
     <Compile Include="Extras\ExtrasPage.xaml.cs">
       <DependentUpon>ExtrasPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InformationGathering\ExtraPageGather.cs" />
     <Compile Include="InformationGathering\FTPDownloads.cs" />
     <Compile Include="InformationGathering\Weather.cs" />
     <Compile Include="InformationQueries\SettingsQueries.cs" />
