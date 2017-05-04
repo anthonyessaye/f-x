@@ -3,6 +3,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace F_X.PersonalAssistant
@@ -12,16 +13,14 @@ namespace F_X.PersonalAssistant
     /// </summary>
     public sealed partial class AssistantPage : Page
     {
-        Assistant theVoice = new Assistant();
+        Assistant theAssistant = new Assistant();
 
 
         public AssistantPage()
         {
-            this.InitializeComponent();
-           
+          this.InitializeComponent();
 
-          
-            
+            TextBlockHello.Text = theAssistant.HelloText();
 
             
         }
@@ -61,7 +60,7 @@ namespace F_X.PersonalAssistant
 
         private void ButtonMic_Click(object sender, RoutedEventArgs e)
         {
-              theVoice.SetUpTTS(media, "How can I help you?");
+              theAssistant.SetUpTTS(media, "How can I help you?");
           //    theVoice.CallAssitant(SpeechText);
         }
 
@@ -83,7 +82,6 @@ namespace F_X.PersonalAssistant
             ConvoBlock.TextWrapping = TextWrapping.Wrap;
             ConvoBlock.Text = text;
 
-            TextBoxConvoInput.Text = "";
 
 
             
@@ -121,6 +119,9 @@ namespace F_X.PersonalAssistant
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 CreateUserConvoBox(TextBoxConvoInput.Text);
+                CreateAssistantConvoBox(theAssistant.AssistantBrainWorking(TextBoxConvoInput.Text));
+                TextBoxConvoInput.Text = "";
+
             }
         }
     }

@@ -25,8 +25,14 @@ namespace F_X.InformationQueries
 
         private async void SetXML()
         {
+            try
+            {
                 WeatherXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("WeatherXML.xml"));
-            
+            }
+            catch(Exception e)
+            {
+                
+            }
         }
 
         public string getMaxTemp()

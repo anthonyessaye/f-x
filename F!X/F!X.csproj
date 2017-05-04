@@ -97,6 +97,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Arduino Related Classes\PinControl.cs" />
+    <Compile Include="Arduino Related Classes\PinControlReally.cs" />
     <Compile Include="AutomatedSession\AutomatedPage.xaml.cs">
       <DependentUpon>AutomatedPage.xaml</DependentUpon>
     </Compile>
