@@ -198,7 +198,7 @@ namespace F_X
         }
 
 
-        private async void updateOnBoot()
+        private async  void updateOnBoot()
         {
             pleaseDownload.getLatestOutputs();
             
