@@ -275,7 +275,23 @@ namespace F_X
 
         }
 
+        
 
-
+        private void OutputOneName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            theArduino.updateText(0, OutputOneName.Text, ref NamesXML);
+        }
+        private void OutputTwoName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            theArduino.updateText(1, OutputTwoName.Text, ref NamesXML);
+        }
+        private void OutputThreeName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            theArduino.updateText(2, OutputThreeName.Text, ref NamesXML);
+        }
+        private void OutputFourName_LostFocus(object sender, RoutedEventArgs e)
+        {
+            theArduino.updateText(3, OutputFourName.Text, ref NamesXML);
+        }
     }
 }

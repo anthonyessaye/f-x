@@ -1,0 +1,88 @@
+﻿<Page
+    x:Class="F_X.Themes.SidePanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:F_X.Themes"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <SplitView x:Name="NavigationPane" DisplayMode="CompactInline">
+        <SplitView.Pane>
+
+            <Grid Background="#FF0580B3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="17*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="44" />
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Button x:Name="HamburgerButton" Grid.Row="0" Style="{StaticResource MenuItemButtonStyle}" Tag="&#xE700;" Click="HamburgerButton_Click" RequestedTheme="Dark" />
+
+                <StackPanel x:Name="NavigationMenu" Orientation="Vertical" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF0580B3" RequestedTheme="Dark">
+                    <RadioButton x:Name="Home_Btn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+         
+           Tag="&#xE80F;"
+           Checked="Home_Checked"
+           Content="Home"
+           />
+
+                    <RadioButton x:Name="Assistant_Btn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+         
+           Tag="&#xE99A;"
+           Checked="Assistant_Checked"
+           Content="Assistant"
+           />
+                    <RadioButton x:Name="ControlsBtn"
+           GroupName="Group1"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xED4C;"
+           Checked="Controls_Checked"
+           Content="Controls"
+           />
+
+                    <RadioButton x:Name="SettingsBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE713;"
+           Checked="Settings_Checked"
+           Content="Settings"                        
+           />
+
+                    <RadioButton x:Name="LogoutBtn"
+           GroupName="Group2"
+           Style="{StaticResource NavigationButtonStyle}"
+           Tag="&#xE0A6;"
+           Checked="Logout_Checked"
+           Content="Logout"                        
+           />
+                </StackPanel>
+
+            </Grid>
+
+        </SplitView.Pane>
+        <SplitView.Content>
+
+            <Frame x:Name="Content" Background="White" >
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition>
+                            <NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                                <EntranceNavigationTransitionInfo/>
+                            </NavigationThemeTransition.DefaultNavigationTransitionInfo>
+                        </NavigationThemeTransition>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+
+            </Frame>
+        </SplitView.Content>
+    </SplitView>
+
+</Page>
