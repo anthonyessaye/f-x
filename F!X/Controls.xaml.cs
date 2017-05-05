@@ -52,15 +52,18 @@ namespace F_X
         TextBox[] theNameBoxes;
         ToggleButton[] theToggles;
         bool isFocused = true;
-        FTPDownloads pleaseDownload = new FTPDownloads();
-        PinControl theArduino = new PinControl("VID_2341", "PID_0001", 57600);
+        PinControlReally theArduino = new PinControlReally();
         PinControl theComponent = new PinControl("FixHelp", 115200);
 
-      
+        FTPDownloads pleaseDownload = new FTPDownloads();
+
+
 
         public async void onBoot()
 
         {
+            
+
             theNameBoxes = new TextBox[] { OutputOneName, OutputTwoName, OutputThreeName,
                                            OutputFourName};
 
@@ -151,120 +154,128 @@ namespace F_X
         // UPDATE - THIS IS FIXED
         private void OutputOneToggle_Click(object sender, RoutedEventArgs e)
         {
-            theArduino.SetPinNumber(1);
+           
             if (OutputOneToggle.IsChecked == true)
             {
                 OutputOneToggle.Content = "On";
+                theArduino.SetPin(0, "On", ref NamesXML);
             }
 
             else
             {
                 OutputOneToggle.Content = "Off";
+                theArduino.SetPin(0, "Off", ref NamesXML);
+
             }
-            theArduino.ChangeState();
+
+
         }
         private void OutputTwoToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputTwoToggle.IsChecked == true)
+            {
                 OutputTwoToggle.Content = "On";
+                theArduino.SetPin(1, "On", ref NamesXML);
+            }
 
             else
+            {
                 OutputTwoToggle.Content = "Off";
-    
-            theArduino.SetPinNumber(2);
-            theArduino.ChangeState();
+                theArduino.SetPin(1, "Off", ref NamesXML);
+
+            }
+
         }
         private void OutputThreeToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputThreeToggle.IsChecked == true)
+            {
                 OutputThreeToggle.Content = "On";
+                theArduino.SetPin(2, "On", ref NamesXML);
 
+            }
             else
+            {
                 OutputThreeToggle.Content = "Off";
+                theArduino.SetPin(2, "Off", ref NamesXML);
+
+            }
          
-            theArduino.SetPinNumber(3);
-            theArduino.ChangeState();
         }
         private void OutputFourToggle_Checked(object sender, RoutedEventArgs e)
         {
             if (OutputFourToggle.IsChecked == true)
+            {
                 OutputFourToggle.Content = "On";
-         
+                theArduino.SetPin(3, "On", ref NamesXML);
+
+            }
             else
+            {
                 OutputFourToggle.Content = "Off";
-          
-            theArduino.SetPinNumber(4);
-            theArduino.ChangeState();
+                theArduino.SetPin(3, "Off", ref NamesXML);
+
+            }
+
         }
 
 
-        private async  void updateOnBoot()
+        private async void updateOnBoot()
         {
             pleaseDownload.getLatestOutputs();
-            
+
+            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
 
             try
             {
-                await Task.Delay(1000);
-                NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
-                statusText.Text = "Reading New Settings";
-                var DataQuery = from r in NamesXML.Descendants("Output")
-                                select r;
-
                 statusText.Text = "Flipping some buttons now :)";
 
-                await Task.Delay(2000);
-                for (int i = 0; i < theNameBoxes.Length; i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    XElement Data = DataQuery.ElementAt(i);
-                    theNameBoxes[i].Text = Data.Element("name").Value;
-
+                    theNameBoxes[i].Text = theArduino.GetPinName(i,ref NamesXML);
                     
-                    if (theToggles[i].Content.ToString() != Data.Element("status").Value)
+
+                    if (theArduino.ControlIsON(i,ref NamesXML) == true)
                     {
                         if (i == 0)
                         {
                             OutputOneToggle.IsChecked = true;
-                            OutputOneToggle.Content = "On";
                             OutputOneToggle_Click(OutputOneToggle, new RoutedEventArgs());
                         }
 
                         if (i == 1)
                         {
                             OutputTwoToggle.IsChecked = true;
-                            OutputTwoToggle.Content = "On";
                             OutputTwoToggle_Checked(OutputTwoToggle, new RoutedEventArgs());
                         }
 
                         if (i == 2)
                         {
                             OutputThreeToggle.IsChecked = true;
-                            OutputThreeToggle.Content = "On";
                             OutputThreeToggle_Checked(OutputThreeToggle, new RoutedEventArgs());
                         }
 
                         if (i == 3)
                         {
                             OutputFourToggle.IsChecked = true;
-                            OutputFourToggle.Content = "On";
                             OutputFourToggle_Checked(OutputFourToggle, new RoutedEventArgs());
                         }
 
                     }
-
+                    
 
                 }
                 statusText.Text = "Controls are Up-to-date";
             }
             catch (Exception e)
             {
-
+                
             }
+
 
         }
 
-      
 
-        
+
     }
 }
