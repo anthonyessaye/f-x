@@ -9,7 +9,7 @@ using Windows.Storage;
 
 namespace F_X.OnStartUp
 {
-    class LoggingIn
+   public class LoggingIn
     {
 
         private Chilkat.Ftp2 ftp;
