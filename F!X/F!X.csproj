@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="Arduino Related Classes\PinControl.cs" />
     <Compile Include="Arduino Related Classes\PinControlReally.cs" />
+    <Compile Include="Arduino Related Classes\PiSensors.cs" />
     <Compile Include="AutomatedSession\AutomatedPage.xaml.cs">
       <DependentUpon>AutomatedPage.xaml</DependentUpon>
     </Compile>
@@ -249,6 +250,10 @@
     <ProjectReference Include="..\..\..\..\..\Desktop\serial-wiring-develop\Microsoft.Maker.Serial.win10\Microsoft.Maker.Serial.vcxproj">
       <Project>{8376216c-282a-4927-b9ef-c2d545fe0bca}</Project>
       <Name>Microsoft.Maker.Serial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Desktop\TemperatureSensorSample\Sensors.Dht\Sensors.Dht.vcxproj">
+      <Project>{2cd70a4f-9eed-4cda-9e07-1a2bd33b4976}</Project>
+      <Name>Sensors.Dht</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

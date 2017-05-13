@@ -1,4 +1,5 @@
-﻿using System;
+﻿using F_X.Arduino_Related_Classes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -37,6 +38,8 @@ namespace F_X
         public bool isControlSet{ get; set; }
         public bool isFirstLogin { get; set; }
         private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
+
+       
 
         bool _isInBackgroundMode = false;
 

@@ -12,6 +12,8 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Credentials;
 using Windows.Storage;
+using Windows.System.Threading;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -31,6 +33,7 @@ namespace F_X
     {
 
         private LoggingIn theLogin;
+        private PinControl theArduino;
 
 
         private const string RESOURCE_NAME = "FIX";
@@ -63,7 +66,7 @@ namespace F_X
             
             }
 
-
+           // theArduino = new PinControl("VID_2341", "PID_0001", 57600);
 
 
             StatusText.TextAlignment = TextAlignment.Center;
@@ -74,6 +77,14 @@ namespace F_X
                 TSMainHub.IsOn = false;
 
             }
+
+         //   LedControl();
+
+           
+                
+             
+
+            
 
         }
         
@@ -201,6 +212,38 @@ namespace F_X
             }
         }
 
+
+        private void LedControl()
+        {
+            TimeSpan period;
+            period = TimeSpan.FromSeconds(1);
+
+
+            ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+            {
+
+
+
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                   () =>
+                   {
+                       try
+                       {
+                           theArduino.SetPinNumber(6);
+                           theArduino.ChangeState();
+                       }
+                       catch (Exception e)
+                       {
+
+                       }
+
+                   }
+                    );
+
+
+
+            }, period);
+        }
 
 
         // Function created just to return true or false in case of FileExist status instead of 

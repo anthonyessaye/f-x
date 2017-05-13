@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Azure.Devices.Client;
+using Sensors.Dht;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,7 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Windows.Devices.Gpio;
 using Windows.Storage;
+using Windows.UI.Xaml;
+
 
 namespace F_X.InformationGathering
 {
@@ -25,10 +30,12 @@ namespace F_X.InformationGathering
                                                                            // for free
         public string Location { get; set; }
         public string UnitSystem { get; set; }
+
         private string CurrentUrl;
         private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
         private StorageFile WeatherXML;
         XDocument WeatherXMLdownload;
+
 
         public Weather(string WeatherLoc, bool Unit)
         {
@@ -81,7 +88,7 @@ namespace F_X.InformationGathering
             }
         }
 
-
+        
 
     }
 }

@@ -11,6 +11,8 @@ using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.System.Threading;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -85,7 +87,8 @@ namespace F_X.AutomatedSession
             UsernameText.Text = "@" + theSettings.getUserQuery();
             DisplayNameText.Text = theSettings.getNameQuery();
 
-
+            LedControl();
+            
 
             //NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
 
@@ -98,7 +101,7 @@ namespace F_X.AutomatedSession
             //    OriginalPinData[i] = Data.Element("name").Value;
             //}
 
-          
+
             await Task.Delay(1000);
             theExtras.LoadNews(NewsTextLine, new Uri("http://feeds.bbci.co.uk/news/world/rss.xml"));
 
@@ -135,7 +138,37 @@ namespace F_X.AutomatedSession
         }
 
 
+        private void LedControl()
+        {
+            TimeSpan period;
+            period = TimeSpan.FromSeconds(5);
 
+
+            ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+            {
+
+
+
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.High,
+                   () =>
+                   {
+                       try
+                       {
+                           theArduino.SetPinNumber(6);
+                           theArduino.ChangeState();
+                       }
+                       catch (Exception e)
+                       {
+
+                       }
+
+                   }
+                    );
+
+
+
+            }, period);
+        }
         private async void updateOnBoot()
         {
             pleaseDownload.getLatestOutputs();
