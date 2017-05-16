@@ -23,11 +23,17 @@ namespace F_X.Arduino_Related_Classes
         private DateTimeOffset _startedAt;
         private DeviceClient deviceClient;
         public int TotalAttempts { get; private set; }
-
+        public float Temperature { get; private set; }
+        public float Humidity { get; private set; }
 
         public PiSensors()
         {
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
+            {
+                InittempSensor();
 
+            }
+          
         }
 
 
@@ -69,13 +75,9 @@ namespace F_X.Arduino_Related_Classes
         private void InitHardware()
         {
             _dispatchTimer = new DispatcherTimer();
-
             _temperaturePin = null;
-
             _dhtInterface = null;
-
             _retryCount = new List<int>();
-
             _startedAt = DateTimeOffset.Parse("1/1/1");
         }
 
@@ -99,16 +101,16 @@ namespace F_X.Arduino_Related_Classes
                 if (reading.IsValid) // if we are able to capture value, display those
                 {
                     //this.TotalSuccess++;
-                    //this.Temperature = Convert.ToSingle(reading.Temperature);
-                    //this.Humidity = Convert.ToSingle(reading.Humidity);
+                    this.Temperature = Convert.ToSingle(reading.Temperature);
+                    this.Humidity = Convert.ToSingle(reading.Humidity);
                     //this.LastUpdated = DateTimeOffset.Now;
                     //this.OnPropertyChanged(nameof(SuccessRate));
 
                     var telemetryDataPoint = new
                     {
                         deviceId = "iot1",
-                        //temperature = Temperature.ToString(),
-                        //humidity = Humidity.ToString(),
+                        temperature = Temperature.ToString(),
+                        humidity = Humidity.ToString(),
                         date = DateTime.Now.ToString("dd-MM-yyyy"),
                         hours = DateTime.Now.Hour.ToString(),
                         minutes = DateTime.Now.Minute.ToString(),
@@ -140,7 +142,21 @@ namespace F_X.Arduino_Related_Classes
             }
         }
 
+        public string getRoomData()
+        {
 
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
+            {
+                return "Current Room Temperature: " + Temperature + " ºC\nCurrent Room Humidity: " + Humidity + " %";
+
+            }
+
+            else
+                return "Sensor Not Available";
+            
+
+           
+        }
 
     }
 }

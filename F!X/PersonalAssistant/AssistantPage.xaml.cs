@@ -61,7 +61,7 @@ namespace F_X.PersonalAssistant
         private void ButtonMic_Click(object sender, RoutedEventArgs e)
         {
               theAssistant.SetUpTTS(media, "How can I help you?");
-          //    theVoice.CallAssitant(SpeechText);
+             //theVoice.CallAssitant(SpeechText);
         }
 
         private void CreateUserConvoBox(string text)
@@ -82,7 +82,7 @@ namespace F_X.PersonalAssistant
             ConvoBlock.TextWrapping = TextWrapping.Wrap;
             ConvoBlock.Text = text;
 
-
+            LongConvoScroll.ChangeView(ConvoBorder.Height + TextBoxConvoInput.Height, this.ActualWidth, 1);
 
             
             
@@ -104,9 +104,11 @@ namespace F_X.PersonalAssistant
             ConvoBlock.TextWrapping = TextWrapping.Wrap;
             ConvoBlock.Text = text;
 
-
+            
             StackPanelConvo.Children.Add(ConvoBorder);
             ConvoBorder.Child = ConvoBlock;
+            
+            LongConvoScroll.ChangeView((ConvoBorder.Height + TextBoxConvoInput.Height), this.ActualWidth, 1);
         }
 
         private void TextBoxConvoInput_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

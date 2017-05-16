@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Xml.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -38,8 +39,15 @@ namespace F_X
         public bool isControlSet{ get; set; }
         public bool isFirstLogin { get; set; }
         private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
+        public XDocument NamesXML { get; set; }
+        public XDocument SettingsXML { get; set; }
 
-       
+        public StorageFile OutputFile { get; set; }
+        public StorageFile SettingsFile { get; set; }
+        public StorageFile profilePictureFile { get; set; }
+        public StorageFile WeatherFile { get; set; }
+
+
 
         bool _isInBackgroundMode = false;
 
@@ -51,12 +59,14 @@ namespace F_X
             this.InitializeComponent();
             isControlSet = false;
             isFirstLogin = true;
+            
             this.Suspending += OnSuspending;
 
             this.EnteredBackground += App_EnteredBackground;
             this.LeavingBackground += App_LeavingBackground;
 
         }
+
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -124,10 +134,11 @@ namespace F_X
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        private void OnClosedByUser(object sender, WindowClosedEventHandler e)
+        private async void OnClosedByUser(object sender, WindowClosedEventHandler e)
         {
-
+            
         }
+
 
         /// <summary>
         /// Invoked when application execution is being suspended.  Application state is saved
@@ -136,10 +147,14 @@ namespace F_X
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-         
+
+            await OutputFile.DeleteAsync();
+            await SettingsFile.DeleteAsync();
+            await profilePictureFile.DeleteAsync();
+            await WeatherFile.DeleteAsync();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

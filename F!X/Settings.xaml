@@ -108,6 +108,8 @@
                                 <ToggleSwitch x:Name="TSAssistantAlwaysON" Header="Assistant Always ON" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0"/>
                                 <ToggleSwitch x:Name="TSAssistantGender" Header="Assistant Gender" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" OffContent="Male" OnContent="Female"/>
                                 
+                                <Button x:Name="CopyBtn" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Click="OnCopy_Click">Copy Profile to SD</Button>
+
                                 <Button x:Name="SaveBtn" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0" Click="OnSave_Click">Save</Button>
                                 <TextBlock x:Name="UploadConnectionStatus" Margin="10,10,0,100"></TextBlock>
                             </StackPanel>

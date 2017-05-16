@@ -110,5 +110,13 @@ namespace F_X.Extras
         {
             MediaPlayer.Play();
         }
+
+
+      
+        private void ExtraChoices_LostFocus(object sender, RoutedEventArgs e)
+        {
+            Go(ref Display, "http://feeds.bbci.co.uk/news/world/rss.xml");
+            
+        }
     }
 }

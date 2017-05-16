@@ -84,13 +84,16 @@
                 <Grid x:Name="ConvoGrid">
 
                     <MediaElement x:Name="media" AutoPlay="False" MediaEnded="media_MediaEnded"/>
-
-                    <StackPanel x:Name="StackPanelConvo" HorizontalAlignment="Stretch"  Margin="0,0,0,50" VerticalAlignment="Stretch" >
+                    <ScrollViewer x:Name="LongConvoScroll">
+                        <StackPanel x:Name="StackPanelConvo" HorizontalAlignment="Stretch"  Margin="0,0,0,50" VerticalAlignment="Stretch" >
+                        
                         <Border BorderBrush="Black" Background="LightGray" BorderThickness="1,1,2,1" Margin="20,5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" CornerRadius="8">
                             <TextBlock x:Name="TextBlockHello" Margin="5,5,5,5" TextWrapping="Wrap" Text=""  />
                         </Border>
-                    </StackPanel>
 
+                        
+                    </StackPanel>
+                    </ScrollViewer>
 
                     <Frame x:Name="FrameConvInput" Background=" #eaf2f8" Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                         <Grid>

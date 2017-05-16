@@ -2,9 +2,11 @@
 using F_X.InformationQueries;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.Storage;
 
 namespace F_X.OnStartUp
@@ -48,17 +50,22 @@ namespace F_X.OnStartUp
             ftp.Username = Email + "@bodirectors.com";
             ftp.Password = Password;
 
+            
 
             OutputFile = await ApplicationData.Current.LocalFolder.GetFileAsync("OutputNames.xml");
             SettingsFile = await ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
             ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
 
             
-            isConnected = await ftp.ConnectAsync();
+            isFileDownloaded = await ftp.ConnectAsync();
             isFileDownloaded = await ftp.GetFileAsync("OutputNames.xml", OutputFile.Path);
             isFileDownloaded = await ftp.GetFileAsync("SettingsData.xml", SettingsFile.Path);
             isFileDownloaded = await ftp.GetFileAsync("profile.jpg", ProfilePictureFile.Path);
-           
+            isConnected = isFileDownloaded;
+
+            (App.Current as App).SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+            (App.Current as App).NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+
             await ftp.DisconnectAsync();
 
 

@@ -44,6 +44,9 @@ namespace F_X.AutomatedSession
         private XDocument NamesXML;
 
         PinControl theArduino = new PinControl("VID_2341", "PID_0001", 57600);
+        PiSensors theSensors = new PiSensors();
+
+
         string[] OriginalPinData;
 
 
@@ -55,12 +58,13 @@ namespace F_X.AutomatedSession
 
             try
             {
-                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+               SettingsXML = (App.Current as App).SettingsXML;
             }
 
             catch (UnauthorizedAccessException e)
             {
-                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+
+                onBoot();
             }
 
             catch (FileNotFoundException e)
@@ -82,8 +86,8 @@ namespace F_X.AutomatedSession
             profilePicture.Source = new BitmapImage(new Uri(ProfilePictureFile.Path, UriKind.Absolute));
 
             MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
-                                            "ºC\tMax: " + theWeatherQuery.getMaxTemp() + "ºC\nHumidity:\t" +
-                                              theWeatherQuery.getHumidity() + "%";
+                                            "ºC\tMax: " + theWeatherQuery.getMaxTemp() + "ºC\nHumidity: " +
+                                              theWeatherQuery.getHumidity() + "%\n\n" + theSensors.getRoomData();
             UsernameText.Text = "@" + theSettings.getUserQuery();
             DisplayNameText.Text = theSettings.getNameQuery();
 

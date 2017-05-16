@@ -110,7 +110,77 @@ namespace F_X
      
         }
 
+        private async void OnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the logical root folder for all external storage devices.
+            StorageFolder externalDevices = Windows.Storage.KnownFolders.RemovableDevices;
 
+            // Get the first child folder, which represents the SD card.
+            StorageFolder sdCard = (await externalDevices.GetFoldersAsync()).FirstOrDefault();
+
+            if (sdCard != null)
+            {
+                // An SD card is present and the sdCard variable now contains a reference to it.
+                string Data;
+
+                var mainDialog = new Windows.UI.Popups.MessageDialog("This will prompt you to save your credentials on the SD card\n" +
+                                                                           "Please choose the main partition of the SD card\n" +
+                                                                           "Doing so will set up your main hub automatically");
+              
+                await mainDialog.ShowAsync();
+
+                XmlDocument CredXML = new XmlDocument();
+                XmlElement user = (XmlElement)CredXML.AppendChild(CredXML.CreateElement("User"));
+
+                user.SetAttribute("Email", (App.Current as App).Email);
+                user.SetAttribute("Password", (App.Current as App).Password);
+                Data = CredXML.OuterXml;
+             
+
+                var savePicker = new Windows.Storage.Pickers.FileSavePicker();
+                savePicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
+
+                // Dropdown of file types the user can save the file as
+                savePicker.FileTypeChoices.Add("XML File", new List<string>() { ".xml" });
+
+                // Default file name if the user does not type one in or select a file to replace
+                savePicker.SuggestedFileName = "UserCred";
+
+                
+                Windows.Storage.StorageFile SavedFile = await savePicker.PickSaveFileAsync();
+                
+                if (SavedFile != null)
+                {
+                 
+                    Windows.Storage.CachedFileManager.DeferUpdates(SavedFile);
+                    await Windows.Storage.FileIO.WriteTextAsync(SavedFile, Data);
+                    Windows.Storage.Provider.FileUpdateStatus status = await Windows.Storage.CachedFileManager.CompleteUpdatesAsync(SavedFile);
+
+
+                    if (status == Windows.Storage.Provider.FileUpdateStatus.Complete)
+                    {
+                        var messageDialog = new Windows.UI.Popups.MessageDialog("File " + SavedFile.Name + " was saved.\nNow turn off the main hub insert SD Card and you are ready to go!");
+                        await messageDialog.ShowAsync();
+                    }
+                    else
+                    {
+                        var messageDialog = new Windows.UI.Popups.MessageDialog("File " + SavedFile.Name + " couldn't be saved.");
+                        await messageDialog.ShowAsync();
+                    }
+                }
+                else
+                {
+                    var messageDialog = new Windows.UI.Popups.MessageDialog("Operation cancelled.");
+                    await messageDialog.ShowAsync();
+                }
+            }
+            else
+            {
+                var messageDialog = new Windows.UI.Popups.MessageDialog("No SD card available");
+                await messageDialog.ShowAsync();
+            }
+
+        }
 
         private async  Task DownloadFile()
         {
@@ -188,6 +258,7 @@ namespace F_X
             TSAssistantAlwaysON.IsEnabled = false;
             TSAssistantGender.IsEnabled = false;
 
+            CopyBtn.IsEnabled = false;
             SaveBtn.IsEnabled = false;
         }
 
@@ -204,6 +275,7 @@ namespace F_X
             TSAssistantAlwaysON.IsEnabled = true;
             TSAssistantGender.IsEnabled = true;
 
+            CopyBtn.IsEnabled = true;
             SaveBtn.IsEnabled = true;
         }
 

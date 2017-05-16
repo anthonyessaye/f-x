@@ -44,14 +44,21 @@ namespace F_X.InformationQueries
 
         public string getWeatherQuery()
         {
-            var WeatherQuery = from r in SettingsXML.Descendants("weather")
-                            select r;
-            XElement weather = WeatherQuery.ElementAt(0);
-            City = weather.Element("city").Value;
-            TemperatureUnit = weather.Element("unit").Value;
-            
+            try
+            {
+                var WeatherQuery = from r in SettingsXML.Descendants("weather")
+                                   select r;
+                XElement weather = WeatherQuery.ElementAt(0);
+                City = weather.Element("city").Value;
+                TemperatureUnit = weather.Element("unit").Value;
 
-            return City;
+                return City;
+            }
+
+            catch(Exception e)
+            {
+                return "N/A";
+            }
 
         }
         public string getNameQuery()

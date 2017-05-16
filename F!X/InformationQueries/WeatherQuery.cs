@@ -37,14 +37,22 @@ namespace F_X.InformationQueries
 
         public string getMaxTemp()
         {
-            
-            
+
+            try
+            {
                 var TempQuery = from r in WeatherXML.Descendants("temperature")
                                 select r;
                 XElement temperature = TempQuery.ElementAt(0);
                 MaxTemperature = temperature.Attribute("max").Value;
+            }
+
+            catch (Exception e)
+            {
+                return "N/A";
+            }
 
                 return MaxTemperature;
+
 
             
         }
@@ -52,11 +60,18 @@ namespace F_X.InformationQueries
         public string getMinTemp()
         {
 
+            try
+            {
+                var TempQuery = from r in WeatherXML.Descendants("temperature")
+                                select r;
+                XElement temperature = TempQuery.ElementAt(0);
+                MinTemperature = temperature.Attribute("min").Value;
+            }
 
-            var TempQuery = from r in WeatherXML.Descendants("temperature")
-                            select r;
-            XElement temperature = TempQuery.ElementAt(0);
-            MinTemperature = temperature.Attribute("min").Value;
+            catch(Exception e)
+            {
+                return "N/A";
+            }
 
             return MinTemperature;
 
@@ -66,11 +81,18 @@ namespace F_X.InformationQueries
         public string getHumidity()
         {
 
+            try
+            {
+                var HumQuery = from r in WeatherXML.Descendants("humidity")
+                               select r;
+                XElement HumidityElement = HumQuery.ElementAt(0);
+                Humidity = HumidityElement.Attribute("value").Value;
+            }
 
-            var HumQuery = from r in WeatherXML.Descendants("humidity")
-                            select r;
-            XElement HumidityElement = HumQuery.ElementAt(0);
-            Humidity = HumidityElement.Attribute("value").Value;
+            catch(Exception e)
+            {
+                return "N/A";
+            }
 
             return Humidity;
 

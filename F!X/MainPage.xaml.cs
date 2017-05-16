@@ -37,9 +37,10 @@ namespace F_X
     {
 
         SettingsQueries theSettings = new SettingsQueries();
-        WeatherQuery theWeatherQuery = new WeatherQuery();
         ExtraPageGather theExtras = new ExtraPageGather();
         XDocument SettingsXML;
+
+        Weather theWeather;
         string CityYouSelected;
         bool UnitTemperature;
         string UnitTemperatureString;
@@ -47,50 +48,66 @@ namespace F_X
         PinControl theArduino = new PinControl("VID_2341", "PID_0243", 57600);
 
 
+        
 
 
         public async void onBoot()
         {
-            //await Task.Delay(1000);
+
+
+
             try
             {
                 SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
                 StorageFile ProfilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync("profile.jpg");
 
 
-                CityYouSelected = theSettings.getWeatherQuery();
-                UnitTemperature = theSettings.isUnitTemperatureC();
-                Weather theWeather = new Weather(CityYouSelected,UnitTemperature);
-                if (UnitTemperature == true)
-                    UnitTemperatureString = "°C";
-                else
-                    UnitTemperatureString = "°F";
+                for (int i = 0; i < 2; i++)
+                {
+                    await Task.Delay(1000);
 
-                MainPageInformation.TextAlignment = TextAlignment.Center;
-                UsernameText.TextAlignment = TextAlignment.Center;
-                DisplayNameText.TextAlignment = TextAlignment.Center;
+                    CityYouSelected = theSettings.getWeatherQuery();
+                    UnitTemperature = theSettings.isUnitTemperatureC();
 
-                await Task.Delay(100);
-                profilePicture.Source = new BitmapImage(new Uri(ProfilePictureFile.Path, UriKind.Absolute));
+                    theWeather = new Weather(CityYouSelected, UnitTemperature);
+                    WeatherQuery theWeatherQuery = new WeatherQuery();
+                    if (UnitTemperature == true)
+                        UnitTemperatureString = "°C";
+                    else
+                        UnitTemperatureString = "°F";
 
-                MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
-                                                UnitTemperatureString +"\tMax: " + theWeatherQuery.getMaxTemp() + UnitTemperatureString+ "\nHumidity:\t" +
-                                                  theWeatherQuery.getHumidity() + "%";
-                UsernameText.Text = "@" + theSettings.getUserQuery();
-                DisplayNameText.Text = theSettings.getNameQuery();
 
-                theExtras.LoadNews(NewsTextLine,new Uri("http://feeds.bbci.co.uk/news/world/rss.xml"));
+
+                    MainPageInformation.TextAlignment = TextAlignment.Center;
+                    UsernameText.TextAlignment = TextAlignment.Center;
+                    DisplayNameText.TextAlignment = TextAlignment.Center;
+
+                    await Task.Delay(100);
+                    profilePicture.Source = new BitmapImage(new Uri(ProfilePictureFile.Path, UriKind.Absolute));
+
+
+                    MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
+                                                    UnitTemperatureString + "\tMax: " + theWeatherQuery.getMaxTemp() + UnitTemperatureString + "\nHumidity:\t" +
+                                                      theWeatherQuery.getHumidity() + "%";
+
+                    UsernameText.Text = "@" + theSettings.getUserQuery();
+                    DisplayNameText.Text = theSettings.getNameQuery();
+
+                    theExtras.LoadNews(NewsTextLine, new Uri("http://feeds.bbci.co.uk/news/world/rss.xml"));
+                }
             }
 
-            catch(Exception e)
+            catch (Exception e)
             {
                 onBoot();
+
             }
-            //This should get location from SettingsData.xml but was waiting to finish the
-            // queries class. Now its hard coded to beirut.
+
+            //This should get location from SettingsData.xml but i was waiting to finish the
+            // queries class. Now its hard coded to beirut. ---- DONE
             // ------------ NVM now it gets location from queries. --------------------------//
-            //Options for weather we need to add= Celsius or Fahrenhiet.
-            // Metric or imperial measurement.
+            //Options for weather we need to add= Celsius or Fahrenhiet. ---- DONE
+            // Metric or imperial measurement. --- DONE
 
             // The xml has a lot of data we can use
 
@@ -129,6 +146,7 @@ namespace F_X
         }
         private void Settings_Checked(object sender, RoutedEventArgs e)
         {
+            
             this.Frame.Navigate(typeof(Settings));
         }
         private void Logout_Checked(object sender, RoutedEventArgs e)

@@ -144,9 +144,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\newLogo.png" />
+    <Content Include="Assets\newLogo.scale-100.png" />
+    <Content Include="Assets\newLogo.scale-125.png" />
+    <Content Include="Assets\newLogo.scale-150.png" />
+    <Content Include="Assets\newLogo.scale-200.png" />
+    <Content Include="Assets\newLogo.scale-400.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\Square44x44Logo.scale-100.png" />
     <Content Include="Assets\Square44x44Logo.scale-400.png" />
+    <Content Include="Assets\TempIcon.altform-unplated_targetsize-16.png" />
+    <Content Include="Assets\TempIcon.altform-unplated_targetsize-24.png" />
+    <Content Include="Assets\TempIcon.altform-unplated_targetsize-256.png" />
+    <Content Include="Assets\TempIcon.altform-unplated_targetsize-32.png" />
+    <Content Include="Assets\TempIcon.altform-unplated_targetsize-48.png" />
+    <Content Include="Assets\tempIcon.png" />
+    <Content Include="Assets\TempIcon.scale-100.png" />
+    <Content Include="Assets\TempIcon.scale-125.png" />
+    <Content Include="Assets\TempIcon.scale-150.png" />
+    <Content Include="Assets\TempIcon.scale-200.png" />
+    <Content Include="Assets\tempIcon.scale-400.png" />
+    <Content Include="Assets\TempIcon.targetsize-16.png" />
+    <Content Include="Assets\TempIcon.targetsize-24.png" />
+    <Content Include="Assets\TempIcon.targetsize-256.png" />
+    <Content Include="Assets\TempIcon.targetsize-32.png" />
+    <Content Include="Assets\TempIcon.targetsize-48.png" />
     <Content Include="PersonalAssistant\Themes\AssistantKnowledge.xml" />
     <Content Include="SettingsData.xml">
       <SubType>Designer</SubType>

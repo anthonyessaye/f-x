@@ -47,7 +47,7 @@ namespace F_X.PersonalAssistant
         {
             pleaseDownload.getLatestOutputs();
 
-            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
+            NamesXML = (App.Current as App).NamesXML;
         }
 
         // This function is called to configure text-to-speech recognition
@@ -75,6 +75,7 @@ namespace F_X.PersonalAssistant
                 aMediaElement.SetSource(synthesisStream, synthesisStream.ContentType);
                 aMediaElement.Play();
 
+                
             }
 
             catch (System.IO.FileNotFoundException)

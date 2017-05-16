@@ -85,7 +85,9 @@
                 </Frame.ContentTransitions>
                 <Grid >
 
-                    <ComboBox x:Name="ExtraChoices" HorizontalAlignment="Center" Margin="0,89,0,0" VerticalAlignment="Top" Width="407"/>
+                    <ComboBox x:Name="ExtraChoices" HorizontalAlignment="Center" Margin="0,89,0,0" VerticalAlignment="Top" Width="407" LostFocus="ExtraChoices_LostFocus">
+                        <ComboBoxItem x:Name="NewsItem" Content="News" Height="100" Width="100"/>
+                    </ComboBox>
                     <TextBlock x:Name="ExtrasText" HorizontalAlignment="Center" Margin="0,51,0,0" TextWrapping="Wrap" Text="Extra Choices" VerticalAlignment="Top" Height="33" Width="217"/>
 
                     <Grid x:Name="MusicGrid" Visibility="Collapsed">
@@ -95,7 +97,7 @@
 
                     </Grid>
 
-                    <Grid x:Name="NewsGrid">
+                    <Grid x:Name="NewsGrid" Margin="0,150,0,0">
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -107,15 +109,15 @@
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
-                        <TextBox Grid.Row="0" Name="Value" Margin="20" VerticalAlignment="Center"/>
-                        <Button x:Name="feedClick" Click="feedClick_Click" Content="Feed" Grid.Column="1" Grid.Row="0"></Button>
+                        <TextBox Grid.Row="0" Name="Value" Margin="20" VerticalAlignment="Center" Visibility="Collapsed"/>
+                        <Button x:Name="feedClick" Click="feedClick_Click" Content="Feed" Grid.Column="1" Grid.Row="0" Visibility="Collapsed"></Button>
 
 
-                            <ItemsControl x:Name="Display">
+                            <ItemsControl x:Name="Display" HorizontalContentAlignment="Center" HorizontalAlignment="Center"  >
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <StackPanel>
-                                            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Title.Text}"/>
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <TextBlock TextWrapping="Wrap" Margin="0,20,20,0" Text="{Binding Path=Title.Text}"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>

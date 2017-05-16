@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Security.Credentials;
@@ -45,6 +46,11 @@ namespace F_X
 
         public async void onBoot()
         {
+
+            Weather theWeather = new Weather("Beirut", true);
+            (App.Current as App).WeatherFile = await ApplicationData.Current.LocalFolder.GetFileAsync("WeatherXML.xml");
+
+
             StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
             StorageFile OutputNamesfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"OutputNames.xml"); // Path is file path
             StorageFile Settingsfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"SettingsData.xml"); // Path is file path
@@ -52,21 +58,34 @@ namespace F_X
 
             if (await FileExistAsync(OutputNamesfile.Name) == false)
             {
-                await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);   
-                Weather theWeather = new Weather("Beirut", true);
+                await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);
+                (App.Current as App).OutputFile = await ApplicationData.Current.LocalFolder.GetFileAsync(OutputNamesfile.Name);
+
             }
             if (await FileExistAsync(Settingsfile.Name) == false)
             {
                 await Settingsfile.CopyAsync(MainFolder, Settingsfile.Name, NameCollisionOption.GenerateUniqueName);
-               
+                (App.Current as App).SettingsFile = await ApplicationData.Current.LocalFolder.GetFileAsync(Settingsfile.Name);
+
             }
             if (await FileExistAsync(profileFile.Name) == false)
             {
                 await profileFile.CopyAsync(MainFolder, profileFile.Name, NameCollisionOption.GenerateUniqueName);
-            
+                (App.Current as App).profilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync(profileFile.Name);
             }
 
-           // theArduino = new PinControl("VID_2341", "PID_0001", 57600);
+
+            if (await FileExistAsync(OutputNamesfile.Name) == true)
+                (App.Current as App).OutputFile = await ApplicationData.Current.LocalFolder.GetFileAsync(OutputNamesfile.Name);
+            if (await FileExistAsync(Settingsfile.Name) == true)
+                (App.Current as App).SettingsFile = await ApplicationData.Current.LocalFolder.GetFileAsync(Settingsfile.Name);
+            if (await FileExistAsync(profileFile.Name) == true)
+                (App.Current as App).profilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync(profileFile.Name);
+
+
+
+
+            // theArduino = new PinControl("VID_2341", "PID_0001", 57600);
 
 
             StatusText.TextAlignment = TextAlignment.Center;
@@ -75,6 +94,24 @@ namespace F_X
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             {
                 TSMainHub.IsOn = false;
+
+                try { 
+                    
+                StorageFile theMainDrive = await StorageFile.GetFileFromPathAsync("C:/UserCred.xml");
+                    
+                    XDocument theCredentials = XDocument.Load(await theMainDrive.OpenStreamForReadAsync());
+                    var UserQuery = from r in theCredentials.Descendants("User")
+                                    select r;
+                    XElement UserData = UserQuery.ElementAt(0);
+                    TextBoxUsername.Text = UserData.Attribute("Email").Value;
+                    PassBoxLoginPass.Password = UserData.Attribute("Password").Value;
+
+                }
+                catch (Exception e)
+                {
+                    var messageDialog = new Windows.UI.Popups.MessageDialog("User file Not Found");
+                    await messageDialog.ShowAsync();
+                }
 
             }
 
@@ -119,7 +156,7 @@ namespace F_X
             else if (CheckBoxRememberMe.IsChecked == false)
                 RemoveCredential(TextBoxUsername.Text);
 
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 30; i++)
             {
                 await Task.Delay(1000);
 
@@ -255,6 +292,7 @@ namespace F_X
             try
             {
                 await destination.GetFileAsync(filename);
+
                 return true;
             }
             catch (Exception NotExist)
