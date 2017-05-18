@@ -184,7 +184,7 @@ namespace F_X
             vault.Add(credential);
         }
 
-        private void GetCredential()
+        private async void GetCredential()
         {
             string userName, password;
 
@@ -207,31 +207,15 @@ namespace F_X
                         if((App.Current as App).isFirstLogin == true)
                         AppBarButton_Click(LogInButton, new RoutedEventArgs());
 
-                    }
+                    }//Function
                 }
             }
             catch (Exception)
             {
                 // If no credentials have been stored with the given RESOURCE_NAME, an exception
                 // is thrown.
-            }
-        }
 
-        private async void RemoveCredential(string userName)
-        {
-            var vault = new PasswordVault();
-            try
-            {
-                // Removes the credential from the password vault.
-                vault.Remove(vault.Retrieve(RESOURCE_NAME, userName));
-            }
-            catch (Exception)
-            {
-                // If no credentials have been stored with the given RESOURCE_NAME, an exception
-                // is thrown.
-
-
-                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
+                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
                 {
                     TSMainHub.IsOn = false;
 
@@ -250,11 +234,29 @@ namespace F_X
                     }
                     catch (Exception e)
                     {
-                       // var messageDialog = new Windows.UI.Popups.MessageDialog("User file Not Found");
-                       // await messageDialog.ShowAsync();
+                        // var messageDialog = new Windows.UI.Popups.MessageDialog("User file Not Found");
+                        // await messageDialog.ShowAsync();
                     }
 
                 }
+            }
+        }
+
+        private void RemoveCredential(string userName)
+        {
+            var vault = new PasswordVault();
+            try
+            {
+                // Removes the credential from the password vault.
+                vault.Remove(vault.Retrieve(RESOURCE_NAME, userName));
+            }
+            catch (Exception)
+            {
+                // If no credentials have been stored with the given RESOURCE_NAME, an exception
+                // is thrown.
+
+
+                
             }
         }
 
