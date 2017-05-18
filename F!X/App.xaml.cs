@@ -151,10 +151,7 @@ namespace F_X
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
-            await OutputFile.DeleteAsync();
-            await SettingsFile.DeleteAsync();
-            await profilePictureFile.DeleteAsync();
-            await WeatherFile.DeleteAsync();
+            await ApplicationData.Current.ClearAsync();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
