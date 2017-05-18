@@ -61,11 +61,10 @@ namespace F_X.OnStartUp
             isFileDownloaded = await ftp.GetFileAsync("OutputNames.xml", OutputFile.Path);
             isFileDownloaded = await ftp.GetFileAsync("SettingsData.xml", SettingsFile.Path);
             isFileDownloaded = await ftp.GetFileAsync("profile.jpg", ProfilePictureFile.Path);
+
             isConnected = isFileDownloaded;
 
-            (App.Current as App).SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
-            (App.Current as App).NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
-
+           
             await ftp.DisconnectAsync();
 
 

@@ -14,7 +14,7 @@ using System.Xml.Linq;
 using Windows.Storage;
 using F_X.InformationGathering;
 using System.IO;
-
+using F_X.InformationQueries;
 
 namespace F_X.PersonalAssistant
 {
@@ -32,6 +32,9 @@ namespace F_X.PersonalAssistant
         private IAsyncOperation<SpeechRecognitionResult> recognitionOperation;
         XDocument NamesXML;
 
+       private SettingsQueries theSettings = new SettingsQueries();
+        private WeatherQuery theWeatherQuery = new WeatherQuery();
+
         FTPDownloads pleaseDownload = new FTPDownloads();
 
         Controls theControls = new Controls();
@@ -47,7 +50,7 @@ namespace F_X.PersonalAssistant
         {
             pleaseDownload.getLatestOutputs();
 
-            NamesXML = (App.Current as App).NamesXML;
+            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
         }
 
         // This function is called to configure text-to-speech recognition
@@ -247,7 +250,7 @@ namespace F_X.PersonalAssistant
                     splitText.Contains("hello") || splitText.Contains("hey") ||
                         splitText.Contains("Hi") || splitText.Contains("hi"))
             {
-                return 0;               
+                return 0;
             }
 
             else if (splitText.Contains("turn") || splitText.Contains("switch")
@@ -258,12 +261,25 @@ namespace F_X.PersonalAssistant
             }
 
             else if (splitText.Contains("Help") || splitText.Contains("help"))
-            {                
+            {
                 return 2;
             }
 
-            else
+
+            else if (splitText.Contains("Weather") || splitText.Contains("weather") || splitText.Contains("temperature")
+                        || splitText.Contains("Temperature"))
+            {
                 return 3;
+            }
+
+            else if (splitText.Contains(theSettings.getAssistantQuery()))
+            {
+                return 4;
+            }
+
+
+            else
+                return 5;
 
 
 
@@ -338,6 +354,30 @@ namespace F_X.PersonalAssistant
 
         }
 
+        private string SayMyName()
+        {
+            String thatIsMyName = "Yes?";
+            Random aRandomNumber = new Random(DateTime.Now.Ticks.GetHashCode());
+
+            if ((aRandomNumber.Next()) % NumberOfSentencesIKnow == 0)
+                thatIsMyName = "Say my name say my name. Sing along!";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 1)
+                thatIsMyName = "That is me. Yes?";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 2)
+                thatIsMyName = "What kind of name is that right?";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 3)
+                thatIsMyName = "Please change that name. I don't like it!";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 4)
+                thatIsMyName = "At your service";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 5)
+                thatIsMyName = "Just so you know. I do things for free!";
+
+
+
+            return thatIsMyName;
+        }
+
+
         public string AssistantBrainWorking(string incomingText)
         {
             string reply="Hunh?";
@@ -359,7 +399,30 @@ namespace F_X.PersonalAssistant
                         reply = "So far i can only welcome you\n and turn things on and off";
                         break;
                     }
+
+
                 case 3:
+                    {
+                        string UnitTemperatureString = "";
+                        if (theSettings.isUnitTemperatureC())
+                            UnitTemperatureString = "°C";
+                        else if (!theSettings.isUnitTemperatureC())
+                            UnitTemperatureString = "°F";
+
+                        reply = "Weather Forecast for " + theSettings.getWeatherQuery() + ":\nMin: " + theWeatherQuery.getMinTemp() +
+                                                    UnitTemperatureString + "\tMax: " + theWeatherQuery.getMaxTemp() + UnitTemperatureString + "\nHumidity: " +
+                                                      theWeatherQuery.getHumidity() + "%";
+                        break;
+                    }
+                    
+                case 4:
+                    {
+                        reply = SayMyName();
+                        break;
+                    }
+
+
+                case 5:
                     {
                         reply = IAmStuuuupid();
                         break;

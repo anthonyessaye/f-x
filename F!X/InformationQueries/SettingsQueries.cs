@@ -12,7 +12,7 @@ namespace F_X.InformationQueries
     class SettingsQueries
     {
         private XDocument SettingsXML;
-        private StorageFile settingsFile;
+        public StorageFile settingsFile { get; private set; }
 
         private string City;
         private string TemperatureUnit { get; set; }

@@ -64,7 +64,7 @@ namespace F_X.AutomatedSession
             //theSettings.Dispose();
 
 
-            SettingsXML = (App.Current as App).SettingsXML;
+            SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
 
             EnableUI();
         }
