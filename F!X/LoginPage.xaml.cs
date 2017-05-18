@@ -48,30 +48,40 @@ namespace F_X
         {
 
             Weather theWeather = new Weather("Beirut", true);
+            (App.Current as App).WeatherFile = await ApplicationData.Current.LocalFolder.GetFileAsync("WeatherXML.xml");
 
 
             StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
-            StorageFile OutputNamesfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("OutputNames.xml"); // Path is file path
-            StorageFile Settingsfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("SettingsData.xml"); // Path is file path
-            StorageFile profileFile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync("profile.jpg"); // Path is file path
+            StorageFile OutputNamesfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"OutputNames.xml"); // Path is file path
+            StorageFile Settingsfile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"SettingsData.xml"); // Path is file path
+            StorageFile profileFile = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"profile.jpg"); // Path is file path
 
             if (await FileExistAsync(OutputNamesfile.Name) == false)
             {
                 await OutputNamesfile.CopyAsync(MainFolder, OutputNamesfile.Name, NameCollisionOption.GenerateUniqueName);
+                (App.Current as App).OutputFile = await ApplicationData.Current.LocalFolder.GetFileAsync(OutputNamesfile.Name);
 
             }
             if (await FileExistAsync(Settingsfile.Name) == false)
             {
                 await Settingsfile.CopyAsync(MainFolder, Settingsfile.Name, NameCollisionOption.GenerateUniqueName);
+                (App.Current as App).SettingsFile = await ApplicationData.Current.LocalFolder.GetFileAsync(Settingsfile.Name);
 
             }
             if (await FileExistAsync(profileFile.Name) == false)
             {
                 await profileFile.CopyAsync(MainFolder, profileFile.Name, NameCollisionOption.GenerateUniqueName);
+                (App.Current as App).profilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync(profileFile.Name);
             }
 
 
-         
+            if (await FileExistAsync(OutputNamesfile.Name) == true)
+                (App.Current as App).OutputFile = await ApplicationData.Current.LocalFolder.GetFileAsync(OutputNamesfile.Name);
+            if (await FileExistAsync(Settingsfile.Name) == true)
+                (App.Current as App).SettingsFile = await ApplicationData.Current.LocalFolder.GetFileAsync(Settingsfile.Name);
+            if (await FileExistAsync(profileFile.Name) == true)
+                (App.Current as App).profilePictureFile = await ApplicationData.Current.LocalFolder.GetFileAsync(profileFile.Name);
+
 
 
 
@@ -84,17 +94,36 @@ namespace F_X
             if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
             {
                 TSMainHub.IsOn = false;
+
+                try { 
+                    
+                StorageFile theMainDrive = await StorageFile.GetFileFromPathAsync("C:/UserCred.xml");
+                    
+                    XDocument theCredentials = XDocument.Load(await theMainDrive.OpenStreamForReadAsync());
+                    var UserQuery = from r in theCredentials.Descendants("User")
+                                    select r;
+                    XElement UserData = UserQuery.ElementAt(0);
+                    TextBoxUsername.Text = UserData.Attribute("Email").Value;
+                    PassBoxLoginPass.Password = UserData.Attribute("Password").Value;
+
+                }
+                catch (Exception e)
+                {
+                    var messageDialog = new Windows.UI.Popups.MessageDialog("User file Not Found");
+                    await messageDialog.ShowAsync();
+                }
+
             }
 
-                //   LedControl();
+         //   LedControl();
 
+           
+                
+             
 
+            
 
-
-
-
-
-            }
+        }
         
 
         public LoginPage()
@@ -172,7 +201,7 @@ namespace F_X
             vault.Add(credential);
         }
 
-        private async void GetCredential()
+        private void GetCredential()
         {
             string userName, password;
 
@@ -202,37 +231,6 @@ namespace F_X
             {
                 // If no credentials have been stored with the given RESOURCE_NAME, an exception
                 // is thrown.
-
-                //No data was found in vault. 
-                // Maybe User saved it from pc on the sd card?
-
-
-                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
-                {
-                   
-
-                    try
-                    {
-
-                        StorageFile theMainDrive = await ApplicationData.Current.LocalFolder.GetFileAsync("UserCred.xml");
-
-                        XDocument theCredentials = XDocument.Load(await theMainDrive.OpenStreamForReadAsync());
-                        var UserQuery = from r in theCredentials.Descendants("User")
-                                        select r;
-                        XElement UserData = UserQuery.ElementAt(0);
-                        TextBoxUsername.Text = UserData.Attribute("Email").Value;
-                        PassBoxLoginPass.Password = UserData.Attribute("Password").Value;
-
-                    }
-                    catch (Exception e)
-                    {
-                        // Nope we really dont have any credentials saved!
-                    }
-
-                }
-
-
-
             }
         }
 

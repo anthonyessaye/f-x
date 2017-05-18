@@ -38,7 +38,15 @@ namespace F_X
 
         public bool isControlSet{ get; set; }
         public bool isFirstLogin { get; set; }
-       
+        private StorageFolder MainFolder = ApplicationData.Current.LocalFolder;
+        public XDocument NamesXML { get; set; }
+        public XDocument SettingsXML { get; set; }
+
+        public StorageFile OutputFile { get; set; }
+        public StorageFile SettingsFile { get; set; }
+        public StorageFile profilePictureFile { get; set; }
+        public StorageFile WeatherFile { get; set; }
+
 
 
         bool _isInBackgroundMode = false;
@@ -143,7 +151,10 @@ namespace F_X
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
-            await ApplicationData.Current.ClearAsync();
+            await OutputFile.DeleteAsync();
+            await SettingsFile.DeleteAsync();
+            await profilePictureFile.DeleteAsync();
+            await WeatherFile.DeleteAsync();
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }

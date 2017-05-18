@@ -87,7 +87,7 @@ namespace F_X
 
 
                     MainPageInformation.Text = "Weather Forecast for " + CityYouSelected + ":\nMin: " + theWeatherQuery.getMinTemp() +
-                                                    UnitTemperatureString + "\tMax: " + theWeatherQuery.getMaxTemp() + UnitTemperatureString + "\nHumidity: " +
+                                                    UnitTemperatureString + "\tMax: " + theWeatherQuery.getMaxTemp() + UnitTemperatureString + "\nHumidity:\t" +
                                                       theWeatherQuery.getHumidity() + "%";
 
                     UsernameText.Text = "@" + theSettings.getUserQuery();

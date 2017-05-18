@@ -58,7 +58,7 @@ namespace F_X.AutomatedSession
 
             try
             {
-                SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
+               SettingsXML = (App.Current as App).SettingsXML;
             }
 
             catch (UnauthorizedAccessException e)

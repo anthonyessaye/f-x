@@ -43,8 +43,8 @@ namespace F_X.Arduino_Related_Classes
 
 
             await ftp.ConnectAsync();
-           
             isFileAvailable = await ftp.PutFileAsync(file.Path, "OutputNames.xml");
+
             await ftp.DisconnectAsync();
 
             isFileAvailable = false;
@@ -125,7 +125,7 @@ namespace F_X.Arduino_Related_Classes
           
             var DataQuery = from r in ControlsXML.Descendants("Output")
                             select r;
-            for (int x = 0; x < 4; x++)      //should change the hardcoded value 4
+            for (int x = 0; x < 4; x++)                                                                                    //should change the hardcoded value 4
             {
                 XElement Data = DataQuery.ElementAt(x);
                 if (IncomText.Contains(Data.Element("name").Value)) return x;

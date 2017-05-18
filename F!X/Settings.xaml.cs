@@ -36,7 +36,6 @@ namespace F_X
         Chilkat.Ftp2 ftp = new Chilkat.Ftp2();
 
         SettingsQueries theSettings = new SettingsQueries();
-        
 
         bool isFileAvailable;
         bool success;
@@ -60,6 +59,7 @@ namespace F_X
             TSTemperatureUnit.IsOn = theSettings.isUnitTemperatureC();
 
             //theSettings.Dispose();
+
 
             SettingsXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("SettingsData.xml"));
 
@@ -214,15 +214,11 @@ namespace F_X
 
             DownloadConnectionStatus.Visibility = Visibility.Collapsed;
 
-
-            StorageFile Settingsfile = null;
+            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
 
             UploadConnectionStatus.Text = "Uploading Latest File To Server";
             await ftp.ConnectAsync();
-
-            Settingsfile = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
-            isFileAvailable = await ftp.PutFileAsync(Settingsfile.Path, "SettingsData.xml");
-           
+            isFileAvailable = await ftp.PutFileAsync(file.Path, "SettingsData.xml");
            
             await ftp.DisconnectAsync();
 
