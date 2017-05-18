@@ -14,7 +14,7 @@ using System.Xml.Linq;
 using Windows.Storage;
 using F_X.InformationGathering;
 using System.IO;
-
+using F_X.InformationQueries;
 
 namespace F_X.PersonalAssistant
 {
@@ -32,22 +32,25 @@ namespace F_X.PersonalAssistant
         private IAsyncOperation<SpeechRecognitionResult> recognitionOperation;
         XDocument NamesXML;
 
+        private SettingsQueries theSettings = new SettingsQueries();
+        private WeatherQuery theWeatherQuery = new WeatherQuery();
+
         FTPDownloads pleaseDownload = new FTPDownloads();
 
         Controls theControls = new Controls();
         PinControlReally theArduino = new PinControlReally();
-        
+
 
         public Assistant()
         {
-            SetXML();   
+            SetXML();
         }
-        
+
         public async void SetXML()
         {
             pleaseDownload.getLatestOutputs();
 
-            NamesXML = (App.Current as App).NamesXML;
+            NamesXML = XDocument.Load(await ApplicationData.Current.LocalFolder.OpenStreamForReadAsync("OutputNames.xml"));
         }
 
         // This function is called to configure text-to-speech recognition
@@ -75,7 +78,7 @@ namespace F_X.PersonalAssistant
                 aMediaElement.SetSource(synthesisStream, synthesisStream.ContentType);
                 aMediaElement.Play();
 
-                
+
             }
 
             catch (System.IO.FileNotFoundException)
@@ -132,7 +135,7 @@ namespace F_X.PersonalAssistant
 
         public String HelloText()
         {
-           // DateTime DateSeed = new DateTime();
+            // DateTime DateSeed = new DateTime();
             Random aRandomNumber = new Random(DateTime.Now.Ticks.GetHashCode());
 
             if ((aRandomNumber.Next()) % NumberOfSentencesIKnow == 0)
@@ -147,7 +150,7 @@ namespace F_X.PersonalAssistant
                 WelcomingTexts = "Tell me my son, you can trust me";
             if (aRandomNumber.Next() % NumberOfSentencesIKnow == 5)
                 WelcomingTexts = "No shame commanding your home\nCome on do it.";
-            
+
 
             return WelcomingTexts;
         }
@@ -247,7 +250,7 @@ namespace F_X.PersonalAssistant
                     splitText.Contains("hello") || splitText.Contains("hey") ||
                         splitText.Contains("Hi") || splitText.Contains("hi"))
             {
-                return 0;               
+                return 0;
             }
 
             else if (splitText.Contains("turn") || splitText.Contains("switch")
@@ -258,12 +261,25 @@ namespace F_X.PersonalAssistant
             }
 
             else if (splitText.Contains("Help") || splitText.Contains("help"))
-            {                
+            {
                 return 2;
             }
 
-            else
+
+            else if (splitText.Contains("Weather") || splitText.Contains("weather") || splitText.Contains("temperature")
+                        || splitText.Contains("Temperature"))
+            {
                 return 3;
+            }
+
+            else if (splitText.Contains(theSettings.getAssistantQuery()))
+            {
+                return 4;
+            }
+
+
+            else
+                return 5;
 
 
 
@@ -276,9 +292,9 @@ namespace F_X.PersonalAssistant
         //iCanControlOutputs is of type OutputQueries(), a class that can read XML values and manipulate them
         private String iShouldTurnSomething(String somethingIShouldDo)
         {
-           
+
             int ToggleIndex;
-            ToggleIndex = theArduino.FindPinName(somethingIShouldDo,ref NamesXML);
+            ToggleIndex = theArduino.FindPinName(somethingIShouldDo, ref NamesXML);
 
             if (somethingIShouldDo.Contains("On") || somethingIShouldDo.Contains("on"))
             {
@@ -293,7 +309,7 @@ namespace F_X.PersonalAssistant
                 }
                 else if (theArduino.FindPinName(somethingIShouldDo, ref NamesXML) == -1)
                     return WhatIsThat();
-                else if(theArduino.ControlIsON(ToggleIndex, ref NamesXML) == true)
+                else if (theArduino.ControlIsON(ToggleIndex, ref NamesXML) == true)
                     return AlreadyOnOff("on");
                 else if (theArduino.ControlIsON(ToggleIndex, ref NamesXML) == false)
                 {
@@ -301,8 +317,8 @@ namespace F_X.PersonalAssistant
                     return TurnOnOffText("on");
 
                 }
-                 
-              
+
+
             }
 
             if (somethingIShouldDo.Contains("Off") || somethingIShouldDo.Contains("off"))
@@ -312,23 +328,23 @@ namespace F_X.PersonalAssistant
                 {
                     for (int i = 0; i < 4; i++)
                     {
-                        theArduino.SetPin(i, "Off",ref NamesXML);
+                        theArduino.SetPin(i, "Off", ref NamesXML);
                     }
                     return "Everthing is off now";
                 }
-                else if(theArduino.FindPinName(somethingIShouldDo, ref NamesXML) == -1)
+                else if (theArduino.FindPinName(somethingIShouldDo, ref NamesXML) == -1)
                     return WhatIsThat();
 
-                else if(theArduino.ControlIsON(ToggleIndex, ref NamesXML) == false)
+                else if (theArduino.ControlIsON(ToggleIndex, ref NamesXML) == false)
                     return AlreadyOnOff("off");
-                else if (theArduino.ControlIsON(ToggleIndex, ref NamesXML) ==true)
+                else if (theArduino.ControlIsON(ToggleIndex, ref NamesXML) == true)
                 {
-                    theArduino.SetPin(ToggleIndex,"Off",ref NamesXML);
+                    theArduino.SetPin(ToggleIndex, "Off", ref NamesXML);
                     return TurnOnOffText("off");
                 }
-                
 
-                
+
+
             }
 
 
@@ -338,10 +354,34 @@ namespace F_X.PersonalAssistant
 
         }
 
+        private string SayMyName()
+        {
+            String thatIsMyName = "Yes?";
+            Random aRandomNumber = new Random(DateTime.Now.Ticks.GetHashCode());
+
+            if ((aRandomNumber.Next()) % NumberOfSentencesIKnow == 0)
+                thatIsMyName = "Say my name say my name. Sing along!";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 1)
+                thatIsMyName = "That is me. Yes?";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 2)
+                thatIsMyName = "What kind of name is that right?";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 3)
+                thatIsMyName = "Please change that name. I don't like it!";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 4)
+                thatIsMyName = "At your service";
+            if (aRandomNumber.Next() % NumberOfSentencesIKnow == 5)
+                thatIsMyName = "Just so you know. I do things for free!";
+
+
+
+            return thatIsMyName;
+        }
+
+
         public string AssistantBrainWorking(string incomingText)
         {
-            string reply="Hunh?";
-            switch(TryToUnderStand(incomingText))
+            string reply = "Hunh?";
+            switch (TryToUnderStand(incomingText))
             {
                 case 0:
                     {
@@ -359,17 +399,40 @@ namespace F_X.PersonalAssistant
                         reply = "So far i can only welcome you\n and turn things on and off";
                         break;
                     }
+
+
                 case 3:
+                    {
+                        string UnitTemperatureString = "";
+                        if (theSettings.isUnitTemperatureC())
+                            UnitTemperatureString = "°C";
+                        else if (!theSettings.isUnitTemperatureC())
+                            UnitTemperatureString = "°F";
+
+                        reply = "Weather Forecast for " + theSettings.getWeatherQuery() + ":\nMin: " + theWeatherQuery.getMinTemp() +
+                                                    UnitTemperatureString + "\tMax: " + theWeatherQuery.getMaxTemp() + UnitTemperatureString + "\nHumidity: " +
+                                                      theWeatherQuery.getHumidity() + "%";
+                        break;
+                    }
+
+                case 4:
+                    {
+                        reply = SayMyName();
+                        break;
+                    }
+
+
+                case 5:
                     {
                         reply = IAmStuuuupid();
                         break;
                     }
             }
-            
+
             return reply;
         }
 
     }
 
-       
+
 }

@@ -89,29 +89,12 @@ namespace F_X
 
 
             StatusText.TextAlignment = TextAlignment.Center;
-            TSMainHub.IsOn = true;
+            
 
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
+            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.IoT")
             {
-                TSMainHub.IsOn = false;
+                TSMainHub.IsOn = true;
 
-                try { 
-                    
-                StorageFile theMainDrive = await StorageFile.GetFileFromPathAsync("C:/UserCred.xml");
-                    
-                    XDocument theCredentials = XDocument.Load(await theMainDrive.OpenStreamForReadAsync());
-                    var UserQuery = from r in theCredentials.Descendants("User")
-                                    select r;
-                    XElement UserData = UserQuery.ElementAt(0);
-                    TextBoxUsername.Text = UserData.Attribute("Email").Value;
-                    PassBoxLoginPass.Password = UserData.Attribute("Password").Value;
-
-                }
-                catch (Exception e)
-                {
-                    var messageDialog = new Windows.UI.Popups.MessageDialog("User file Not Found");
-                    await messageDialog.ShowAsync();
-                }
 
             }
 
@@ -234,7 +217,7 @@ namespace F_X
             }
         }
 
-        private void RemoveCredential(string userName)
+        private async void RemoveCredential(string userName)
         {
             var vault = new PasswordVault();
             try
@@ -246,6 +229,32 @@ namespace F_X
             {
                 // If no credentials have been stored with the given RESOURCE_NAME, an exception
                 // is thrown.
+
+
+                if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop")
+                {
+                    TSMainHub.IsOn = false;
+
+                    try
+                    {
+
+                        StorageFile theMainDrive = await ApplicationData.Current.LocalFolder.GetFileAsync("UserCred.xml");
+
+                        XDocument theCredentials = XDocument.Load(await theMainDrive.OpenStreamForReadAsync());
+                        var UserQuery = from r in theCredentials.Descendants("User")
+                                        select r;
+                        XElement UserData = UserQuery.ElementAt(0);
+                        TextBoxUsername.Text = UserData.Attribute("Email").Value;
+                        PassBoxLoginPass.Password = UserData.Attribute("Password").Value;
+
+                    }
+                    catch (Exception e)
+                    {
+                       // var messageDialog = new Windows.UI.Popups.MessageDialog("User file Not Found");
+                       // await messageDialog.ShowAsync();
+                    }
+
+                }
             }
         }
 
