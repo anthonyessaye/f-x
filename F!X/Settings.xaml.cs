@@ -214,7 +214,7 @@ namespace F_X
 
             DownloadConnectionStatus.Visibility = Visibility.Collapsed;
 
-            StorageFile file = await Windows.Storage.ApplicationData.Current.LocalFolder.GetFileAsync("SettingsData.xml");
+            StorageFile file = (App.Current as App).SettingsFile ;
 
             UploadConnectionStatus.Text = "Uploading Latest File To Server";
             await ftp.ConnectAsync();
